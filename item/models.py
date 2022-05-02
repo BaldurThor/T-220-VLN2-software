@@ -16,13 +16,13 @@ class Item(models.Model):
     description = models.TextField()
     image_url = models.CharField(max_length=191)
     zip = models.CharField(max_length=191)
-    sold_at = models.DateField(null=True)
-    published_at = models.DateField()
+    sold_at = models.DateField(null=True, blank=True)
+    published_at = models.DateField(auto_now_add=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
     condition = models.ForeignKey(Condition, on_delete=models.DO_NOTHING)
     country = models.ForeignKey(Country, on_delete=models.DO_NOTHING)
-    accepted_offer = models.ForeignKey('Offer', blank=True, on_delete=models.CASCADE, related_name='accepted_offer')
+    accepted_offer = models.ForeignKey('Offer', null=True, blank=True, on_delete=models.CASCADE, related_name='accepted_offer')
 
 
 class Offer(models.Model):

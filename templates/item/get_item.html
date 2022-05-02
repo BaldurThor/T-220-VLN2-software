@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="get_item">
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.description }}</p>
+        <p>{{ item.condition.name }}</p>
+        <img src="{{ item.image_url }}" class="catalog-image">
+        </div>
+{% endblock %}

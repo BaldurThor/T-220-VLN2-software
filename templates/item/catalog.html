@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="catalog">
+        {% for item in items %}
+            <div class="catalog-single-item">
+                <a href="/items/{{ item.id }}">
+                    <h3>{{ item.name }}</h3>
+                    <p>{{ item.description }}</p>
+                    <p>{{ item.condition.name }}</p>
+                    <img src="{{ item.image_url }}" class="catalog-image">
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+{% endblock %}
