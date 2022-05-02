@@ -6,6 +6,9 @@ from user.models import Country
 class Condition(models.Model):
     name = models.CharField(max_length=191)
 
+    def __str__(self):
+        return f'#{self.id}: {self.name}'
+
 
 class Item(models.Model):
     views = models.IntegerField()
@@ -32,6 +35,12 @@ class Offer(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=191)
+
+    def __str__(self):
+        return f'#{self.id}: {self.name}'
+
+    class Meta:
+        verbose_name_plural = 'categories'
 
 
 class CategoryItem(models.Model):
