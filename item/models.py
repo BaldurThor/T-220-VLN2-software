@@ -4,7 +4,7 @@ from user.models import Country
 
 
 class Condition(models.Model):
-    name = models.TextField()
+    name = models.CharField(max_length=191)
 
 
 class Item(models.Model):
@@ -31,7 +31,7 @@ class Offer(models.Model):
 
 
 class Category(models.Model):
-    name = models.TextField()
+    name = models.CharField(max_length=191)
 
 
 class CategoryItem(models.Model):
