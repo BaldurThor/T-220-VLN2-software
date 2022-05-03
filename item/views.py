@@ -7,7 +7,10 @@ from django.contrib.auth.decorators import login_required
 
 
 def catalog(request):
-    context = {'items': Item.objects.all()}
+    if request.method == 'POST':
+        context = {'items': Item.objects.filter(name__icontains=request.POST.get('search'))}
+    else:
+        context = {'items': Item.objects.all()}
     return render(request, 'item/catalog.html', context)
 
 
@@ -18,11 +21,6 @@ def get_item(request, id):
 
 def get_category(request, category_id):
     context = {'items': Item.objects.filter(categories=category_id)}
-    return render(request, 'item/catalog.html', context)
-
-
-def search(request, string):
-    context = {'items': Item.objects.filter(name__icontains=string)}
     return render(request, 'item/catalog.html', context)
 
 
