@@ -8,4 +8,5 @@ urlpatterns = [
     path('<int:id>', views.get_item, name="get_item"),
     path('create', views.create_item, name="create_item"),
     path('category/<int:category_id>', views.get_category, name='get_category'),
+    path('submit_offer/<int:id>', views.submit_offer, name='submit_offer'),
 ]

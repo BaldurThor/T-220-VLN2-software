@@ -4,6 +4,12 @@
         <h3>{{ item.name }}</h3>
         <p>{{ item.description }}</p>
         <p>{{ item.condition.name }}</p>
+        <form method="POST" action="{% url 'item:submit_offer' item.id %}">
+            {% csrf_token %}
+            <label for="amount">Offer:</label>
+            <input id="amount" name="amount" type="number">
+            <input type="submit" value="Place offer">
+            </form>
         <img src="{{ item.image_url }}" class="catalog-image">
         </div>
 {% endblock %}
