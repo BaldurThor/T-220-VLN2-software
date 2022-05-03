@@ -1,6 +1,6 @@
 import json
 from django.core.management.base import BaseCommand
-from item.models import Item, Condition
+from item.models import Item, Condition, Category
 from user.models import Country
 
 
@@ -15,6 +15,7 @@ class Command(BaseCommand):
         dataclasses = json.load(data)
         objects = dataclasses.values()
         condition = Condition.objects.filter(name='Factory New').get()
+        category = Category.objects.filter(name='Dekk').get()
         country = Country.objects.filter(name='Iceland').get()
 
         for i in objects:
@@ -23,6 +24,7 @@ class Command(BaseCommand):
                 e["country"] = country
                 item, created = Item.objects.get_or_create(**e)
                 if created:
+                    item.categories.set([category])
                     item.save()
 
 
