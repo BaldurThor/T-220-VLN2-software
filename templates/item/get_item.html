@@ -1,15 +1,41 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="get_item">
-        <h3>{{ item.name }}</h3>
-        <p>{{ item.description }}</p>
-        <p>{{ item.condition.name }}</p>
-        <form method="POST" action="{% url 'item:submit_offer' item.id %}">
-            {% csrf_token %}
-            <label for="amount">Offer:</label>
-            <input id="amount" name="amount" type="number">
-            <input type="submit" value="Place offer">
-            </form>
-        <img src="{{ item.image_url }}" class="catalog-image">
+
+        <div class="card mb-3">
+            <div class="card-body">
+                <h3 class="card-text">{{ item.name }}</h3>
+                <p class="card-text">{{ item.description }}</p>
+                <p class="card-text">{{ item.condition.name }}</p>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  Place Offer
+                </button>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Place offer</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                             <form method="POST" action="{% url 'item:submit_offer' item.id %}">
+                                <div class="modal-body">
+                                    {% csrf_token %}
+                                    <label for="amount">Offer:</label>
+                                    <div class="input-group my-2">
+                                        <input id="amount" class="form-control" name="amount" type="number">
+                                        <span class="input-group-text">kr.</span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <input type="submit" class="btn btn-primary" value="Place offer">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <img src="{{ item.image_url }}" class="card-img-bottom" alt="{{ item.name }}-image">
         </div>
+    </div>
 {% endblock %}
