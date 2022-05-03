@@ -1,12 +1,45 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #262E3A;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Fire Sale</a>
+    <a class="navbar-brand" href="#">
+        <img alt="Fire-sale-logo" src="{% static 'images/FiredSaleLogo.png' %}" style="background-color: transparent">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 mb-0 h5">
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'frontpage' %}">Items</a>
-            </li>
+          <a class="nav-link active px-4" aria-current="page" href="#">Heim</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle px-4" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Vörur
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link px-4" href="#">Selja</a>
+        </li>
       </ul>
+        <form class="d-flex flex-fill mx-5 ">
+            <div class="input-group my-2 mx-5">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            </div>
+        </form>
+        <div class="d-flex flex-fill justify-content-end">
+            <div class="btn-group">
+                <button class="btn btn-primary" type="submit">Skrá inn</button>
+                <button class="btn btn-primary" type="submit">Nýskrá</button>
+            </div>
+        </div>
     </div>
   </div>
 </nav>
