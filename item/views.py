@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
-from item.forms.item_form import ItemCreateForm
+from item.forms import ItemCreateForm
 from item.models import Item
 from django.contrib.auth.decorators import login_required
 
@@ -16,12 +16,16 @@ def get_item(request, id):
 
 
 def get_category(request, category_id):
-    pass
+    context = {'items': Item.objects.all()}
+    return render(request, 'item/catalog.html', context)
 
 @login_required
 def create_item(request):
     if request.method == 'POST':
-        pass
+        form = ItemCreateForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('item:catalog')
     else:
         form = ItemCreateForm()
     return render(request, 'item/create_item.html', {
