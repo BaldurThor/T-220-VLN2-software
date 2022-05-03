@@ -32,12 +32,16 @@
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             </div>
         </form>
+        {% if not request.user.is_authenticated %}
         <div class="d-flex flex-fill justify-content-end">
             <div class="btn-group text-nowrap">
                 <a href="{% url 'user:login' %}" class="btn btn-primary">Skrá inn</a>
                 <a href="{% url 'user:register' %}" class="btn btn-primary">Nýskrá</a>
             </div>
         </div>
+        {% else %}
+            {% include 'navigation_user.html' %}
+        {% endif %}
     </div>
   </div>
 </nav>
