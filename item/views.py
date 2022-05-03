@@ -15,6 +15,9 @@ def get_item(request, id):
     return render(request, 'item/get_item.html', context)
 
 
+def get_category(request, category_id):
+    pass
+
 @login_required
 def create_item(request):
     if request.method == 'POST':
