@@ -16,7 +16,7 @@ def get_item(request, id):
 
 
 def get_category(request, category_id):
-    context = {'items': Item.objects.filter(pk=category_id)}
+    context = {'items': Item.objects.filter(categories=category_id)}
     return render(request, 'item/catalog.html', context)
 
 @login_required
