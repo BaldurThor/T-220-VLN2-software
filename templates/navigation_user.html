@@ -1,17 +1,32 @@
 {% load static %}
 <div class="profile-container">
-    <div class="dropdown">
-    <a href="{% url 'messaging:get_all_messages' %}" class="btn btn-default">
-        <i class="bi bi-inbox" style="font-size: 2rem; color: whitesmoke;"></i>
-    </a>
-    <a href="{% url 'user:profile' %}" class="btn btn-default dropdown-toggle-profile" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="{% static 'images/generic-profile.png' %}" alt="Generic profile pic" class="img rounded-pill" style="width:56px">
-    </a>
-    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
-    <li><a class="dropdown-item" href="#">Action</a></li>
-    <li><a class="dropdown-item" href="#">Another action</a></li>
-    <li><a class="dropdown-item" href="#">Something else here</a></li>
-  </ul>
+    <div class="dropdown me-auto">
+        <a href="{% url 'messaging:get_all_messages' %}" class="btn btn-default">
+            <i class="bi bi-inbox" style="font-size: 2rem; color: whitesmoke;"></i>
+        </a>
+        <button  class="btn btn-default dropdown-toggle-profile" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+
+            <img src="{% static 'images/generic-profile.png' %}" alt="Generic profile pic" class="img rounded-pill" style="width:56px">
+            <img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img"  id="hunger-rating">
+            <span class="h4 text-light align-middle">3.4</span>
+        </button>
+        <a href="{% url 'user:logout' %}" class="btn btn-default">
+            <i class="bi bi-box-arrow-right" style="font-size: 2rem; color: whitesmoke;"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+        <li><div class="dropdown-item">
+            <a href="{% url 'user:profile' %}"><img src="{% static 'images/generic-profile.png' %}" alt="Generic profile pic" class="img rounded-pill" style="width:56px"></a>
+            <img src="{% static 'images/hunger-bar-empty.png' %}" alt="..." class="img" id="hunger-rating">
+            <img src="{% static 'images/hunger-bar-empty.png' %}" alt="..." class="img" id="hunger-rating">
+            <img src="{% static 'images/hunger-bar-half.png' %}" alt="..." class="img" id="hunger-rating">
+            <img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img" id="hunger-rating">
+            <img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img" id="hunger-rating">
+        </div></li>
+            <li><a class="dropdown-item" href="{% url 'user:profile' %}">Skoða aðgang</a></li>
+            <li><a class="dropdown-item" href="#">Pósthólf</a></li>
+            <li><a class="dropdown-item" href="#">Mín viðskipti</a></li>
+            <li><a class="dropdown-item" href="{% url 'user:logout' %}">Útskrá</a></li>
+        </ul>
     </div>
 </div>
 

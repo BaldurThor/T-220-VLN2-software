@@ -20,7 +20,7 @@ ul.errorlist {
   margin:0;
 }
 #hunger-rating {
-  height: 400px !important;
+  height: 32px !important;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
@@ -29,22 +29,6 @@ ul.errorlist {
     .nav-item{
         padding: 0;
     }
-}
-
-.container-hunger img{
-  height: 80px !important;
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-}
-.picture2 {
-  display: none !important;
-}
-.thumbnail:hover .picture1 {
-  display: none !important;
-}
-.thumbnail:hover .picture2 {
-  display: block !important;
 }
 
 .dropdown-toggle-profile::after {
