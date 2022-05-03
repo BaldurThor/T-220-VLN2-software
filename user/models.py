@@ -12,7 +12,12 @@ class UserProfile(models.Model):
 
 
 class Country(models.Model):
+    class Meta:
+        ordering = ['name']
     name = models.CharField(max_length=191)
+
+    def __str__(self):
+        return self.name
 
 
 class Rating(models.Model):
