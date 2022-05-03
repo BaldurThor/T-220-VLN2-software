@@ -22,12 +22,12 @@ class RegistrationForm(forms.Form):
         self.cleaned_data.pop('password_confirm')
         password_validation.validate_password(self.cleaned_data['password'])
 
-        fullname = self.cleaned_data['fullname']
+        fullname = self.cleaned_data['fullname'].strip()
         self.cleaned_data.pop('fullname')
         i = fullname.rfind(' ')
         if i:
             self.cleaned_data['last_name'] = fullname[i:]
-            self.cleaned_data['first_name'] = fullname[:i]
+            self.cleaned_data['first_name'] = fullname[:i].strip()
         else:
             self.cleaned_data['last_name'] = ''
             self.cleaned_data['first_name'] = fullname
