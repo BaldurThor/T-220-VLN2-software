@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avg_rating = models.IntegerField()
+    avg_rating = models.IntegerField(default=5)
     bio = models.TextField()
     image_url = models.CharField(max_length=191)
 
