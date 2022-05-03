@@ -5,8 +5,17 @@ from item.models import Item
 
 
 def frontpage(request):
-    context = {'items': Item.objects.all()}
+    context = get_random_items()
     return render(request, 'user/frontpage.html', context)
 
+
 def get_random_items():
-    pass
+    item_object = list(Item.objects.all().order_by('?'))
+    if len(item_object) > 2:
+        item_object = item_object[0:2]
+    context = {}
+    for i, item in enumerate(item_object):
+        context.update({f'item{i}': item})
+    for i in range(len(context), 3):
+        context.update({f'item{i}': item_object[-1]})
+    return context
