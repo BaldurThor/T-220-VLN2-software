@@ -7,10 +7,13 @@
                 <h3 class="card-text">{{ item.name }}</h3>
                 <p class="card-text">{{ item.description }}</p>
                 <p class="card-text">{{ item.condition.name }}</p>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Offer">
                   Place Offer
                 </button>
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Contact">
+                    Contact Seller
+                </button>
+                <div class="modal fade" id="Offer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -22,7 +25,7 @@
                                     {% csrf_token %}
                                     <label for="amount">Offer:</label>
                                     <div class="input-group my-2">
-                                        <input id="amount" class="form-control" name="amount" type="number">
+                                        <input id="amount" class="form-control" placeholder="0" name="amount" type="number">
                                         <span class="input-group-text">kr.</span>
                                     </div>
                                 </div>
@@ -35,6 +38,33 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="Contact" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Send Message</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="POST" action="{% url 'messaging:send' %}">
+                            <div class="modal-body">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">@</span>
+                                    <input type="text" class="form-control disabled" placeholder="{{ "seller" }}" aria-label="Username" aria-describedby="basic-addon1" readonly>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control disabled" placeholder="{{ "message" }}" aria-label="Username" aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
             <img src="{{ item.image_url }}" class="card-img-bottom" alt="{{ item.name }}-image">
         </div>
     </div>
