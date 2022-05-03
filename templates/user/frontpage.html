@@ -10,9 +10,9 @@
       {% for item in items %}
             <div class="carousel-item{% if forloop.first %} active{% endif %}">
               <img src="{{ item.image_url }}" class="catalog-image d-block w-100" alt="">
-             <div class="carousel-caption d-none d-md-block text-secondary">
+             <div class="carousel-caption d-none d-md-block bg-secondary w-50 p-3 mx-auto" style="--bs-bg-opacity: .5;">
                <h5>{{ item.name }}</h5>
-               <p>{{ item.description }}</p>
+               <p>{{ item.description | truncatechars:100 }}</p>
              </div>
             </div>
       {% endfor %}
