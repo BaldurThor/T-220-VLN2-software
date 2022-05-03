@@ -1,8 +1,20 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load bootstrapify_field %}
+{% load i18n %}
 {% block content %}
-    <form class="form form-horizontal" action {% url 'item:create_item' %} method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Create" class="btn btn-primary pull-right" style="clear:both; margin: 10px 0"/>
-    </form>
+<form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+            <div class="mb-3">
+                <label for="{{ field.id_for_label }}" class="form-label">{% translate field.name|title %}</label>
+                {{ field|bootstrapify_field }}
+                <div id="validationServer03Feedback" class="invalid-feedback">
+                    {{ field.errors }}
+                </div>
+            </div>
+
+    {% endfor %}
+    <input type="submit" class="btn btn-primary" value="Create">
+</form>
 {% endblock %}

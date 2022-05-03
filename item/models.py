@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.datetime_safe import date
+
 from user.models import Country
 
 
@@ -8,29 +10,6 @@ class Condition(models.Model):
 
     def __str__(self):
         return f'#{self.id}: {self.name}'
-
-
-class Item(models.Model):
-    views = models.IntegerField()
-    name = models.CharField(max_length=191)
-    description = models.TextField()
-    image_url = models.CharField(max_length=191)
-    zip = models.CharField(max_length=191)
-    sold_at = models.DateField(null=True, blank=True)
-    published_at = models.DateField(auto_now_add=True)
-    created_at = models.DateField(auto_now_add=True)
-    updated_at = models.DateField(auto_now=True)
-    condition = models.ForeignKey(Condition, on_delete=models.DO_NOTHING)
-    country = models.ForeignKey(Country, on_delete=models.DO_NOTHING)
-    accepted_offer = models.ForeignKey('Offer', null=True, blank=True, on_delete=models.CASCADE, related_name='accepted_offer')
-
-
-class Offer(models.Model):
-    amount = models.IntegerField()
-    date = models.DateField()
-    accepted = models.BooleanField(default=False)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class Category(models.Model):
@@ -43,9 +22,28 @@ class Category(models.Model):
         verbose_name_plural = 'categories'
 
 
-class CategoryItem(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+class Item(models.Model):
+    views = models.IntegerField(default=0)
+    name = models.CharField(max_length=191)
+    description = models.TextField()
+    image_url = models.CharField(max_length=191)
+    zip = models.CharField(max_length=191)
+    sold_at = models.DateField(null=True, blank=True)
+    published_at = models.DateField(default=date.today)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    condition = models.ForeignKey(Condition, on_delete=models.DO_NOTHING)
+    country = models.ForeignKey(Country, on_delete=models.DO_NOTHING)
+    accepted_offer = models.ForeignKey('Offer', null=True, blank=True, on_delete=models.CASCADE, related_name='accepted_offer')
+    categories = models.ManyToManyField(Category)
+
+
+class Offer(models.Model):
+    amount = models.IntegerField()
+    date = models.DateField()
+    accepted = models.BooleanField(default=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class Sale(models.Model):
