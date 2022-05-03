@@ -8,6 +8,12 @@
   font-size:150%;
   margin-right:0.5em;
 }
+.carousel-item img {
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  max-height: 500px;
+}
 ul.errorlist {
   list-style: none;
   padding:0;
