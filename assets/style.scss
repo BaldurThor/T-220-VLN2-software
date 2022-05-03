@@ -4,7 +4,15 @@
 .navbar-brand img{
     height: 60px;
 }
-
+.alert .icon {
+  font-size:150%;
+  margin-right:0.5em;
+}
+ul.errorlist {
+  list-style: none;
+  padding:0;
+  margin:0;
+}
 @media  (max-width: 992px) {
     .nav-item{
         padding: 0;
