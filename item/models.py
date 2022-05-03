@@ -26,7 +26,7 @@ class Item(models.Model):
     views = models.IntegerField(default=0)
     name = models.CharField(max_length=191)
     description = models.TextField()
-    image_url = models.CharField(max_length=191)
+    image_url = models.TextField()
     zip = models.CharField(max_length=191)
     sold_at = models.DateField(null=True, blank=True)
     published_at = models.DateField(default=date.today)
