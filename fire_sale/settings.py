@@ -65,7 +65,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'item.context_processors.categories'
+                'item.context_processors.categories',
+                'user.context_processors.user_profile',
             ],
         },
     },
@@ -127,3 +128,4 @@ STATICFILES_DIRS = [BASE_DIR / 'static', BASE_DIR / 'assets/dist']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'frontpage'
+LOGIN_URL = 'user:login'
