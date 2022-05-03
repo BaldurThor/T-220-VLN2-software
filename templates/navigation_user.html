@@ -1,1 +1,37 @@
-<a href="{% url 'user:logout' %}" class="btn btn-primary">Útskrá</a>
+{% load static %}
+<div class="profile-container">
+    <div class="dropdown">
+    <a href="{% url 'messaging:get_all_messages' %}" class="btn btn-default">
+        <i class="bi bi-inbox" style="font-size: 2rem; color: whitesmoke;"></i>
+    </a>
+    <a href="{% url 'user:profile' %}" class="btn btn-default dropdown-toggle-profile" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="{% static 'images/generic-profile.png' %}" alt="Generic profile pic" class="img rounded-pill" style="width:56px">
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+    <li><a class="dropdown-item" href="#">Action</a></li>
+    <li><a class="dropdown-item" href="#">Another action</a></li>
+    <li><a class="dropdown-item" href="#">Something else here</a></li>
+  </ul>
+    </div>
+</div>
+
+
+
+{#<a href="{% url 'user:logout' %}" class="btn btn-primary">#}
+{#    <div class="container-hunger">#}
+{#    <div class="row">#}
+{#        <div class="col-md-4 col-xs-4">#}
+{#            <div class="thumbnail">#}
+{#                <div class="picture1">#}
+{#                    <img class="img-responsive" src="{% static 'images/hunger-bar-half.png' %}" alt="...">#}
+{#                </div>#}
+{#                <div class="picture2">#}
+{#                    <img class="img-responsive" src="{% static 'images/hunger-bar-full.png' %}" alt="...">#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#    </div>#}
+{#</a>#}
+
+{# user_profile #}
