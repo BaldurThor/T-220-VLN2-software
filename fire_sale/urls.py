@@ -20,6 +20,7 @@ from user.views import frontpage
 urlpatterns = [
     path('', frontpage, name='frontpage'),
     path('admin/', admin.site.urls),
+    path('user/', include('user.urls', namespace='user')),
     path('messaging/', include('messaging.urls', namespace='messaging')),
     path('items/', include('item.urls', namespace='item'))
 ]
