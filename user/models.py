@@ -46,3 +46,6 @@ class Contact(models.Model):
     house_number = models.CharField(max_length=191)
     city = models.CharField(max_length=191)
     zip = models.CharField(max_length=191)
+
+    def __str__(self):
+        return f'{self.street_name} {self.house_number}, {self.zip} {self.city}. {self.country.name}'

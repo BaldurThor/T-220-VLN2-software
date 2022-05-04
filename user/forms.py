@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.models import User
 
-from user.models import UserProfile
+from . import models
 
 
 def validate_username(username):
@@ -37,5 +37,11 @@ class RegistrationForm(forms.Form):
 
 class UpdateProfileForm(forms.ModelForm):
     class Meta:
-        model = UserProfile
+        model = models.UserProfile
         fields = ['bio', 'image_url']
+
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = models.Contact
+        fields = ['full_name', 'country', 'street_name', 'house_number', 'city', 'zip']

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+    <a href="{% url 'user:create_contact' %}" class="btn btn-primary">Nýtt heimilisfang</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nafn</th>
+            <th>Heimilisfang</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contact in contacts %}
+            <tr>
+                <td>{{ contact.full_name }}</td>
+                <td>{{ contact }}</td>
+                <td><a href="{% url 'user:update_contact' contact.id %}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

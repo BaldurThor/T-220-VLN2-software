@@ -6,8 +6,8 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from item.models import Item
-from user.forms import RegistrationForm, UpdateProfileForm
-from user.models import UserProfile
+from user.forms import RegistrationForm, UpdateProfileForm, ContactForm
+from user.models import UserProfile, Contact, Country
 
 
 def frontpage(request):
@@ -56,3 +56,48 @@ def update_profile(request):
         'form': form
     }
     return render(request, 'user/update_profile.html', context)
+
+
+@login_required
+def get_all_contacts(request):
+    contacts = Contact.objects.filter(user=request.user)
+    context = {
+        'contacts': contacts
+    }
+    return render(request, 'user/get_all_contacts.html', context)
+
+
+@login_required
+def create_contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        contact = form.save(commit=False)
+        contact.user = request.user
+        contact.save()
+        return redirect('user:get_all_contacts')
+    else:
+        contact = Contact(full_name=request.user.get_full_name())
+        try:
+            contact.country = Country.objects.get(name='Iceland')
+        except Country.DoesNotExist:
+            pass
+        form = ContactForm(instance=contact)
+    context = {
+        'form': form,
+    }
+    return render(request, 'user/create_contact.html', context)
+
+
+@login_required
+def update_contact(request, contact_id):
+    contact = Contact.objects.get(pk=contact_id, user=request.user)
+    if request.method == 'POST':
+        form = ContactForm(request.POST, instance=contact)
+        form.save()
+        return redirect('user:get_all_contacts')
+    else:
+        form = ContactForm(instance=contact)
+    context = {
+        'form': form,
+    }
+    return render(request, 'user/create_contact.html', context)
