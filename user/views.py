@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from item.models import Item
-from user.forms import RegistrationForm
+from user.forms import RegistrationForm, UpdateProfileForm
 from user.models import UserProfile
 
 
@@ -41,3 +41,18 @@ def profile(request):
         'user_profile': UserProfile.objects.get(user=request.user)
     }
     return render(request, 'user/profile.html', context)
+
+@login_required
+def update_profile(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = UpdateProfileForm(request.POST, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            return redirect('user:profile')
+    else:
+        form = UpdateProfileForm(instance=user_profile)
+    context = {
+        'form': form
+    }
+    return render(request, 'user/update_profile.html', context)
