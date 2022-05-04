@@ -94,6 +94,15 @@ def submit_offer(request, id):
 
 
 @login_required
+def accept_offer(request, offer_id):
+    context = {}
+    if request.method == 'POST':
+        pass
+
+    return render(request, 'item/accept_offer.html', context)
+
+
+@login_required
 def get_all_offers(request):
     own_offers = Offer.objects.filter(user=request.user)
     other_offers = Offer.objects.filter(
