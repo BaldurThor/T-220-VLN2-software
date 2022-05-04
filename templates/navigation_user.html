@@ -6,7 +6,7 @@
         </a>
         <button  class="btn btn-default dropdown-toggle-profile" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 
-            <img src="{% static 'images/generic-profile.png' %}" alt="Generic profile pic" class="img rounded-pill" style="width:56px">
+            <img src="{% if user_profile %}{{ user_profile.image_url }}{% else %}{% static 'images/generic-profile.png' %}{% endif %}" alt="profile pic" class="img profile-img" style="width:56px">
             <img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img hunger-rating">
             <span class="h4 text-light align-middle">{% if user_profile %}{{ user_profile.get_rating }}{% endif %}</span>
         </button>
@@ -15,7 +15,7 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
         <li><div class="dropdown-item">
-            <a href="{% url 'user:profile' %}"><img src="{% static 'images/generic-profile.png' %}" alt="Generic profile pic" class="img rounded-pill" style="width:56px"></a>
+            <a href="{% url 'user:profile' %}"><img src="{% if user_profile %}{{ user_profile.image_url }}{% else %}{% static 'images/generic-profile.png' %}{% endif %}" alt="Generic profile pic" class="img profile-img"></a>
             {% if user_profile %}
             {% for _ in ''|center:user_profile.get_empty_stars %}
                 <img src="{% static 'images/hunger-bar-empty.png' %}" alt="..." class="img hunger-rating">
@@ -27,11 +27,12 @@
                 <img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img hunger-rating">
             {% endfor %}
             {% endif %}
+
         </div></li>
-            <li><a class="dropdown-item" href="{% url 'user:profile' %}">Skoða aðgang</a></li>
-            <li><a class="dropdown-item" href="#">Pósthólf</a></li>
-            <li><a class="dropdown-item" href="#">Mín viðskipti</a></li>
-            <li><a class="dropdown-item" href="{% url 'user:logout' %}">Útskrá</a></li>
+            <li><a class="dropdown-item" href="{% url 'user:profile' %}"><i class="bi bi-person-lines-fill pe-2"></i>Skoða aðgang</a></li>
+            <li><a class="dropdown-item" href="{% url 'messaging:get_all_messages' %}"><i class="bi bi-inbox pe-2"></i>Pósthólf</a></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-cash-coin pe-2"></i>Mín viðskipti</a></li>
+            <li><a class="dropdown-item text-end" href="{% url 'user:logout' %}"><i class="bi bi-box-arrow-right pe-2"></i>Útskrá</a></li>
         </ul>
     </div>
 </div>
