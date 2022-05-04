@@ -1,11 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="list-group">
+<table class="table inbox">
+    <thead>
+        <tr>
+            <th>Sendandi</th>
+            <th>Fyrirsögn</th>
+        </tr>
+    </thead>
+    <tbody>
     {% for message in messages %}
-        <a href="{% url 'messaging:get_message' message.id %}" class="list-group-item list-group-item-action {% if not message.read_at %}unread{% endif %} text-light" style="background-color: #414A56;">
-            {{ message.sender }} |
-            {{ message.subject }}
-        </a>
+        <tr class="{% if not message.read_at %}table-dark{% else %}table-primary{% endif %}">
+            <td>
+                <img src="{{ message.sender.user_profile.image_url }}" alt="profile pic" class="img profile-img" style="width:32px;height:32px;">
+                {{ message.sender.get_full_name }}
+            </td>
+            <td><a href="{% url 'messaging:get_message' message.id %}">{{ message.subject }}</a></td>
+        </tr>
     {% endfor %}
-</div>
+    </tbody>
+</table>
 {% endblock %}
