@@ -2,7 +2,7 @@
 {% block content %}
     <div class="list-group">
     {% for message in messages %}
-        <a href="{% url 'messaging:get_message' message.id %}" class="list-group-item list-group-item-action {% if not message.read_at %}unread{% endif %}">
+        <a href="{% url 'messaging:get_message' message.id %}" class="list-group-item list-group-item-action {% if not message.read_at %}unread{% endif %} text-light" style="background-color: #262E3A;">
             {{ message.sender }} |
             {{ message.subject }}
         </a>
