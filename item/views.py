@@ -100,7 +100,12 @@ def accept_offer(request, offer_id):
         'offer': offer
     }
     if request.method == 'POST':
-        pass
+        offer.accepted = True
+        offer.item.accepted_offer = offer
+        offer.item.sold_at = now()
+        offer.save()
+        offer.item.save()
+        return redirect('frontpage')
 
     return render(request, 'item/accept_offer.html', context)
 
