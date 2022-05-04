@@ -69,8 +69,7 @@ def create_item(request):
             item.seller = request.user
             item.save()
             values = request.POST.getlist('categories')
-            for value in values:
-                item.categories.add(Category.objects.get(pk=value))
+            item.categories.add(*values)
             return redirect('item:catalog')
     else:
         form = ItemCreateForm()
