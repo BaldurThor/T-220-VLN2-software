@@ -9,4 +9,6 @@ urlpatterns = [
     path('create', views.create_item, name="create_item"),
     path('category/<int:category_id>', views.get_category, name='get_category'),
     path('submit_offer/<int:id>', views.submit_offer, name='submit_offer'),
+    path('get_all_offers', views.get_all_offers, name='get_all_offers'),
+    path('get_offer/<int:id>', views.get_offer, name='get_offer'),
 ]

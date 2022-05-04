@@ -11,7 +11,7 @@
                 <p class="card-text">{{ item.description }}</p>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Offer">Bjóða í vöru</button>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Contact">Fyrirspurn</button>
-                <div class="modal fade" id="Offer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal fade" id="Offer"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -23,20 +23,23 @@
                                     {% csrf_token %}
                                     <label for="amount">Upphæð:</label>
                                     <div class="input-group my-2">
+                                        <input type="hidden" name="item_id" id="hiddenInput" value="{{ item.id }}" />
                                         <input id="amount" class="form-control" placeholder="0" name="amount" type="number">
                                         <span class="input-group-text">kr.</span>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <input type="submit" class="btn btn-primary" value="Place offer">
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hætta við</button>
+                                    <div>
+                                        <button type="submit" class="btn btn-primary mr-auto">Staðfesta</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="Contact" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade" id="Contact" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -58,11 +61,14 @@
                                 <label for="message-body" class="form-label">Skilaboð:</label>
                                 <div class="input-group mb-3">
                                     <textarea name="body" class="form-control" placeholder="Meginmál" aria-label="message" aria-describedby="basic-addon3"></textarea>
+                                    <input type="hidden" name="item_id" id="hiddenInput" value="{{ item.id }}" />
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Loka</button>
-                                <button type="submit" class="btn btn-primary">Senda</button>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hætta við</button>
+                                <div>
+                                    <button type="submit" class="btn btn-primary mr-auto">Senda</button>
+                                </div>
                             </div>
                         </form>
                     </div>

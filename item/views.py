@@ -94,13 +94,20 @@ def submit_offer(request, id):
 
 
 @login_required
-def get_offers(request):
-    pass
+def get_all_offers(request):
+    own_offers = Offer.objects.filter(user=request.user)
+    other_offers = Offer.objects.filter(
+        item__seller=request.user
+    )
+    context = {'own_offers': own_offers, 'other_offers': other_offers}
+    return render(request, 'item/get_all_offers.html', context)
 
 
 @login_required
 def get_offer(request, id):
-    pass
+    offer = get_object_or_404(Offer, pk=id)
+    context = {'offer': offer}
+    return render(request, 'item/get_offer.html', context)
 
 
 @login_required
