@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
+    {% if item.sold_at %}
+        <div class="alert alert-primary" role="alert">
+            Þessi vara er seld!
+        </div>
+    {% endif %}
     <div class="get_item">
-
         <div class="card mb-3">
             <div class="card-header">
                 <h3 class="card-title">{{ item.name }}</h3>
@@ -9,35 +13,10 @@
             </div>
             <div class="card-body">
                 <p class="card-text">{{ item.description }}</p>
+                {% if not item.sold_at %}
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Offer">Bjóða í vöru</button>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Contact">Fyrirspurn</button>
-                <div class="modal fade" id="Offer"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Bjóða í vöru</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                             <form method="POST" action="{% url 'item:submit_offer' item.id %}">
-                                <div class="modal-body">
-                                    {% csrf_token %}
-                                    <label for="amount">Upphæð:</label>
-                                    <div class="input-group my-2">
-                                        <input type="hidden" name="item_id" id="hiddenInput" value="{{ item.id }}" />
-                                        <input id="amount" class="form-control" placeholder="0" name="amount" type="number">
-                                        <span class="input-group-text">kr.</span>
-                                    </div>
-                                </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hætta við</button>
-                                    <div>
-                                        <button type="submit" class="btn btn-primary mr-auto">Staðfesta</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                {% endif %}
             </div>
             <div class="modal fade" id="Contact" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -79,4 +58,31 @@
             <img src="{{ item.image_url }}" class="card-img-bottom" alt="{{ item.name }}-image">
         </div>
     </div>
+<div class="modal fade" id="Offer"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bjóða í vöru</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+             <form method="POST" action="{% url 'item:submit_offer' item.id %}">
+                <div class="modal-body">
+                    {% csrf_token %}
+                    <label for="amount">Upphæð:</label>
+                    <div class="input-group my-2">
+                        <input type="hidden" name="item_id" id="hiddenInput" value="{{ item.id }}" />
+                        <input id="amount" class="form-control" placeholder="0" name="amount" type="number">
+                        <span class="input-group-text">kr.</span>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hætta við</button>
+                    <div>
+                        <button type="submit" class="btn btn-primary mr-auto">Staðfesta</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
