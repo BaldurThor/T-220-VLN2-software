@@ -10,27 +10,23 @@ from messaging.models import Message
 def catalog(request):
     if request.method == 'POST':
         search_list = request.POST.get('search').lower().split()
+        filter = {}
+
         conditions = Condition.objects.all()
-        categories = Category.objects.all()
         search_list, search_condition = con_cat_for(search_list, conditions)
+        if search_condition:
+            filter['condition'] = search_condition
+
+        categories = Category.objects.all()
         search_list, search_category = con_cat_for(search_list, categories)
-        search_string = ' '.join(search_list)
+        if search_category:
+            filter['categories'] = search_category
+        filter['name__icontains'] = ' '.join(search_list)
+        items = Item.objects.filter(**filter)
 
-        if search_condition and search_category:
-            items = Item.objects.filter(name__icontains=search_string, condition=search_condition, categories=search_category)
-
-        elif search_category:
-            items = Item.objects.filter(name__icontains=search_string, categories=search_category)
-
-        elif search_condition:
-            items = Item.objects.filter(name__icontains=search_string, condition=search_condition)
-
-        else:
-            items = Item.objects.filter(name__icontains=search_string)
-
-        context = {'items': items}
     else:
-        context = {'items': Item.objects.all()}
+        items = Item.objects.filter(sold_at=None)
+    context = {'items': items}
     return render(request, 'item/catalog.html', context)
 
 
@@ -57,7 +53,7 @@ def get_item(request, id):
 
 
 def get_category(request, category_id):
-    item = Item.objects.filter(categories=category_id)
+    item = Item.objects.filter(categories=category_id, sold_at=None)
     context = {'items': item}
     return render(request, 'item/catalog.html', context)
 
