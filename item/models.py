@@ -43,6 +43,7 @@ class Offer(models.Model):
     amount = models.IntegerField()
     date = models.DateField()
     accepted = models.BooleanField(default=False)
+    rejected = models.BooleanField(default=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

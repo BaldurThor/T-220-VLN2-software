@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import now
+
+from . import services
 from item.forms import ItemCreateForm
 from item.models import Item, Offer, Condition, Category
 from django.contrib.auth.decorators import login_required
@@ -84,8 +86,7 @@ def submit_offer(request, id):
         offer.date = now()
         offer.amount = int(request.POST.get('amount'))
         offer.save()
-        message = Message(sender=request.user, receiver=offer.item.seller, subject='Nýtt tilboð í vöruna þína!', body=f'Þú átt nýtt tilboð í vöru: {offer.item.name} að upphæð {offer.amount}', related=offer)
-        message.save()
+        services.offer_placed(offer)
     return redirect('item:get_item', id)
 
 
@@ -101,6 +102,7 @@ def accept_offer(request, offer_id):
         offer.item.sold_at = now()
         offer.save()
         offer.item.save()
+        services.offer_accepted(offer)
         return redirect('frontpage')
 
     return render(request, 'item/accept_offer.html', context)
@@ -131,3 +133,12 @@ def get_all_sales(request):
 @login_required
 def get_sale(request, id):
     pass
+
+
+@login_required
+def checkout(request, offer_id):
+    offer = Offer.objects.get(pk=offer_id, accepted=True)
+    context = {
+        'offer': offer,
+    }
+    return render(request, 'item/checkout.html', context)
