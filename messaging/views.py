@@ -3,6 +3,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 
+from item.models import Item
 from .forms import MessageForm
 from .models import Message
 from .services import notify
@@ -17,6 +18,9 @@ def send_message(request):
             data = form.cleaned_data
             receiver = User.objects.filter(username=data['receiver']).get()
             message = Message(sender=request.user, receiver=receiver, subject=data['subject'], body=data['body'])
+            if request.POST.get('item_id'):
+                item = Item.objects.get(pk=request.POST.get('item_id'))
+                message.related = item
             message.save()
             return redirect('messaging:get_all_messages')
     else:
