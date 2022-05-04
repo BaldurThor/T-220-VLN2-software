@@ -1,9 +1,12 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import now
 
 from item.forms import ItemCreateForm
 from item.models import Item, Offer
 from django.contrib.auth.decorators import login_required
+
+from messaging.models import Message
 
 
 def catalog(request):
@@ -50,6 +53,8 @@ def submit_offer(request, id):
         offer.date = now()
         offer.amount = int(request.POST.get('amount'))
         offer.save()
+        message = Message(sender=request.user, receiver=offer.item.seller, subject='Nýtt tilboð í vöruna þína!', body=f'Þú átt nýtt tilboð í vöru: {offer.item.name} að upphæð {offer.amount}', related=offer)
+        message.save()
     return redirect('item:get_item', id)
 
 
