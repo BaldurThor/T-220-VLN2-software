@@ -50,6 +50,8 @@ def con_cat_for(lis1, lis2):
 
 def get_item(request, id):
     item = get_object_or_404(Item, pk=id)
+    item.views += 1
+    item.save()
     context = {'item': item}
     return render(request, 'item/get_item.html', context)
 
