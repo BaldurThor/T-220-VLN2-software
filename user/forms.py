@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.models import User
 
+from user.models import UserProfile
+
 
 def validate_username(username):
     if User.objects.filter(username=username).exists():
@@ -31,3 +33,9 @@ class RegistrationForm(forms.Form):
         else:
             self.cleaned_data['last_name'] = ''
             self.cleaned_data['first_name'] = fullname
+
+
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['bio', 'image_url']

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-4">
+            {% include 'form.html' %}
+            <input type="submit" class="btn btn-primary" value="Uppfæra">
+        </div>
+    </div>
+</form>
+{% endblock %}

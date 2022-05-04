@@ -4,4 +4,5 @@
 <img src="{{ user_profile.image_url }}" alt="">
 <p>Meðal einkunnin þín: {{ user_profile.avg_rating }}</p>
 <p>{{ user_profile.bio }}</p>
+<a href="{% url 'user:update_profile' %}" class="btn btn-primary">Uppfæra upplýsingar</a>
 {% endblock %}
