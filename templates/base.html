@@ -8,10 +8,11 @@
 </head>
 <body>
     {% include 'navigation.html' %}
-    <div class="container mt-4">
+    <div class="container my-4">
         {% block content %}
         {% endblock %}
     </div>
+    {% include 'footer.html' %}
     <script src="{% static 'main.js' %}"></script>
 </body>
 </html>

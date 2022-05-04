@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
+<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+<div class="carousel-indicators">
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
@@ -25,5 +25,16 @@
     <span aria-hidden="true"><i class="bi bi-caret-right-fill text-secondary" style="font-size: 2rem;"></i></span>
     <span class="visually-hidden">Next</span>
   </button>
+</div>
+<div class="most-views row row-cols-1 row-cols-md-auto g-4">
+    {% for item in most_viewed_items %}
+        <div class="col mx-auto my-5">
+            <img class="catalog-image-views d-block mw-100" src="{{ item.image_url }}" style=" height: 10rem; object-fit: cover; object-position: right top;" alt="{{ item.name }}-image">
+            <div class="caption">
+               <h5>{{ item.name }}</h5>
+               <p>{{ item.views }}</p>
+            </div>
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}

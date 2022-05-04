@@ -34,6 +34,10 @@ ul.errorlist {
   width: 56px;
   border-radius: 28px;
 }
+.item-img {
+  max-height: 800px;
+  max-width: 800px;
+}
 
 @media  (max-width: 992px) {
     .nav-item{
@@ -46,4 +50,9 @@ ul.errorlist {
 }
 .dropdown-menu {
   background-color: #262E3A;
+}
+
+.catalog-image-views:hover{
+  opacity: 0.3;
+  position: relative;
 }
