@@ -7,7 +7,7 @@
         <button  class="btn btn-default dropdown-toggle-profile" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
 
             <img src="{% static 'images/generic-profile.png' %}" alt="Generic profile pic" class="img rounded-pill" style="width:56px">
-            <img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img"  id="hunger-rating">
+            <img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img hunger-rating">
             <span class="h4 text-light align-middle">{{ user_profile.get_rating }}</span>
         </button>
         <a href="{% url 'user:logout' %}" class="btn btn-default">
@@ -16,11 +16,15 @@
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
         <li><div class="dropdown-item">
             <a href="{% url 'user:profile' %}"><img src="{% static 'images/generic-profile.png' %}" alt="Generic profile pic" class="img rounded-pill" style="width:56px"></a>
-            <img src="{% static 'images/hunger-bar-empty.png' %}" alt="..." class="img" id="hunger-rating">
-            <img src="{% static 'images/hunger-bar-empty.png' %}" alt="..." class="img" id="hunger-rating">
-            <img src="{% static 'images/hunger-bar-half.png' %}" alt="..." class="img" id="hunger-rating">
-            <img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img" id="hunger-rating">
-            <img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img" id="hunger-rating">
+            {% for _ in ''|center:user_profile.get_empty_stars %}
+                <img src="{% static 'images/hunger-bar-empty.png' %}" alt="..." class="img hunger-rating">
+            {% endfor %}
+            {% if user_profile.get_half_stars %}
+                <img src="{% static 'images/hunger-bar-half.png' %}" alt="..." class="img hunger-rating">
+            {% endif %}
+            {% for _ in ''|center:user_profile.get_full_stars %}
+                <img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img hunger-rating">
+            {% endfor %}
         </div></li>
             <li><a class="dropdown-item" href="{% url 'user:profile' %}">Skoða aðgang</a></li>
             <li><a class="dropdown-item" href="#">Pósthólf</a></li>

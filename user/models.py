@@ -13,6 +13,15 @@ class UserProfile(models.Model):
     def get_rating(self):
         return self.avg_rating / 2
 
+    def get_full_stars(self):
+        return self.avg_rating // 2
+
+    def get_half_stars(self):
+        return self.avg_rating % 2
+
+    def get_empty_stars(self):
+        return (10 - self.avg_rating) // 2
+
 
 class Country(models.Model):
     class Meta:
