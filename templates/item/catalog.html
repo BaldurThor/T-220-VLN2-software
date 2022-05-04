@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ item.name }}</h5>
                         <p class="card-text ">{{ item.description | truncatechars:30 }}</p>
-                        <p class="card-text">Condition:{{ item.condition.name }}</p>
+                        <p class="card-text text-muted">Ástand: {{ item.condition.name }}</p>
                     </div>
                     <div class="card-footer">
                         <a href="/items/{{ item.id }}" class="btn btn-primary">Nánari upplýsingar</a>
