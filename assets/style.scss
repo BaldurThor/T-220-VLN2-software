@@ -1,3 +1,8 @@
+@media(min-width:769px) {
+  #the-container {
+    min-height:800px;
+  }
+}
 .unread {
     font-weight: bold;
 }
@@ -75,4 +80,9 @@ ul.errorlist {
 
 .card-img-overlay:hover {
   background: rgba(0, 0, 0, 0);
+}
+
+.table.inbox a {
+  text-decoration: none;
+  color: inherit;
 }
