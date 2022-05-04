@@ -4,6 +4,9 @@
 .navbar-brand img{
     height: 60px;
 }
+.dropdown-item {
+  font-size: 115%;
+}
 .alert .icon {
   font-size:150%;
   margin-right:0.5em;
@@ -25,6 +28,13 @@ ul.errorlist {
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
 }
+.profile-img {
+  object-fit: fill;
+  height: 56px;
+  width: 56px;
+  border-radius: 28px;
+}
+
 @media  (max-width: 992px) {
     .nav-item{
         padding: 0;
