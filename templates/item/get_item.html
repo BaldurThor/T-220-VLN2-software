@@ -23,6 +23,7 @@
                                     {% csrf_token %}
                                     <label for="amount">Upphæð:</label>
                                     <div class="input-group my-2">
+                                        <input type="hidden" name="item_id" id="hiddenInput" value="{{ item.id }}" />
                                         <input id="amount" class="form-control" placeholder="0" name="amount" type="number">
                                         <span class="input-group-text">kr.</span>
                                     </div>
@@ -58,6 +59,7 @@
                                 <label for="message-body" class="form-label">Skilaboð:</label>
                                 <div class="input-group mb-3">
                                     <textarea name="body" class="form-control" placeholder="Meginmál" aria-label="message" aria-describedby="basic-addon3"></textarea>
+                                    <input type="hidden" name="item_id" id="hiddenInput" value="{{ item.id }}" />
                                 </div>
                             </div>
                             <div class="modal-footer">
