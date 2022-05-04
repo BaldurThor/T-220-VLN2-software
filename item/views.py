@@ -95,7 +95,10 @@ def submit_offer(request, id):
 
 @login_required
 def accept_offer(request, offer_id):
-    context = {}
+    offer = Offer.objects.get(pk=offer_id)
+    context = {
+        'offer': offer
+    }
     if request.method == 'POST':
         pass
 
