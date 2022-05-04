@@ -10,7 +10,7 @@ urlpatterns = [
     path('category/<int:category_id>', views.get_category, name='get_category'),
     path('submit_offer/<int:id>', views.submit_offer, name='submit_offer'),
     path('get_all_offers', views.get_all_offers, name='get_all_offers'),
-    path('get_offer/<int:id>', views.get_offer, name='get_offer'),
     path('accept_offer/<int:offer_id>', views.accept_offer, name='accept_offer'),
+    path('reject_offer/<int:offer_id>', views.reject_offer, name='reject_offer'),
     path('checkout/<int:offer_id>', views.checkout, name='checkout'),
 ]

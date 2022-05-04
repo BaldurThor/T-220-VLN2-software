@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Boð í þitt shit</h2>
+    <h2>Þín boð í shit</h2>
     <div class="row row-cols-1 row-cols-md-4 g-4">
         {% for own_offer in own_offers %}
             <div class="col">
@@ -9,16 +9,20 @@
                     <div class="card-body">
                         <h4 class="card-title">{{ own_offer.item.name }}</h4>
                         <p class="card-text">Upphæð: {{ own_offer.amount }}</p>
-                        <p class="card-text">Samþykkt: {{ own_offer.accepted }}</p>
+                        <p class="card-text">Seljandi: {{ own_offer.item.seller }}</p>
                         </div>
                     <div class="card-footer">
-                        <a href="/items/get_offer/{{ own_offer.id }}" class="btn btn-primary">Nánari upplýsingar</a>
+                        {% if own_offer.accepted %}
+                            <a href="checkout/{{ own_offer.id }}" class="btn btn-primary">Ganga frá kaupum</a>
+                        {% else %}
+                            <a href="{{ own_offer.item.id }}" class="btn btn-primary">Skoða nánar</a>
+                        {% endif %}
                         </div>
                     </div>
                 </div>
         {% endfor %}
         </div>
-    <h2>Þín boð í shit</h2>
+    <h2>Boð í þitt shit</h2>
     <div class="row row-cols-1 row-cols-md-4 g-4">
         {% for other_offer in other_offers %}
             <div class="col">
@@ -27,10 +31,11 @@
                     <div class="card-body">
                         <h4 class="card-title">{{ other_offer.item.name }}</h4>
                         <p class="card-text">Upphæð: {{ other_offer.amount }}</p>
-                        <p class="card-text">Samþykkt: {{ other_offer.accepted }}</p>
+                        <p class="card-text">Kaupandi: {{ other_offer.user }}</p>
                         </div>
                     <div class="card-footer">
-                        <a href="/items/get_offer/{{ other_offer.id }}" class="btn btn-primary">Nánari upplýsingar</a>
+                        <form action="accept_offer/{{ other_offer.id }}" method="POST">{% csrf_token %}<input class="btn btn-primary" type="submit" value="Samþykkja"></form>
+                        <form action="reject_offer/{{ other_offer.id }}" method="POST">{% csrf_token %}<input class="btn btn-primary" type="submit" value="Neita"></form>
                         </div>
                     </div>
                 </div>
