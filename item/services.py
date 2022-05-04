@@ -9,17 +9,31 @@ def offer_placed(offer):
                       receiver=offer.item.seller,
                       subject='Nýtt tilboð í vöruna þína!',
                       body=f'Þú átt nýtt tilboð í vöru: {offer.item.name} að upphæð {offer.amount}',
-                      related=offer)
+                      related=offer,
+                      )
     message.save()
 
 
 def offer_accepted(offer):
-    other_offers = Offer.objects.filter(item=offer.item, pk__not=offer.id, rejected=False)
+    other_offers = Offer.objects.filter(item=offer.item, rejected=False).exclude(pk=offer.id)
     for other_offer in other_offers:
         other_offer.rejected = True
         other_offer.save()
         offer_rejected(other_offer)
 
+    message = Message(sender=User.objects.get(pk=1),
+                      receiver=offer.user,
+                      subject=f'🎉🎉🎉Tilboðið þitt í {offer.item.name} er samþykkt! 🎉🎉🎉',
+                      body=f'',
+                      related=offer,
+                      )
+    message.save()
+
 
 def offer_rejected(offer):
-    pass
+    message = Message(sender=User.objects.get(pk=1),
+                      receiver=offer.user,
+                      subject=f'Tilboði þínu í {offer.item.name} hefur verið hafnað.',
+                      related=offer,
+                      )
+    message.save()
