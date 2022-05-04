@@ -8,7 +8,7 @@
 
             <img src="{% static 'images/generic-profile.png' %}" alt="Generic profile pic" class="img rounded-pill" style="width:56px">
             <img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img"  id="hunger-rating">
-            <span class="h4 text-light align-middle">3.4</span>
+            <span class="h4 text-light align-middle">{{ user_profile.get_rating }}</span>
         </button>
         <a href="{% url 'user:logout' %}" class="btn btn-default">
             <i class="bi bi-box-arrow-right" style="font-size: 2rem; color: whitesmoke;"></i>

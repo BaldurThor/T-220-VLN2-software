@@ -10,6 +10,9 @@ class UserProfile(models.Model):
     bio = models.TextField(blank=True, null=True)
     image_url = models.CharField(max_length=191, blank=True, null=True)
 
+    def get_rating(self):
+        return self.avg_rating / 2
+
 
 class Country(models.Model):
     class Meta:
