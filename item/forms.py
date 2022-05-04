@@ -9,3 +9,4 @@ class ItemCreateForm(ModelForm):
         model = Item
         exclude = ['id']
         fields = ['name', 'description', 'condition', 'image_url', 'country', 'zip', 'published_at', 'categories']
+

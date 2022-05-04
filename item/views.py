@@ -65,10 +65,12 @@ def create_item(request):
     if request.method == 'POST':
         form = ItemCreateForm(data=request.POST)
         if form.is_valid():
-
             item = form.save(commit=False)
             item.seller = request.user
             item.save()
+            values = request.POST.getlist('categories')
+            for value in values:
+                item.categories.add(Category.objects.get(pk=value))
             return redirect('item:catalog')
     else:
         form = ItemCreateForm()
