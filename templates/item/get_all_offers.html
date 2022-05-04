@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Boð í þitt shit</h2>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for own_offer in own_offers %}
+            <div class="col">
+                <div class="card text-center h-100" style="width: 18rem;">
+                    <img src="{{ own_offer.item.image_url }}" class="card-img-top mh-100" alt="{{ own_offer.item.name }}-image" style=" height: 15rem; object-fit: cover; object-position: right top;">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ own_offer.item.name }}</h4>
+                        <p class="card-text">Upphæð: {{ own_offer.amount }}</p>
+                        <p class="card-text">Samþykkt: {{ own_offer.accepted }}</p>
+                        </div>
+                    <div class="card-footer">
+                        <a href="/items/get_offer/{{ own_offer.id }}" class="btn btn-primary">Nánari upplýsingar</a>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+        </div>
+    <h2>Þín boð í shit</h2>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for other_offer in other_offers %}
+            <div class="col">
+                <div class="card text-center h-100" style="width: 18rem;">
+                    <img src="{{ other_offer.item.image_url }}" class="card-img-top mh-100" alt="{{ other_offer.item.name }}-image" style=" height: 15rem; object-fit: cover; object-position: right top;">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ other_offer.item.name }}</h4>
+                        <p class="card-text">Upphæð: {{ other_offer.amount }}</p>
+                        <p class="card-text">Samþykkt: {{ other_offer.accepted }}</p>
+                        </div>
+                    <div class="card-footer">
+                        <a href="/items/get_offer/{{ other_offer.id }}" class="btn btn-primary">Nánari upplýsingar</a>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+        </div>
+{% endblock %}
