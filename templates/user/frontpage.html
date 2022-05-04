@@ -10,7 +10,7 @@
       {% for item in items %}
             <div class="carousel-item{% if forloop.first %} active{% endif %}">
               <img src="{{ item.image_url }}" class="catalog-image d-block w-100" alt="">
-             <div class="carousel-caption d-none d-md-block bg-secondary w-50 p-3 mx-auto" style="--bs-bg-opacity: .5;">
+             <div class="carousel-caption d-none d-md-block bg-secondary rounded w-50 p-3 mx-auto" style="--bs-bg-opacity: .5;">
                <h5>{{ item.name }}</h5>
                <p>{{ item.description | truncatechars:100 }}</p>
              </div>
@@ -26,15 +26,17 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-<div class="most-views row row-cols-1 row-cols-md-auto g-4">
+<div class="most-views row row-cols-md-auto">
     {% for item in most_viewed_items %}
-        <div class="col mx-auto my-5">
-            <img class="catalog-image-views d-block mw-100" src="{{ item.image_url }}" style=" height: 10rem; object-fit: cover; object-position: right top;" alt="{{ item.name }}-image">
-            <div class="caption">
-               <h5>{{ item.name }}</h5>
-               <p>{{ item.views }}</p>
+        <a href="/items/{{ item.id }}" class="card mx-auto my-5 p-0 catalog-image-views">
+            <img class="card-img" src="{{ item.image_url }}" alt="{{ item.name }}-image">
+            <div class="card-img-overlay d-flex flex-column">
+                <div class="mt-auto text-center" style="color: white;">
+                    <h5 class="card-title m-0">{{ item.name }}</h5>
+                    <p class="card-text m-0">Skoðað: {{ item.views }} sinnum</p>
+                </div>
             </div>
-        </div>
+        </a>
     {% endfor %}
 </div>
 {% endblock %}
