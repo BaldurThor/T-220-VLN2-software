@@ -29,7 +29,10 @@ def create_item(request):
     if request.method == 'POST':
         form = ItemCreateForm(data=request.POST)
         if form.is_valid():
-            form.save()
+
+            item = form.save(commit=False)
+            item.seller = request.user
+            item.save()
             return redirect('item:catalog')
     else:
         form = ItemCreateForm()
