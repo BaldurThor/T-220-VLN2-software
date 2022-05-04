@@ -1,11 +1,9 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import now
-
 from item.forms import ItemCreateForm
-from item.models import Item, Offer, Condition
+from item.models import Item, Offer, Condition, Category
 from django.contrib.auth.decorators import login_required
-
 from messaging.models import Message
 
 
@@ -13,30 +11,52 @@ def catalog(request):
     if request.method == 'POST':
         search_list = request.POST.get('search').lower().split()
         conditions = Condition.objects.all()
-        search_condition = None
-        for condition in conditions:
-            cur_condition = condition.name.lower().split()
-            length = len(cur_condition)
-            for i in range(len(search_list) - (length - 1)):
-                if search_list[i:i+length] == cur_condition:
-                    search_condition = condition
-                    for item in cur_condition:
-                        search_list.remove(item)
-                    break
+        categories = Category.objects.all()
+        search_list, search_condition = con_cat_for(search_list, conditions)
+        search_list, search_category = con_cat_for(search_list, categories)
         search_string = ' '.join(search_list)
-        context = {'items': Item.objects.filter(name__icontains=search_string, condition=search_condition)}
+
+        if search_condition and search_category:
+            items = Item.objects.filter(name__icontains=search_string, condition=search_condition, categories=search_category)
+
+        elif search_category:
+            items = Item.objects.filter(name__icontains=search_string, categories=search_category)
+
+        elif search_condition:
+            items = Item.objects.filter(name__icontains=search_string, condition=search_condition)
+
+        else:
+            items = Item.objects.filter(name__icontains=search_string)
+
+        context = {'items': items}
     else:
         context = {'items': Item.objects.all()}
     return render(request, 'item/catalog.html', context)
 
 
+def con_cat_for(lis1, lis2):
+    return_object = None
+    for item in lis2:
+        cur_item = item.name.lower().split()
+        length = len(cur_item)
+        for i in range(len(lis1) - (length - 1)):
+            if lis1[i:i + length] == cur_item:
+                return_object = item
+                for rem_item in cur_item:
+                    lis1.remove(rem_item)
+                break
+    return lis1, return_object
+
+
 def get_item(request, id):
-    context = {'item': get_object_or_404(Item, pk=id)}
+    item = get_object_or_404(Item, pk=id)
+    context = {'item': item}
     return render(request, 'item/get_item.html', context)
 
 
 def get_category(request, category_id):
-    context = {'items': Item.objects.filter(categories=category_id)}
+    item = Item.objects.filter(categories=category_id)
+    context = {'items': item}
     return render(request, 'item/catalog.html', context)
 
 
@@ -69,6 +89,16 @@ def submit_offer(request, id):
         message = Message(sender=request.user, receiver=offer.item.seller, subject='Nýtt tilboð í vöruna þína!', body=f'Þú átt nýtt tilboð í vöru: {offer.item.name} að upphæð {offer.amount}', related=offer)
         message.save()
     return redirect('item:get_item', id)
+
+
+@login_required
+def get_offers(request):
+    pass
+
+
+@login_required
+def get_offer(request, id):
+    pass
 
 
 @login_required
