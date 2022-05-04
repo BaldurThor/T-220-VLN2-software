@@ -3,27 +3,25 @@
     <div class="get_item">
 
         <div class="card mb-3">
+            <div class="card-header">
+                <h3 class="card-title">{{ item.name }}</h3>
+                <p class="card-subtitle mb-2 text-muted">{{ item.condition.name }}</p>
+            </div>
             <div class="card-body">
-                <h3 class="card-text">{{ item.name }}</h3>
                 <p class="card-text">{{ item.description }}</p>
-                <p class="card-text">{{ item.condition.name }}</p>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Offer">
-                  Place Offer
-                </button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Contact">
-                    Contact Seller
-                </button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Offer">Bjóða í vöru</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Contact">Fyrirspurn</button>
                 <div class="modal fade" id="Offer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title">Place offer</h5>
+                                <h5 class="modal-title">Bjóða í vöru</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                              <form method="POST" action="{% url 'item:submit_offer' item.id %}">
                                 <div class="modal-body">
                                     {% csrf_token %}
-                                    <label for="amount">Offer:</label>
+                                    <label for="amount">Upphæð:</label>
                                     <div class="input-group my-2">
                                         <input id="amount" class="form-control" placeholder="0" name="amount" type="number">
                                         <span class="input-group-text">kr.</span>
@@ -42,22 +40,29 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Send Message</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Senda skilaboð</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form method="POST" action="{% url 'messaging:send' %}">
                             <div class="modal-body">
+                                {% csrf_token %}
+                                 <label for="receiver" class="form-label">Viðtakandi:</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text" id="basic-addon1">@</span>
-                                    <input type="text" class="form-control disabled" placeholder="{{ "seller" }}" aria-label="Username" aria-describedby="basic-addon1" readonly>
+                                    <input type="text" class="form-control" name="receiver" value="{{ item.seller.username }}" aria-label="username" aria-describedby="basic-addon1" readonly>
                                 </div>
+                                <label for="subject" class="form-label">Efni:</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control disabled" placeholder="{{ "message" }}" aria-label="Username" aria-describedby="basic-addon1">
+                                    <input type="text" class="form-control" name="subject" value="Fyrirspurn um vöru: {{ item.name }}, {{ item.condition.name }}" aria-label="subject" aria-describedby="basic-addon2" readonly>
+                                </div>
+                                <label for="message-body" class="form-label">Skilaboð:</label>
+                                <div class="input-group mb-3">
+                                    <textarea name="body" class="form-control" placeholder="Meginmál" aria-label="message" aria-describedby="basic-addon3"></textarea>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Send</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Loka</button>
+                                <button type="submit" class="btn btn-primary">Senda</button>
                             </div>
                         </form>
                     </div>
