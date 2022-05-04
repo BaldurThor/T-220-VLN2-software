@@ -17,6 +17,8 @@
             Vörur
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{% url 'item:catalog' %}">Allar vörur</a></li>
+  <li><hr class="dropdown-divider"></li>
               {% for category in categories %}
                 <li><a class="dropdown-item" href="{% url 'item:get_category' category.id %}">{{ category.name }}</a></li>
               {% endfor %}
