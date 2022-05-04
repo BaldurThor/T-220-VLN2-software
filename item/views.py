@@ -92,7 +92,7 @@ def submit_offer(request, id):
 
 @login_required
 def accept_offer(request, offer_id):
-    offer = Offer.objects.get(pk=offer_id)
+    offer = Offer.objects.get(pk=offer_id, item__seller=request.user)
     context = {
         'offer': offer
     }
@@ -103,26 +103,39 @@ def accept_offer(request, offer_id):
         offer.save()
         offer.item.save()
         services.offer_accepted(offer)
-        return redirect('frontpage')
+        return redirect('item:get_all_offers')
 
     return render(request, 'item/accept_offer.html', context)
 
 
 @login_required
-def get_all_offers(request):
-    own_offers = Offer.objects.filter(user=request.user)
-    other_offers = Offer.objects.filter(
-        item__seller=request.user
-    )
-    context = {'own_offers': own_offers, 'other_offers': other_offers}
-    return render(request, 'item/get_all_offers.html', context)
+def reject_offer(request, offer_id):
+    offer = Offer.objects.get(pk=offer_id, item__seller=request.user)
+    context = {
+        'offer': offer
+    }
+    if request.method == 'POST':
+        offer.rejected = True
+        offer.save()
+        services.offer_rejected(offer)
+        return redirect('item:get_all_offers')
+
+    return render(request, 'item/reject_offer.html', context)
 
 
 @login_required
-def get_offer(request, id):
-    offer = get_object_or_404(Offer, pk=id)
-    context = {'offer': offer}
-    return render(request, 'item/get_offer.html', context)
+def get_all_offers(request):
+    own_offers = Offer.objects.filter(
+        user=request.user,
+        rejected=False
+    )
+    other_offers = Offer.objects.filter(
+        item__seller=request.user,
+        rejected=False,
+        accepted=False
+    )
+    context = {'own_offers': own_offers, 'other_offers': other_offers}
+    return render(request, 'item/get_all_offers.html', context)
 
 
 @login_required
