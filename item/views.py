@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import now
 
 from item.forms import ItemCreateForm
-from item.models import Item, Offer
+from item.models import Item, Offer, Condition
 from django.contrib.auth.decorators import login_required
 
 from messaging.models import Message
@@ -11,7 +11,20 @@ from messaging.models import Message
 
 def catalog(request):
     if request.method == 'POST':
-        context = {'items': Item.objects.filter(name__icontains=request.POST.get('search'))}
+        search_list = request.POST.get('search').lower().split()
+        conditions = Condition.objects.all()
+        search_condition = None
+        for condition in conditions:
+            cur_condition = condition.name.lower().split()
+            length = len(cur_condition)
+            for i in range(len(search_list) - (length - 1)):
+                if search_list[i:i+length] == cur_condition:
+                    search_condition = condition
+                    for item in cur_condition:
+                        search_list.remove(item)
+                    break
+        search_string = ' '.join(search_list)
+        context = {'items': Item.objects.filter(name__icontains=search_string, condition=search_condition)}
     else:
         context = {'items': Item.objects.all()}
     return render(request, 'item/catalog.html', context)
