@@ -2,10 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+from messaging.models import Message
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile')
     avg_rating = models.IntegerField(default=5)
     bio = models.TextField(blank=True, null=True)
     image_url = models.CharField(max_length=191, blank=True, null=True, default='/static/images/generic-profile.png')
@@ -21,6 +22,9 @@ class UserProfile(models.Model):
 
     def get_empty_stars(self):
         return (10 - self.avg_rating) // 2
+
+    def get_unread_messages(self):
+        return Message.objects.filter(read_at=None, receiver=self.user).count()
 
 
 class Country(models.Model):
