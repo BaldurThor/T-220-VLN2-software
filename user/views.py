@@ -11,8 +11,10 @@ from user.models import UserProfile, Contact, Country
 
 
 def frontpage(request):
+    most_viewed_items = Item.objects.order_by('-views')[0:4]
     context = {
-        'items': Item.objects.order_by('?')[0:3]
+        'items': Item.objects.order_by('?')[0:3],
+        'most_viewed_items': most_viewed_items,
     }
     return render(request, 'user/frontpage.html', context)
 
