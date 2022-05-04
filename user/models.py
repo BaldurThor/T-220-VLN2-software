@@ -8,7 +8,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avg_rating = models.IntegerField(default=5)
     bio = models.TextField(blank=True, null=True)
-    image_url = models.CharField(max_length=191, blank=True, null=True, default='static/images/generic-profile.png')
+    image_url = models.CharField(max_length=191, blank=True, null=True, default='/static/images/generic-profile.png')
 
     def get_rating(self):
         return self.avg_rating / 2
