@@ -1,12 +1,13 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import now
 
 from user.models import UserProfile
 from item import services
 from item.forms import ItemCreateForm
-from item.models import Item, Offer, Condition, Category
+from item.models import Item, Offer, Condition, Category, Sale
 from django.contrib.auth.decorators import login_required
 from messaging.models import Message
 
@@ -98,6 +99,9 @@ def get_all_sales(request):
 
 
 @login_required
-def get_sale(request, id):
-    pass
+def get_sale(request, sale_id):
+    sale = Sale.objects.filter(pk=sale_id).filter(Q(seller=request.user) | Q(buyer=request.user)).get()
+    return render(request, 'item/get_sale.html', {
+        'sale': sale,
+    })
 
