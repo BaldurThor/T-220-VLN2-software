@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+ <h2>Þínar sölur</h2>
+    <div class="row row-cols-1 row-cols-md-auto g-4">
+        {% if not own_sales %}
+            <div class="col">
+                <div class="card text-center h-100" style="width: 18rem; min-height: 26rem; background-color: #454c56;">
+                    <div class="card-body">
+                        <h4 class="card-title" style="color: ghostwhite">Þú hefur ekki selt neinar vörur</h4>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+        {% for own_sale in own_sales %}
+            <div class="col">
+                <div class="card text-center h-100" style="width: 18rem; min-height: 26rem;">
+                    <img src="{{ own_sale.item.image_url }}" class="card-img-top mh-100" alt="{{ own_sale.item.name }}-image" style=" height: 15rem; object-fit: cover; object-position: right top;">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ own_sale.item.name }}</h4>
+                        <p class="card-text">Upphæð: {{ own_sale.amount }}</p>
+                        <p class="card-text">Seljandi: {{ own_sale.item.seller }}</p>
+                        </div>
+                    <div class="card-footer">
+                            <form action="get_sale/{{ own_sale.id }}" method="POST">{% csrf_token %}<input class="btn btn-primary" type="submit" value="Skoða nánar"></form>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+        {% endif %}
+        </div>
+    <h2>Þín kaup</h2>
+    <div class="row row-cols-1 row-cols-md-auto g-4">
+        {% if not other_sales %}
+            <div class="col">
+                <div class="card text-center h-100" style="width: 18rem; min-height: 26rem; background-color: #454c56">
+                    <div class="card-body">
+                        <h4 class="card-title" style="color: ghostwhite">Þú hefur ekki selt neinar vörur</h4>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+        {% for other_sale in other_sales %}
+            <div class="col">
+                <div class="card text-center h-100" style="width: 18rem; min-height: 26rem;">
+                    <img src="{{ other_sale.item.image_url }}" class="card-img-top mh-100" alt="{{ other_sale.item.name }}-image" style=" height: 15rem; object-fit: cover; object-position: right top;">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ other_sale.item.name }}</h4>
+                        <p class="card-text">Upphæð: {{ other_sale.amount }}</p>
+                        <p class="card-text">Kaupandi: {{ other_sale.user }}</p>
+                        </div>
+                    <div class="card-footer">
+                        <form action="get_sale/{{ other_sale.id }}" method="POST">{% csrf_token %}<input class="btn btn-primary" type="submit" value="Skoða nánar"></form>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+        {% endif %}
+        </div>
+{% endblock %}

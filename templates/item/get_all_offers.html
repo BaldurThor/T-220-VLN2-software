@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Þín boð í shit</h2>
-    <div class="row row-cols-1 row-cols-md-4 g-4">
+    <h2>Boð í þínar vörur</h2>
+    <div class="row row-cols-1 row-cols-md-auto g-4">
+        {% if not own_offers %}
+            <div class="card text-center h-100" style="width: 18rem; min-height: 20rem; background-color: #454c56;">
+                <div class="card-body">
+                    <h4 class="card-title" style="color: ghostwhite">Þú hefur ekki boðið í neinar vörur</h4>
+                </div>
+            </div>
+        {% else %}
         {% for own_offer in own_offers %}
             <div class="col">
                 <div class="card text-center h-100" style="width: 18rem;">
@@ -21,9 +28,17 @@
                     </div>
                 </div>
         {% endfor %}
+        {% endif %}
         </div>
-    <h2>Boð í þitt shit</h2>
-    <div class="row row-cols-1 row-cols-md-4 g-4">
+    <h2>Vörur sem þú hefur boðið í</h2>
+    <div class="row row-cols-1 row-cols-md-auto g-4">
+        {% if not other_offers %}
+            <div class="card text-center h-100" style="width: 18rem; min-height: 20rem; background-color: #454c56;">
+                <div class="card-body">
+                    <h4 class="card-title" style="color: ghostwhite">Þú hefur ekki fengið boð í neinar vörur</h4>
+                </div>
+            </div>
+        {% else %}
         {% for other_offer in other_offers %}
             <div class="col">
                 <div class="card text-center h-100" style="width: 18rem;">
@@ -40,5 +55,6 @@
                     </div>
                 </div>
         {% endfor %}
+        {% endif %}
         </div>
 {% endblock %}
