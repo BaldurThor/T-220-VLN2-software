@@ -13,7 +13,7 @@
             <img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img hunger-rating">
             <span class="h4 text-light align-middle">{% if user_profile %}{{ user_profile.get_rating }}{% endif %}</span>
         </button>
-        <a href="{% url 'user:logout' %}" class="btn btn-default">
+        <a href="{% url 'user:logout' %}" class="btn btn-default p-0">
             <i class="bi bi-box-arrow-right" style="font-size: 2rem; color: whitesmoke;"></i>
         </a>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
