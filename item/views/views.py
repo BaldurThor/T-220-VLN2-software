@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import now
 
@@ -30,7 +31,7 @@ def catalog(request):
         items = Item.objects.filter(**filter)
 
     else:
-        items = Item.objects.filter(sold_at=None)
+        items = Item.objects.filter(sold_at=None, is_deleted=False)
     context = {'items': items}
     return render(request, 'item/catalog.html', context)
 
@@ -51,14 +52,19 @@ def con_cat_for(lis1, lis2):
 
 def get_item(request, id):
     item = get_object_or_404(Item, pk=id)
-    item.views += 1
+    if request.method == 'POST':
+        if request.user == item.seller:
+            item.is_deleted = True  # implement delete_item()
+        else:
+            return HttpResponse('Unauthorized', status=401)
+    else:
+        item.views += 1
     item.save()
     seller = UserProfile.objects.get(user=item.seller)
     context = {'item': item, 'seller': seller}
     similar_items = services.get_similar(item)
     if similar_items:
         context['similar_items'] = similar_items
-    # similar_items = Item.objects.filter()[:3]
     try:
         offer = Offer.objects.order_by('-amount').filter(item=item, rejected=False)[0]
         context['offer'] = offer
@@ -95,7 +101,14 @@ def create_item(request):
 
 @login_required
 def get_all_sales(request):
-    pass
+    own_sales = Sale.objects.filter(
+        user=request.user
+    )
+    other_sales = Sale.objects.filter(
+        item__seller=request.user
+    )
+    context = {'own_sales': own_sales, 'other_sales': other_sales}
+    return render(request, 'item/get_all_sales.html', context)
 
 
 @login_required
