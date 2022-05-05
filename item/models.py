@@ -37,6 +37,7 @@ class Item(models.Model):
     seller = models.ForeignKey(User, related_name='item_seller', on_delete=models.DO_NOTHING)
     accepted_offer = models.ForeignKey('Offer', null=True, blank=True, on_delete=models.CASCADE, related_name='accepted_offer')
     categories = models.ManyToManyField(Category)
+    is_deleted = models.BooleanField(default=False)
 
 
 class Offer(models.Model):
