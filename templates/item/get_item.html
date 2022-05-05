@@ -5,6 +5,10 @@
         <div class="alert alert-primary" role="alert">
             Þessi vara er seld!
         </div>
+    {% elif item.is_deleted %}
+        <div class="alert alert-primary" role="alert">
+            Þessi vara er ekki lengur til sölu!
+        </div>
     {% endif %}
     <div class="get_item">
         <div class="card mb-3">
@@ -32,11 +36,15 @@
             </div>
             <div class="card-body">
                 <p class="card-text">{{ item.description }}</p>
-                {% if not item.sold_at %}
+                {% if not item.sold_at and not item.is_deleted %}
                     <div class="row">
                         <div class="col">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Offer">Bjóða í vöru</button>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Contact">Fyrirspurn</button>
+                            {% if user == item.seller %}
+                                <form method="POST">{% csrf_token %}<button type="submit" class="btn btn-primary">Eiða vöru</button></form>
+                            {% else %}
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Offer">Bjóða í vöru</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Contact">Fyrirspurn</button>
+                            {% endif %}
                             </div>
                         <div class="col text-end">
                             {% if offer %}
