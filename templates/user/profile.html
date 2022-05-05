@@ -4,6 +4,8 @@
 <img src="{{ user_profile.image_url }}" alt="">
 <p>Meðal einkunnin þín: {{ user_profile.avg_rating }}</p>
 <p>{{ user_profile.bio }}</p>
-<a href="{% url 'user:update_profile' %}" class="btn btn-primary">Uppfæra upplýsingar</a>
-<a href="{% url 'user:get_all_contacts' %}" class="btn btn-secondary">Heimilisföng</a>
+{% if request.user == user_profile.user %}
+    <a href="{% url 'user:update_profile' %}" class="btn btn-primary">Uppfæra upplýsingar</a>
+    <a href="{% url 'user:get_all_contacts' %}" class="btn btn-secondary">Heimilisföng</a>
+{% endif %}
 {% endblock %}
