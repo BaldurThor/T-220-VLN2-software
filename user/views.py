@@ -1,13 +1,11 @@
 from pprint import pprint
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-
-# Create your views here.
 from item.models import Item
-from user.forms import RegistrationForm, UpdateProfileForm, ContactForm
+from user.forms import RegistrationForm, UpdateProfileForm, ContactForm, ChangePasswordForm
 from user.models import UserProfile, Contact, Country
+# Create your views here.
 
 
 def frontpage(request):
@@ -48,6 +46,7 @@ def profile(request, user_id=None):
     }
     return render(request, 'user/profile.html', context)
 
+
 @login_required
 def update_profile(request):
     user_profile = UserProfile.objects.get(user=request.user)
@@ -62,6 +61,23 @@ def update_profile(request):
         'form': form
     }
     return render(request, 'user/update_profile.html', context)
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.user, request.POST)
+        if form.is_valid():
+            user = User.objects.get(pk=request.user.id)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            return redirect('user:profile')
+    else:
+        form = ChangePasswordForm(request.user)
+    context = {
+        'form': form
+    }
+    return render(request, 'user/change_password.html', context)
 
 
 @login_required
