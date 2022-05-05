@@ -47,6 +47,9 @@ ul.errorlist {
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
 }
+.btn-default {
+  line-height: .8 !important;
+}
 .profile-img {
   object-fit: fill;
   height: 56px;
