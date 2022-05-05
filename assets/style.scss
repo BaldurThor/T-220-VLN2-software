@@ -18,9 +18,23 @@
 }
 .carousel-item img {
   object-fit: cover;
-  top: 0;
-  left: 0;
-  max-height: 500px;
+  max-height: 600px;
+  min-height: 600px;
+}
+.carousel-control-prev,
+.carousel-control-next {
+  width: 4rem;
+}
+.carousel-control-prev:hover {
+  background: rgb(2,0,36);
+  background: linear-gradient(-90deg, rgba(2,0,36,0) 5%, rgba(38,46,58,.8) 100%);
+}
+.carousel-control-next:hover {
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,0) 5%, rgba(38,46,58,.8) 100%);
+}
+.carousel-caption {
+  background-color: rgba(38, 46, 58, .5);
 }
 ul.errorlist {
   list-style: none;
