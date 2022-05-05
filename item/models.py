@@ -62,8 +62,17 @@ class Sale(models.Model):
     offer = models.ForeignKey(Offer, on_delete=models.DO_NOTHING)
     country = models.ForeignKey(Country, on_delete=models.DO_NOTHING)
 
-    def fill_from_contact(self,):
-        pass
+    def fill_from_contact(self, contact):
+        self.full_name = contact.full_name
+        self.street_name = contact.street_name
+        self.house_number = contact.house_number
+        self.city = contact.city
+        self.zip = contact.zip
+        self.country = contact.country
 
-    def fill_from_offer(self,):
-        pass
+    def fill_from_offer(self, offer):
+        self.amount = offer.amount
+        self.item = offer.item
+        self.buyer = offer.user
+        self.seller = offer.item.seller
+        self.offer = offer
