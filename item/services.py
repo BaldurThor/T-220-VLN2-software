@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 
 from item.models import Offer, Item
 from messaging.models import Message
@@ -39,6 +40,16 @@ def offer_rejected(offer):
                       related=offer,
                       )
     message.save()
+
+
+def delete_item(item, user):
+    if item.seller == user:
+        item.is_deleted = True
+        offers_on_item = Offer.objects.filter(item=item, rejected=False)
+        for offer in offers_on_item:
+            offer_rejected(offer)
+    else:
+        return HttpResponse('Unauthorized', status=401)
 
 
 def get_similar(o_item):

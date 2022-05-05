@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import now
 
+from item.services import delete_item
 from user.models import UserProfile
 from item import services
 from item.forms import ItemCreateForm
@@ -53,13 +54,10 @@ def con_cat_for(lis1, lis2):
 def get_item(request, id):
     item = get_object_or_404(Item, pk=id)
     if request.method == 'POST':
-        if request.user == item.seller:
-            item.is_deleted = True  # implement delete_item()
-        else:
-            return HttpResponse('Unauthorized', status=401)
+        delete_item(item, request.user)
     else:
         item.views += 1
-    item.save()
+        item.save()
     seller = UserProfile.objects.get(user=item.seller)
     context = {'item': item, 'seller': seller}
     similar_items = services.get_similar(item)
@@ -102,10 +100,10 @@ def create_item(request):
 @login_required
 def get_all_sales(request):
     own_sales = Sale.objects.filter(
-        user=request.user
+        seller=request.user
     )
     other_sales = Sale.objects.filter(
-        item__seller=request.user
+        buyer=request.user
     )
     context = {'own_sales': own_sales, 'other_sales': other_sales}
     return render(request, 'item/get_all_sales.html', context)
