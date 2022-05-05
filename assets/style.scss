@@ -39,6 +39,35 @@ ul.errorlist {
   width: 56px;
   border-radius: 28px;
 }
+.accordion-button {
+  background-color: #262E3A !important;
+  text-decoration: none !important;
+  color: #dee2e6 !important;
+  box-shadow: none !important;
+}
+.accordion-button::after {
+    background-image: none !important;
+}
+.accordion-button:not(.collapsed)::after {
+  background-image: none !important;
+}
+.accordion-button:hover {
+  background-color: #454c56 !important;
+  text-decoration: none !important;
+}
+.accordion-body {
+  background-color: #262E3A !important;
+  border: none !important;
+}
+.accordion-body a {
+  text-decoration: none !important;
+  color: #dee2e6 !important;
+  font-size: 115%;
+}
+.accordion-body:hover {
+  background-color: #454c56 !important;
+}
+
 .item-img {
   max-height: 800px;
   max-width: 800px;

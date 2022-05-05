@@ -1,6 +1,6 @@
 {% load static %}
 <div class="profile-container">
-    <div class="dropdown me-auto">
+    <div class="dropdown dropdown-accordion me-auto">
         <a href="{% url 'messaging:get_all_messages' %}" class="btn btn-default p-2 position-relative">
             <i class="bi bi-inbox" style="font-size: 2rem; color: whitesmoke;"></i>
             <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-danger">
@@ -34,29 +34,25 @@
         </div></li>
             <li><a class="dropdown-item" href="{% url 'user:profile' %}"><i class="bi bi-person-lines-fill pe-2"></i>Skoða aðgang</a></li>
             <li><a class="dropdown-item" href="{% url 'messaging:get_all_messages' %}"><i class="bi bi-inbox pe-2"></i>Pósthólf</a></li>
-            <li><a class="dropdown-item" href="/items/get_all_offers"><i class="bi bi-cash-coin pe-2"></i>Mín viðskipti</a></li>
+            <li><div class="accordion accordion-default accordion-flush" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item">
+                        <p class="accordion-header" id="flush-headingOne">
+                            <a class="dropdown-item accordion-button collapsed text-decoration-none rounded-0 py-1 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                <i class="bi bi-cash-coin pe-2"></i>Mín viðskipti
+                            </a>
+                        </p>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body py-1 px-3">
+                                <a href="#"><i class="bi bi-person-lines-fill pe-2"></i>Boð</a>
+                            </div>
+                            <div class="accordion-body py-1 px-3">
+                                <a href="#"><i class="bi bi-inbox pe-2"></i>Kaup og sölur</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
             <li><a class="dropdown-item text-end" href="{% url 'user:logout' %}"><i class="bi bi-box-arrow-right pe-2"></i>Útskrá</a></li>
         </ul>
     </div>
 </div>
-
-
-
-{#<a href="{% url 'user:logout' %}" class="btn btn-primary">#}
-{#    <div class="container-hunger">#}
-{#    <div class="row">#}
-{#        <div class="col-md-4 col-xs-4">#}
-{#            <div class="thumbnail">#}
-{#                <div class="picture1">#}
-{#                    <img class="img-responsive" src="{% static 'images/hunger-bar-half.png' %}" alt="...">#}
-{#                </div>#}
-{#                <div class="picture2">#}
-{#                    <img class="img-responsive" src="{% static 'images/hunger-bar-full.png' %}" alt="...">#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#    </div>#}
-{#</a>#}
-
-{# user_profile #}
