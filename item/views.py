@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.timezone import now
 
+from user.models import UserProfile
 from . import services
 from item.forms import ItemCreateForm
 from item.models import Item, Offer, Condition, Category
@@ -50,7 +52,19 @@ def get_item(request, id):
     item = get_object_or_404(Item, pk=id)
     item.views += 1
     item.save()
-    context = {'item': item}
+    seller = UserProfile.objects.get(user=item.seller)
+    context = {'item': item, 'seller': seller}
+    similar_items = services.get_similar(item)
+    if similar_items:
+        context['similar_items'] = similar_items
+    # similar_items = Item.objects.filter()[:3]
+    try:
+        offer = Offer.objects.order_by('-amount').filter(item=item, rejected=False)[0]
+        context['offer'] = offer
+    except ObjectDoesNotExist:
+        pass
+    except IndexError:
+        pass
     return render(request, 'item/get_item.html', context)
 
 

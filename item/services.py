@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
 
-from item.models import Offer
+from item.models import Offer, Item
 from messaging.models import Message
+
+import random
 
 
 def offer_placed(offer):
@@ -37,3 +39,18 @@ def offer_rejected(offer):
                       related=offer,
                       )
     message.save()
+
+
+def get_similar(o_item):
+    return_list = []
+    for i in range(3):
+        category = o_item.categories.order_by('?')[0]
+        pk_exclude = [o.id for o in [o_item] + return_list]
+        try:
+            item = Item.objects.order_by('?').filter(sold_at=None, categories=category).exclude(pk__in=pk_exclude)[0]
+            return_list.append(item)
+        except IndexError:
+            pass
+    if return_list:
+        return return_list
+    return None

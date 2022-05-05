@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
     {% if item.sold_at %}
         <div class="alert alert-primary" role="alert">
@@ -8,14 +9,41 @@
     <div class="get_item">
         <div class="card mb-3">
             <div class="card-header">
-                <h3 class="card-title">{{ item.name }}</h3>
-                <p class="card-subtitle mb-2 text-muted">{{ item.condition.name }}</p>
+                <div class="row">
+                    <div class="col">
+                        <h3 class="card-title">{{ item.name }}</h3>
+                        <p class="card-subtitle mb-2 text-muted">{{ item.condition.name }}</p>
+                        </div>
+                    <div class="col text-end">
+                        <a class="btn btn-default" href="">
+                            <img src="{{ seller.image_url }}" alt="..." class="img profile-img" style="width:56px">
+                            {% for _ in ''|center:seller.get_empty_stars %}
+                                <img src="{% static 'images/hunger-bar-empty.png' %}" alt="..." class="img hunger-rating">
+                            {% endfor %}
+                            {% if seller.get_half_stars %}
+                                <img src="{% static 'images/hunger-bar-half.png' %}" alt="..." class="img hunger-rating">
+                            {% endif %}
+                            {% for _ in ''|center:seller.get_full_stars %}
+                                <img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img hunger-rating">
+                            {% endfor %}
+                            </a>
+                        </div>
+                    </div>
             </div>
             <div class="card-body">
                 <p class="card-text">{{ item.description }}</p>
                 {% if not item.sold_at %}
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Offer">Bjóða í vöru</button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Contact">Fyrirspurn</button>
+                    <div class="row">
+                        <div class="col">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Offer">Bjóða í vöru</button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Contact">Fyrirspurn</button>
+                            </div>
+                        <div class="col text-end">
+                            {% if offer %}
+                                <h5>Hæðsta boð: {{ offer.amount }}</h5>
+                            {% endif %}
+                            </div>
+                        </div>
                 {% endif %}
             </div>
             <div class="modal fade" id="Contact" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -57,7 +85,26 @@
 
             <img src="{{ item.image_url }}" class="card-img-bottom" alt="{{ item.name }}-image">
         </div>
-    </div>
+    {% if similar_items %}
+        <div class="card">
+            <div class="card-header"><h3>Sambærilegir hlutir</h3></div>
+            <div class="card-body">
+                <div class="most-views row row-cols-md-auto">
+                    {% for item in similar_items %}
+                        <a href="/items/{{ item.id }}" class="card mx-auto my-5 p-0 catalog-image-views">
+                            <img class="card-img" src="{{ item.image_url }}" alt="{{ item.name }}-image">
+                            <div class="card-img-overlay d-flex flex-column">
+                                <div class="mt-auto text-center" style="color: white;">
+                                    <h5 class="card-title m-0">{{ item.name }}</h5>
+                                    <p class="card-text m-0">Skoðað: {{ item.views }} sinnum</p>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
 <div class="modal fade" id="Offer"  tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
