@@ -3,7 +3,7 @@
 {% for step in checkout_steps %}
 
     <li class="breadcrumb-item{% if step.active %} active {% endif %}">
-        {% if not step.active %}
+        {% if not step.active and step.available %}
             <a href="{{ step.path }}">{{ step.name }}</a>
         {% else %}
             {{ step.name }}

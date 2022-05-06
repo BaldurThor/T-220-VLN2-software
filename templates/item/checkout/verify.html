@@ -8,8 +8,10 @@
 {% endblock %}
 
 {% block checkout_cardfooter %}
+    {% if submittable %}
     <form method="post" action="{% url 'item:checkout_verify' %}">
         {% csrf_token %}
         <input type="submit" class="btn btn-primary" value="Ganga frá!">
     </form>
+    {% endif %}
 {% endblock %}
