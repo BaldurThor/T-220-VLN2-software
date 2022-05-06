@@ -9,7 +9,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile')
     avg_rating = models.IntegerField(default=5)
     bio = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='users/%Y/%m/%d/', blank=True)
+    image = models.ImageField(upload_to='users', blank=True)
 
     def image_url(self):
         if self.image:
