@@ -21,7 +21,7 @@
                         <p class="card-text">Seljandi: {{ own_sale.item.seller }}</p>
                         </div>
                     <div class="card-footer">
-                            <form action="get_sale/{{ own_sale.id }}" method="POST">{% csrf_token %}<input class="btn btn-primary" type="submit" value="Skoða nánar"></form>
+                        <a class="btn btn-primary" href="{% url "item:get_sale" own_sale.id %}">Skoða nánar</a>
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                         <p class="card-text">Kaupandi: {{ other_sale.user }}</p>
                         </div>
                     <div class="card-footer">
-                        <form action="get_sale/{{ other_sale.id }}" method="POST">{% csrf_token %}<input class="btn btn-primary" type="submit" value="Skoða nánar"></form>
+                       <a class="btn btn-primary" href="{% url "item:get_sale" other_sale.id %}">Skoða nánar</a>
                         </div>
                     </div>
                 </div>

@@ -20,7 +20,7 @@
                         </div>
                     <div class="col text-end">
                         <a class="btn btn-default" href="">
-                            <img src="{{ seller.image.url }}" alt="..." class="img profile-img" style="width:56px">
+                            <img src="{{ seller.image_url }}" alt="..." class="img profile-img" style="width:56px">
                             {% for _ in ''|center:seller.get_empty_stars %}
                                 <img src="{% static 'images/hunger-bar-empty.png' %}" alt="..." class="img hunger-rating">
                             {% endfor %}
