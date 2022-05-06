@@ -1,9 +1,9 @@
 {% load static %}
 <div class="profile-container">
     <div class="dropdown dropdown-accordion me-auto">
-        <a href="{% url 'messaging:get_all_messages' %}" class="btn btn-default p-2 position-relative">
-            <i class="bi bi-inbox" style="font-size: 2rem; color: whitesmoke;"></i>
-            <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-danger">
+        <a href="{% url 'messaging:get_all_messages' %}" class="btn btn-default px-2 py-0 position-relative">
+            <i class="bi bi-inbox" style="font-size: 2rem; color: #dee2e6;"></i>
+            <span class="position-absolute top-60 start-80 translate-middle badge rounded-pill bg-danger">
                 {{ user_profile.get_unread_messages }}
             </span>
         </a>
@@ -14,7 +14,7 @@
             <span class="h4 text-light align-middle">{% if user_profile %}{{ user_profile.get_rating }}{% endif %}</span>
         </button>
         <a href="{% url 'user:logout' %}" class="btn btn-default p-0">
-            <i class="bi bi-box-arrow-right" style="font-size: 2rem; color: whitesmoke;"></i>
+            <i class="bi bi-box-arrow-right" style="font-size: 2rem; color: #dee2e6;"></i>
         </a>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
         <li><div class="dropdown-item">
@@ -46,7 +46,7 @@
                                 <a href="{% url 'item:get_all_offers' %}"><i class="bi bi-person-lines-fill pe-2"></i>Boð</a>
                             </div>
                             <div class="accordion-body py-1 px-3">
-                                <a href="#"><i class="bi bi-inbox pe-2"></i>Kaup og sölur</a>
+                                <a href="{% url 'item:get_all_sales' %}"><i class="bi bi-inbox pe-2"></i>Kaup og sölur</a>
                             </div>
                         </div>
                     </div>

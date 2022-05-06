@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import password_validation
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 
 from . import models
@@ -45,3 +46,23 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = models.Contact
         fields = ['full_name', 'country', 'street_name', 'house_number', 'city', 'zip']
+
+
+class ChangePasswordForm(forms.Form):
+    old_password = forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(widget=forms.PasswordInput())
+    password_confirm = forms.CharField(widget=forms.PasswordInput())
+
+    def __init__(self, user=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+
+    def clean(self):
+        super().clean()
+        if not self.user.check_password(self.cleaned_data['old_password']):
+            raise forms.ValidationError('Gamla lykilorðið stemmir ekki')
+        if self.cleaned_data['password'] != self.cleaned_data['password_confirm']:
+            raise forms.ValidationError('Lykilorðin stemma ekki')
+        self.cleaned_data.pop('password_confirm')
+        self.cleaned_data.pop('old_password')
+        password_validation.validate_password(self.cleaned_data['password'])

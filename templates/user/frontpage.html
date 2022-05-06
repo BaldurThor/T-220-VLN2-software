@@ -6,23 +6,23 @@
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
     <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
   </div>
-  <div class="carousel-inner">
+  <div class="carousel-inner rounded">
       {% for item in items %}
             <div class="carousel-item{% if forloop.first %} active{% endif %}">
-              <img src="{{ item.image_url }}" class="catalog-image d-block w-100" alt="">
-             <div class="carousel-caption d-none d-md-block bg-secondary rounded w-50 p-3 mx-auto" style="--bs-bg-opacity: .5;">
+              <img src="{{ item.image_url }}" class="catalog-image d-block w-100" alt="{{ item.name }}">
+             <div class="carousel-caption d-none d-md-block rounded w-50 p-3 mx-auto">
                <h5>{{ item.name }}</h5>
                <p>{{ item.description | truncatechars:100 }}</p>
              </div>
             </div>
       {% endfor %}
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-    <span aria-hidden="true"><i class="bi bi-caret-left-fill text-secondary" style="font-size: 2rem;"></i></span>
+  <button class="carousel-control-prev rounded-start" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span aria-hidden="true"><i class="bi bi-chevron-compact-left" style="font-size: 2rem"></i></span>
     <span class="visually-hidden">Previous</span>
   </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-    <span aria-hidden="true"><i class="bi bi-caret-right-fill text-secondary" style="font-size: 2rem;"></i></span>
+  <button class="carousel-control-next rounded-end" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span aria-hidden="true"><i class="bi bi-chevron-compact-right" style="font-size: 2rem"></i></span>
     <span class="visually-hidden">Next</span>
   </button>
 </div>
