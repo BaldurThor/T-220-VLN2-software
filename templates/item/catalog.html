@@ -1,5 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
+
+    <form method="GET">
+        {% for category in categories %}
+            <input type="checkbox" name="cat" value="{{ category.id }}">
+            <label for="cat-{{ category.id }}">{{ category.name }}</label>
+        {% endfor %}
+        <label for="conditions">Ástand</label>
+        <select name="conditions" id="conditions">
+            <option value="None">----------</option>
+            {% for condition in conditions %}
+                <option value="{{ condition.id }}">{{ condition.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Sýa</button>
+    </form>
     {% if not items %}
         <h3>Engar vörur fundust.</h3>
     {% endif %}

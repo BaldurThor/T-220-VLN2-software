@@ -3,6 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.timezone import now
 
 from item.services import delete_item
@@ -15,25 +16,41 @@ from messaging.models import Message
 
 
 def catalog(request):
+    conditions = Condition.objects.all()
+    categories = Category.objects.all()
     if request.method == 'POST':
         search_list = request.POST.get('search').lower().split()
-        filter = {}
+        i_filter = {}
 
-        conditions = Condition.objects.all()
         search_list, search_condition = con_cat_for(search_list, conditions)
         if search_condition:
-            filter['condition'] = search_condition
+            i_filter['condition'] = search_condition
 
-        categories = Category.objects.all()
         search_list, search_category = con_cat_for(search_list, categories)
         if search_category:
-            filter['categories'] = search_category
-        filter['name__icontains'] = ' '.join(search_list)
-        items = Item.objects.filter(**filter)
+            i_filter['categories'] = search_category
+        i_filter['name__icontains'] = ' '.join(search_list)
+        items = Item.objects.filter(**i_filter)
 
     else:
-        items = Item.objects.filter(sold_at=None, is_deleted=False)
-    context = {'items': items}
+        i_filter = {'sold_at': None, 'is_deleted': False}
+        try:
+            try:
+                condition = int(request.GET['conditions'])
+                i_filter['condition'] = conditions.get(pk=condition)
+            except ValueError:
+                pass
+            try:
+                cat_lis = request.GET.getlist('cat')
+                if cat_lis:
+                    i_filter['categories__in'] = request.GET.getlist('cat')
+            except MultiValueDictKeyError:
+                pass
+        except MultiValueDictKeyError:
+            pass
+        items = Item.objects.filter(**i_filter).distinct()
+
+    context = {'items': items, 'conditions': conditions, 'categories': categories}
     return render(request, 'item/catalog.html', context)
 
 
