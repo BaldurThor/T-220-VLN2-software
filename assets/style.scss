@@ -1,3 +1,7 @@
+body {
+  font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
 @media(min-width:769px) {
   #the-container {
     min-height:800px;
@@ -40,6 +44,10 @@ ul.errorlist {
   list-style: none;
   padding:0;
   margin:0;
+}
+.dropdown-accordion {
+  display: inline-block;
+  white-space: nowrap;
 }
 .hunger-rating {
   height: 32px !important;
@@ -91,9 +99,36 @@ ul.errorlist {
 }
 
 @media  (max-width: 992px) {
-    .nav-item{
-        padding: 0;
-    }
+  .nav-item {
+    padding: 0;
+  }
+  .search-group {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .search-container {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .nav-item a {
+    padding-right: 0 !important;
+    padding-left: .5rem !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .profile-container {
+    width: 250px !important; /* Can be in percentage also. */
+    height: auto !important;
+    margin: 0 auto !important;
+    position: relative !important;
+  }
+  .dropdown-accordion {
+    margin: auto !important;
+  }
 }
 
 .dropdown-toggle-profile::after {
