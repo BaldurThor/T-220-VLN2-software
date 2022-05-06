@@ -72,7 +72,12 @@ def checkout_contact(request):
             request.session['checkout'] = checkout_session
             return redirect('item:checkout_payment')
     else:
-        form = CheckoutContactForm(contact_queryset=contacts)
+        contact_id = checkout_session.get('contact_id')
+        data = {}
+        if contact_id:
+            data['contact'] = Contact.objects.get(pk=contact_id)
+        form = CheckoutContactForm(data, contact_queryset=contacts)
+
         contact = Contact(full_name=request.user.get_full_name())
         try:
             contact.country = Country.objects.get(name='Iceland')
@@ -101,7 +106,11 @@ def checkout_payment(request):
             request.session['checkout'] = checkout_session
             return redirect('item:checkout_rate')
     else:
-        form = CheckoutPaymentForm()
+        data = None
+        if payment_information := checkout_session.get('payment_information'):
+            print(payment_information)
+            data = payment_information
+        form = CheckoutPaymentForm(data)
     context = {
         'offer': offer,
         'form': form,

@@ -34,7 +34,7 @@ class CheckoutPaymentForm(forms.Form):
         card_number = ''.join(filter(str.isdigit, self.cleaned_data['card_number']))
         if len(card_number) != 16:
             raise ValidationError('Kortanúmer skal vera 16 stafir.')
-        self.cleaned_data['card_number'] = card_number
+        return card_number
 
 
 class CheckoutRateForm(forms.Form):
