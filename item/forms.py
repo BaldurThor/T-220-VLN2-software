@@ -8,5 +8,5 @@ class ItemCreateForm(ModelForm):
     class Meta:
         model = Item
         exclude = ['id']
-        fields = ['name', 'description', 'condition', 'image_url', 'country', 'zip', 'published_at', 'categories']
+        fields = ['name', 'description', 'condition', 'image', 'country', 'zip', 'published_at', 'categories']
 
