@@ -175,3 +175,29 @@ ul.errorlist {
   text-decoration: none;
   color: inherit;
 }
+
+#create-contact-form.hidden {
+  display:none;
+}
+.hunger-container {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: inline-block;
+  overflow: hidden;
+  .hunger-rating {
+    height:64px !important;
+  }
+  .hunger-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+  }
+  .hunger-overlay-left {
+    left: 0;
+  }
+  .hunger-overlay-right {
+    right:0;
+  }
+}

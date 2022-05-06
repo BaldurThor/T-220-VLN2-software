@@ -1,0 +1,53 @@
+{% extends 'item/checkout/base.html' %}
+{% load bootstrapify_field %}
+{% block checkout_precard %}
+<form  method="post" action="{% url 'item:checkout_payment' %}">
+    {% csrf_token %}
+{% endblock %}
+{% block checkout_postcard %}
+</form>
+{% endblock %}
+{% block checkout_cardfooter %}
+    <input type="submit" class="btn btn-primary" value="Halda áfram">
+{% endblock %}
+{% block checkout_content %}
+{% with form.card_name as field %}
+<div class="mb-3">
+    <label for="{{ field.id_for_label }}" class="form-label">Nafn á korti</label>
+    {% include 'form_field.html' %}
+</div>
+{% endwith %}
+{% with form.card_number as field %}
+<div class="mb-3">
+    <label for="{{ field.id_for_label }}" class="form-label">Kortanúmer</label>
+    {% include 'form_field.html' %}
+</div>
+{% endwith %}
+<div class="mb-3 row">
+    <div class="col">
+        {% with form.card_valid_month as field %}
+        <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label">Mánuður</label>
+            {% include 'form_field.html' %}
+        </div>
+        {% endwith %}
+    </div>
+    <div class="col">
+        {% with form.card_valid_year as field %}
+        <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label">Ár</label>
+            {% include 'form_field.html' %}
+        </div>
+        {% endwith %}
+    </div>
+    <div class="col">
+        {% with form.card_cvv as field %}
+        <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label">CVC</label>
+            {% include 'form_field.html' %}
+        </div>
+        {% endwith %}
+
+    </div>
+</div>
+{% endblock %}

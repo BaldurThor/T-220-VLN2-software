@@ -1,13 +1,157 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse, NoReverseMatch
+from django.utils.timezone import now
 
-from item.models import Offer
+from item.forms import CheckoutContactForm, CheckoutPaymentForm, CheckoutRateForm
+from item.models import Offer, Sale
+from user.forms import ContactForm
+from user.models import Contact, Country
+
+CHECKOUT_STEPS = {
+    'item:checkout_contact': 'Heimilisfang',
+    'item:checkout_payment': 'Greiðsluvalmöguleikar',
+    'item:checkout_rate': 'Seljanda einkunn',
+    'item:checkout_verify': 'Staðfesting',
+}
 
 
-@login_required
+def __get_steps(request):
+    print(request.session.get('checkout'))
+    steps = []
+    for step_url, step_name in CHECKOUT_STEPS.items():
+        step = {
+            'url': step_url,
+            'path': reverse(step_url),
+            'name': step_name,
+            'active': False,
+        }
+        if request.path == step['path']:
+            step['active'] = True
+        steps.append(step)
+    return steps
+
+
 def checkout(request, offer_id):
-    offer = Offer.objects.get(pk=offer_id, accepted=True)
+    offer = Offer.objects.get(pk=offer_id, accepted=True, user=request.user)
+    request.session['checkout'] = {
+        'offer_id': offer.id
+    }
+    return redirect('item:checkout_contact')
+
+
+def checkout_contact(request):
+    checkout_session = request.session.get('checkout', False)
+    if not checkout_session:
+        return redirect('item:get_all_offers')
+    offer = Offer.objects.get(pk=checkout_session['offer_id'], accepted=True, user=request.user)
+    contacts = Contact.objects.filter(user=request.user)
+    if request.method == 'POST':
+        form = CheckoutContactForm(request.POST, contact_queryset=contacts)
+        if form.is_valid():
+            if not form.cleaned_data['contact']:
+                contact_form = ContactForm(request.POST)
+                if contact_form.is_valid():
+                    contact = contact_form.save(commit=False)
+                    contact.user = request.user
+                    contact.save()
+                    checkout_session['contact_id'] = contact.id
+            else:
+                checkout_session['contact_id'] = form.cleaned_data['contact'].id
+            request.session['checkout'] = checkout_session
+            return redirect('item:checkout_payment')
+    else:
+        form = CheckoutContactForm(contact_queryset=contacts)
+        contact = Contact(full_name=request.user.get_full_name())
+        try:
+            contact.country = Country.objects.get(name='Iceland')
+        except Country.DoesNotExist:
+            pass
+        contact_form = ContactForm(instance=contact)
+
     context = {
         'offer': offer,
+        'form': form,
+        'contact_form': contact_form,
+        'checkout_steps': __get_steps(request),
     }
-    return render(request, 'item/checkout.html', context)
+    return render(request, 'item/checkout/contact.html', context)
+
+
+def checkout_payment(request):
+    checkout_session = request.session.get('checkout', False)
+    if not checkout_session:
+        return redirect('item:get_all_offers')
+    offer = Offer.objects.get(pk=checkout_session['offer_id'], accepted=True, user=request.user)
+    if request.method == 'POST':
+        form = CheckoutPaymentForm(request.POST)
+        if form.is_valid():
+            checkout_session['payment_information'] = form.cleaned_data
+            request.session['checkout'] = checkout_session
+            return redirect('item:checkout_rate')
+    else:
+        form = CheckoutPaymentForm()
+    context = {
+        'offer': offer,
+        'form': form,
+        'checkout_steps': __get_steps(request),
+    }
+    return render(request, 'item/checkout/payment.html', context)
+
+
+def checkout_rate(request):
+    checkout_session = request.session.get('checkout', False)
+    if not checkout_session:
+        return redirect('item:get_all_offers')
+    offer = Offer.objects.get(pk=checkout_session['offer_id'], accepted=True, user=request.user)
+    if request.method == 'POST':
+        form = CheckoutRateForm(request.POST)
+        if form.is_valid():
+            checkout_session['rate_information'] = form.cleaned_data
+
+            request.session['checkout'] = checkout_session
+            return redirect('item:checkout_verify')
+    else:
+        form = CheckoutRateForm()
+
+    context = {
+        'offer': offer,
+        'form': form,
+        'checkout_steps': __get_steps(request)
+    }
+    return render(request, 'item/checkout/rate.html', context)
+
+
+def checkout_verify(request):
+    checkout_session = request.session.get('checkout', False)
+    if not checkout_session:
+        return redirect('item:get_all_offers')
+    offer = Offer.objects.get(pk=checkout_session['offer_id'], accepted=True, user=request.user)
+    contact = Contact.objects.get(pk=checkout_session['contact_id'])
+    if request.method == 'POST':
+        sale = Sale()
+        sale.fill_from_contact(contact)
+        sale.fill_from_offer(offer)
+        payment_information = checkout_session['payment_information']
+        print(payment_information)
+        for field, value in checkout_session['payment_information'].items():
+            setattr(sale, field, value)
+        sale.sold_at = now()
+        sale.save()
+        request.session.pop('checkout')
+        request.session['checkout_thanks'] = True
+        return redirect('item:checkout_thanks')
+    context = {
+        'offer': offer,
+        'contact': contact,
+        'payment_information': checkout_session['payment_information'],
+        'rate_information': checkout_session['rate_information'],
+    }
+    return render(request, 'item/checkout/verify.html', context)
+
+
+def checkout_thanks(request):
+    if not request.session.get('checkout_thanks', False):
+        return redirect('item:get_all_offers')
+    request.session.pop('checkout_thanks')
+    return render(request, 'item/checkout/thanks.html')

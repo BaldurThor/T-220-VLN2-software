@@ -1,0 +1,25 @@
+{% extends 'item/checkout/base.html' %}
+
+{% block checkout_content %}
+    <h3>Rate ME</h3>
+    <div id="checkout-rating">
+{% for i in '43210'|ljust:'5' %}
+    <div class="hunger-container" data-number="{{ i }}">
+        <img src="/static/images/hunger-bar-empty.png" alt="" class="img hunger-rating hunger-empty">
+        <img src="/static/images/hunger-bar-half.png" alt="" class="img hunger-rating hunger-half" style="display:none;">
+        <img src="/static/images/hunger-bar-full.png" alt="" class="img hunger-rating hunger-full" style="display:none;">
+        <div class="hunger-overlay hunger-overlay-left" data-number="{{ i }}"></div>
+        <div class="hunger-overlay hunger-overlay-right" data-number="{{ i }}"></div>
+    </div>
+{% endfor %}
+    </div>
+{% endblock %}
+
+{% block checkout_cardfooter %}
+    <form method="POST" action="{% url 'item:checkout_rate' %}">
+        {% csrf_token %}
+        <input type="hidden" name="rating" id="id_rating">
+        <a href="{% url 'item:checkout_verify' %}" class="btn btn-secondary">Nei takk</a>
+        <input type="submit" class="btn btn-primary" value="Gefa einkunn">
+    </form>
+{% endblock %}

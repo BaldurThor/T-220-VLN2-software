@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% include 'item/checkout/steps.html' %}
+    <div class="row">
+        <div class="col">
+            {% block checkout_precard %}{% endblock %}
+            <div class="card">
+                <div class="card-header">
+                    Checkout
+                </div>
+                <div class="card-body">
+                    {% block checkout_content %}{% endblock %}
+                </div>
+                <div class="card-footer">
+                    {% block checkout_cardfooter %}{% endblock %}
+                </div>
+            </div>
+            {% block checkout_postcard %}{% endblock %}
+        </div>
+        <div class="col">
+            <h4>Hérna kemur shit, ég lofa</h4>
+        </div>
+    </div>
+{% endblock %}

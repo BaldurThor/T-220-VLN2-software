@@ -56,12 +56,14 @@ def reject_offer(request, offer_id):
 def get_all_offers(request):
     own_offers = Offer.objects.filter(
         user=request.user,
-        rejected=False
+        rejected=False,
+        sale=None,
     )
     other_offers = Offer.objects.filter(
         item__seller=request.user,
         rejected=False,
-        accepted=False
+        accepted=False,
+        sale=None
     )
     context = {'own_offers': own_offers, 'other_offers': other_offers}
     return render(request, 'item/get_all_offers.html', context)

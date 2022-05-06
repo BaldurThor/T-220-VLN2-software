@@ -1,0 +1,21 @@
+{% extends 'item/checkout/base.html' %}
+{% block checkout_precard %}
+<form id="checkout-contact-form" method="post" action="{% url 'item:checkout_contact' %}">
+    {% csrf_token %}
+{% endblock %}
+{% block checkout_postcard %}
+</form>
+{% endblock %}
+{% block checkout_cardfooter %}
+    <input type="submit" class="btn btn-primary" value="Halda áfram">
+{% endblock %}
+{% block checkout_content %}
+    {% include 'form.html' %}
+    {% with contact_form as form %}
+        <div id="create-contact-container-placeholder">
+        <div id="create-contact-container" class="hidden">
+            {% include 'form.html' %}
+        </div>
+        </div>
+    {% endwith %}
+{% endblock %}

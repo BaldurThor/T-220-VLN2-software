@@ -1,0 +1,15 @@
+{% extends 'item/checkout/base.html' %}
+
+{% block checkout_content %}
+    <h3>Asdf</h3>
+    {{ offer.item }}
+    {{ offer }}
+    {{ contact }}
+{% endblock %}
+
+{% block checkout_cardfooter %}
+    <form method="post" action="{% url 'item:checkout_verify' %}">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Ganga frá!">
+    </form>
+{% endblock %}
