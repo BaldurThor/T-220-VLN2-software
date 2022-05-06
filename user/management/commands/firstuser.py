@@ -1,4 +1,9 @@
+import os
+
+from django.core.files import File
 from django.core.management.base import BaseCommand
+
+from django.conf import settings
 from user.models import UserProfile
 from django.contrib.auth.models import User
 
@@ -10,6 +15,6 @@ class Command(BaseCommand):
         user.save()
         user_profile = UserProfile(user=user,
                                    avg_rating=10,
-                                   image_url='https://luxai.com/wp-content/uploads/2020/11/QTrobot_exprssive-humanoid-robot-for-research.png',
                                    bio='I was born at a very young age')
-        user_profile.save()
+        with open(os.path.join(settings.BASE_DIR, 'static/images/robot.jpg'), 'rb') as f:
+            user_profile.image.save('users/robot.jpg', File(f), save=True)
