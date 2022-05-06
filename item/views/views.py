@@ -129,7 +129,12 @@ def get_all_sales(request):
 @login_required
 def get_sale(request, sale_id):
     sale = Sale.objects.filter(pk=sale_id).filter(Q(seller=request.user) | Q(buyer=request.user)).get()
+    try:
+        rating = Rating.objects.get(rater=request.user, rated=sale.seller)
+    except Rating.DoesNotExist:
+        rating = None
     return render(request, 'item/get_sale.html', {
         'sale': sale,
+        'rating': rating,
     })
 
