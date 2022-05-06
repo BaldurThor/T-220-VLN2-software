@@ -7,7 +7,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.timezone import now
 
 from item.services import delete_item
-from user.models import UserProfile
+from user.models import UserProfile, Rating
 from item import services
 from item.forms import ItemCreateForm
 from item.models import Item, Offer, Condition, Category, Sale
@@ -137,4 +137,5 @@ def get_sale(request, sale_id):
         'sale': sale,
         'rating': rating,
     })
+
 
