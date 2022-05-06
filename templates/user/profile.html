@@ -1,9 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<h2>{{ user_profile.user.get_full_name }}</h2>
-<img src="{{ user_profile.image_url }}" alt="">
-<p>Meðal einkunnin þín: {{ user_profile.avg_rating }}</p>
+
 <p>{{ user_profile.bio }}</p>
+<div class="card bg-dark text-light" style="width: 56rem;">
+    <div class="card-body">
+        <img class="rounded w-50" src="{{ user_profile.image_url }}" alt="">
+        <h5 class="card-title">{{ user_profile.user.get_full_name }}<img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img hunger-profile ps-4 pe-2">{{ user_profile.get_rating }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted"></h6>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+    </div>
+</div>
 {% if request.user == user_profile.user %}
     <a href="{% url 'user:update_profile' %}" class="btn btn-primary">Uppfæra upplýsingar</a>
     <a href="{% url 'user:get_all_contacts' %}" class="btn btn-secondary">Heimilisföng</a>

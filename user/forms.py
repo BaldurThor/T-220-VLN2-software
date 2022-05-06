@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
+from user.models import UserProfile
 
 from . import models
 
@@ -39,7 +40,7 @@ class RegistrationForm(forms.Form):
 class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = models.UserProfile
-        fields = ['bio', 'image_url']
+        fields = ['bio', 'image']
 
 
 class ContactForm(forms.ModelForm):
