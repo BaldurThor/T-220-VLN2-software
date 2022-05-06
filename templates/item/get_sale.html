@@ -31,6 +31,7 @@
                 {% with sale.buyer.user_profile as user_profile %}
                 {% include 'user/user_rating_hunger_games.html' %}
                 {% endwith %}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#change_rating">Breyta einkunn</button>
                 <img class="card-img h-50" src="{{ sale.buyer.user_profile.image_url }}" alt="{{ sale.buyer.user_profile.image_url }}-img">
             </div>
             <div class="card-body tab-pane fade show" id="contact" role="tabpanel" aria-labelledby="contact-tab">
@@ -41,4 +42,7 @@
             </div>
         </div>
     </div>
+
+
+
 {% endblock %}
