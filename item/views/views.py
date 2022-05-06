@@ -99,7 +99,7 @@ def get_category(request, category_id):
 @login_required
 def create_item(request):
     if request.method == 'POST':
-        form = ItemCreateForm(data=request.POST)
+        form = ItemCreateForm(request.POST, request.FILES)
         if form.is_valid():
             item = form.save(commit=False)
             item.seller = request.user

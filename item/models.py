@@ -26,7 +26,6 @@ class Item(models.Model):
     views = models.IntegerField(default=0)
     name = models.CharField(max_length=191)
     description = models.TextField()
-    image_url = models.TextField()
     zip = models.CharField(max_length=191)
     sold_at = models.DateField(null=True, blank=True)
     published_at = models.DateField(default=date.today)
@@ -38,6 +37,13 @@ class Item(models.Model):
     accepted_offer = models.ForeignKey('Offer', null=True, blank=True, on_delete=models.CASCADE, related_name='accepted_offer')
     categories = models.ManyToManyField(Category)
     is_deleted = models.BooleanField(default=False)
+    image = models.ImageField(upload_to='users')
+
+    def image_url(self):
+        if self.image:
+            return self.image.url
+        else:
+            return ""
 
 
 class Offer(models.Model):
