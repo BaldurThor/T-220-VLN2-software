@@ -45,6 +45,7 @@ def offer_rejected(offer):
 def delete_item(item, user):
     if item.seller == user:
         item.is_deleted = True
+        item.save()
         offers_on_item = Offer.objects.filter(item=item, rejected=False)
         for offer in offers_on_item:
             offer_rejected(offer)
