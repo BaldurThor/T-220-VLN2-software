@@ -11,7 +11,7 @@
         </div>
     {% endif %}
     <div class="get_item">
-        <div class="card mb-3">
+        <div class="card mb-3 w-75 mx-auto">
             <div class="card-header">
                 <div class="row">
                     <div class="col">
@@ -35,20 +35,19 @@
                     </div>
             </div>
             <div class="card-body">
+                {% if offer %}
+                    <h5>Hæðsta boð: {{ offer.amount }}</h5>
+                {% endif %}
+                <img src="{{ item.image_url }}" class="card-img-bottom pb-3" alt="{{ item.name }}-image">
                 <p class="card-text">{{ item.description }}</p>
                 {% if not item.sold_at and not item.is_deleted %}
                     <div class="row">
-                        <div class="col">
+                        <div class="col text-center">
                             {% if user == item.seller %}
-                                <form method="POST">{% csrf_token %}<button type="submit" class="btn btn-primary">Eiða vöru</button></form>
+                                <form method="POST">{% csrf_token %}<button type="submit" class="btn btn-primary">Eyða vöru</button></form>
                             {% else %}
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Offer">Bjóða í vöru</button>
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Contact">Fyrirspurn</button>
-                            {% endif %}
-                            </div>
-                        <div class="col text-end">
-                            {% if offer %}
-                                <h5>Hæðsta boð: {{ offer.amount }}</h5>
                             {% endif %}
                             </div>
                         </div>
@@ -89,12 +88,9 @@
                     </div>
                 </div>
             </div>
-
-
-            <img src="{{ item.image_url }}" class="card-img-bottom" alt="{{ item.name }}-image">
         </div>
     {% if similar_items %}
-        <div class="card">
+        <div class="card w-75 mx-auto">
             <div class="card-header"><h3>Sambærilegir hlutir</h3></div>
             <div class="card-body">
                 <div class="most-views row row-cols-md-auto">
