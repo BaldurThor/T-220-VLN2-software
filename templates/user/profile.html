@@ -12,7 +12,7 @@
             {% with user_profile as user_profile %}
             {% include 'user/user_rating_hunger_games.html' %}
             {% endwith %}
-            <p class="card-text pb-5 pt-2">{{ user_profile.bio }}</p>
+            <p class="card-text profile-text pb-5 pt-2">{{ user_profile.bio }}</p>
         </div>
         {% if request.user == user_profile.user %}
             <div class="btn-group float-end">
