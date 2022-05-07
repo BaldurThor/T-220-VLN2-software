@@ -1,21 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
-<p>{{ user_profile.bio }}</p>
-<div class="card bg-dark text-light" style="width: 56rem;">
-    <div class="card-body">
-        <img class="rounded w-50" src="{{ user_profile.image_url }}" alt="">
-        <h5 class="card-title">{{ user_profile.user.get_full_name }}<img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img hunger-profile ps-4 pe-2">{{ user_profile.get_rating }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted"></h6>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="card-link">Card link</a>
-        <a href="#" class="card-link">Another link</a>
+<div class="card bg-dark text-light mx-auto h-100" style="width: 56rem;">
+<div class="card-header m-0 p-0">
+    <img class="card-img-top" src="{{ user_profile.banner_url }}" alt="banner-img">
+</div>
+    <div class="card-body pt-2">
+        <img class="img rounded-pill me-3 profile-img-lg float-start" src="{{ user_profile.image_url }}" alt="">
+        <div class="card-second-body ps-2">
+            <h3 class="card-title"><strong>{{ user_profile.user.get_full_name }}</strong></h3>
+            {% with user_profile as user_profile %}
+            {% include 'user/user_rating_hunger_games.html' %}
+            {% endwith %}
+            <p class="card-text pb-5 pt-2">{{ user_profile.bio }}</p>
+        </div>
+        {% if request.user == user_profile.user %}
+            <div class="btn-group float-end">
+            <a href="{% url 'user:update_profile' %}" class="btn btn-primary">Uppfæra upplýsingar</a>
+            <a href="{% url 'user:get_all_contacts' %}" class="btn btn-secondary">Heimilisföng</a>
+            <a href="{% url 'user:change_password' %}" class="btn btn-primary">Breyta lykilorði</a>
+            </div>
+        {% endif %}
     </div>
 </div>
-{% if request.user == user_profile.user %}
-    <a href="{% url 'user:update_profile' %}" class="btn btn-primary">Uppfæra upplýsingar</a>
-    <a href="{% url 'user:get_all_contacts' %}" class="btn btn-secondary">Heimilisföng</a>
-    <a href="{% url 'user:change_password' %}" class="btn btn-primary">Breyta lykilorði</a>
-{% endif %}
 {% endblock %}

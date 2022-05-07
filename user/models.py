@@ -10,12 +10,19 @@ class UserProfile(models.Model):
     avg_rating = models.IntegerField(default=5)
     bio = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='users', blank=True)
+    banner = models.ImageField(upload_to='users/banners', blank=True)
 
     def image_url(self):
         if self.image:
             return self.image.url
         else:
             return '/static/images/generic-profile.png'
+
+    def banner_url(self):
+        if self.banner:
+            return self.banner.url
+        else:
+            return '/static/images/banner.jpg'
 
     def get_rating(self):
         return self.avg_rating / 2

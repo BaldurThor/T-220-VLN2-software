@@ -40,7 +40,7 @@ class RegistrationForm(forms.Form):
 class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = models.UserProfile
-        fields = ['bio', 'image']
+        fields = ['bio', 'image', 'banner']
 
 
 class ContactForm(forms.ModelForm):

@@ -58,16 +58,39 @@ ul.errorlist {
   image-rendering: crisp-edges;
 }
 .hunger-profile {
-  height: 24px !important;
+  height: 1.8rem !important;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
+}
+.profile-img-lg {
+  object-fit: cover;
+  object-position: top;
+  height: 256px;
+  width: 256px;
+  border: 6px solid #262E3A;
+  position: absolute;
+  top: 200px;
+}
+.card-text {
+  width: 480px;
+}
+.card-img-top {
+  height: 300px;
+}
+.card-second-body h3 {
+  letter-spacing: 1px;
+}
+.card-second-body {
+  margin-left: 256px;
+  margin-top: 0;
 }
 .btn-default {
   line-height: .8 !important;
 }
 .profile-img {
-  object-fit: fill;
+  object-fit: cover;
+  object-position: top;
   height: 56px;
   width: 56px;
   border-radius: 28px;
@@ -104,6 +127,11 @@ ul.errorlist {
 .item-img {
   max-height: 800px;
   max-width: 800px;
+}
+@media (max-width: 1319px) {
+  .img-3 {
+    display: none !important;
+  }
 }
 
 @media  (max-width: 992px) {

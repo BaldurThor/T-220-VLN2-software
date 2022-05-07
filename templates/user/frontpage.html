@@ -28,7 +28,7 @@
 </div>
 <div class="most-views row row-cols-md-auto">
     {% for item in most_viewed_items %}
-        <a href="/items/{{ item.id }}" class="card mx-auto my-5 p-0 catalog-image-views">
+        <a href="/items/{{ item.id }}" class="card mx-auto my-5 p-0 catalog-image-views img-{{ item.id }}">
             <img class="card-img" src="{{ item.image_url }}" alt="{{ item.name }}-image">
             <div class="card-img-overlay d-flex flex-column">
                 <div class="mt-auto text-center" style="color: white;">
