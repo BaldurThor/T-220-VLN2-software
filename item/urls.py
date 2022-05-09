@@ -5,6 +5,7 @@ from . import views
 app_name = 'item'
 urlpatterns = [
     path('', views.catalog, name="catalog"),
+    path('search', views.search, name='search'),
     path('<int:id>', views.get_item, name="get_item"),
     path('create', views.create_item, name="create_item"),
     path('category/<int:category_id>', views.get_category, name='get_category'),

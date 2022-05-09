@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if search_string|length < 3 %}
+        <h3>Leitarstrengur er of stuttur.</h3>
+    {% elif not items %}
+        <h3>Engar vörur fundust.</h3>
+    {% else %}
+        <div class="row g-4">
+            {% for item in items %}
+                {% include 'item/item_card.html' %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

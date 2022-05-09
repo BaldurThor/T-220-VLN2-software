@@ -15,11 +15,16 @@ from django.contrib.auth.decorators import login_required
 from messaging.models import Message
 
 
-def catalog(request):
+def search(request):
     conditions = Condition.objects.all()
     categories = Category.objects.all()
-    if request.method == 'POST':
-        search_list = request.POST.get('search').lower().split()
+    search_string = request.GET.get('search')
+
+    if len(search_string) < 3:
+        items = []
+    else:
+        search_list = search_string.lower().split()
+
         i_filter = {}
 
         search_list, search_condition = con_cat_for(search_list, conditions)
@@ -30,25 +35,34 @@ def catalog(request):
         if search_category:
             i_filter['categories'] = search_category
         i_filter['name__icontains'] = ' '.join(search_list)
-        items = Item.objects.filter(**i_filter)
+        items = Item.objects.filter(**i_filter).distinct()
 
-    else:
-        i_filter = {'sold_at': None, 'is_deleted': False}
+    context = {
+        'items': items,
+        'search_string': search_string,
+    }
+    return render(request, 'item/search.html', context)
+
+
+def catalog(request):
+    conditions = Condition.objects.all()
+    categories = Category.objects.all()
+    i_filter = {'sold_at': None, 'is_deleted': False}
+    try:
         try:
-            try:
-                condition = int(request.GET['conditions'])
-                i_filter['condition'] = conditions.get(pk=condition)
-            except ValueError:
-                pass
-            try:
-                cat_lis = request.GET.getlist('cat')
-                if cat_lis:
-                    i_filter['categories__in'] = request.GET.getlist('cat')
-            except MultiValueDictKeyError:
-                pass
+            condition = int(request.GET['conditions'])
+            i_filter['condition'] = conditions.get(pk=condition)
+        except ValueError:
+            pass
+        try:
+            cat_lis = request.GET.getlist('cat')
+            if cat_lis:
+                i_filter['categories__in'] = request.GET.getlist('cat')
         except MultiValueDictKeyError:
             pass
-        items = Item.objects.filter(**i_filter).distinct()
+    except MultiValueDictKeyError:
+        pass
+    items = Item.objects.filter(**i_filter).distinct()
 
     context = {'items': items, 'conditions': conditions, 'categories': categories}
     return render(request, 'item/catalog.html', context)
