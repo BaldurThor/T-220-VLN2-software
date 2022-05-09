@@ -29,7 +29,11 @@ class Command(BaseCommand):
                 image_path = e.pop('image')
                 item, created = Item.objects.get_or_create(**e)
                 if created:
-                    with open(os.path.join(settings.BASE_DIR, image_path), 'rb') as f:
+                    if image_path[0] == '/':
+                        path = os.path.join(settings.BASE_DIR, image_path)
+                    else:
+                        path = image_path
+                    with open(path, 'rb') as f:
                         item.image.save('users/robot.jpg', File(f))
                     categories = []
                     for category_name in category_names:
