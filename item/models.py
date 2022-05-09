@@ -37,7 +37,7 @@ class Item(models.Model):
     accepted_offer = models.ForeignKey('Offer', null=True, blank=True, on_delete=models.CASCADE, related_name='accepted_offer')
     categories = models.ManyToManyField(Category)
     is_deleted = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='users')
+    image = models.ImageField(upload_to='items')
 
     def image_url(self):
         if self.image:
