@@ -27,9 +27,10 @@
   </button>
 </div>
     <h3 class="text-center mt-3 mb-0">Mest skoðað</h3>
-<div class="most-views row row-cols-md-auto">
+<div class="most-views row">
     {% for item in most_viewed_items %}
-        <a href="/items/{{ item.id }}" class="card mx-auto my-5 p-0 catalog-image-views img-{{ item.id }}">
+        <div class="col {% if forloop.last %} d-lg-none d-xxl-block{% endif %}">
+         <a href="/items/{{ item.id }}" class="card mx-auto my-5 p-0 catalog-image-views img-{{ item.id }}">
             <img class="card-img" src="{{ item.image_url }}" alt="{{ item.name }}-image">
             <div class="card-img-overlay d-flex flex-column">
                 <div class="mt-auto text-center" style="color: white;">
@@ -38,6 +39,7 @@
                 </div>
             </div>
         </a>
+        </div>
     {% endfor %}
 </div>
 {% endblock %}
