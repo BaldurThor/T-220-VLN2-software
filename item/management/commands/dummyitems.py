@@ -33,14 +33,9 @@ class Command(BaseCommand):
                 image_path = e.pop('image')
                 item, created = Item.objects.get_or_create(**e)
                 if created:
-                    if image_path[0] == '/':
-                        with open(os.path.join(settings.BASE_DIR, image_path), 'rb') as f:
-                            file = File(f)
-                    else:
-                        r = requests.get(image_path)
-                        f = StringIO(r.content)
+                    with open(os.path.join(settings.BASE_DIR, image_path), 'rb') as f:
                         file = File(f)
-                    item.image.save(f'items/{os.path.basename(image_path)}', file)
+                        item.image.save(f'items/{os.path.basename(image_path)}', file)
                     categories = []
                     for category_name in category_names:
                         categories.append(Category.objects.get(name=category_name))
