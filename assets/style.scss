@@ -235,3 +235,10 @@ footer .footer-icon {
   font-size: 1.25rem;
   color: whitesmoke;
 }
+.item-card {
+  .card-img-top {
+    height: 15rem;
+    object-fit: cover;
+    object-position: right top;
+  }
+}
