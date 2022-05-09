@@ -5,6 +5,12 @@ from django.contrib.auth.models import User
 
 
 class Message(models.Model):
+    TYPES = [
+        ('Offer_accepted', 'Offer Accepted'),
+        ('Offer_rejected', 'Offer Rejected'),
+        ('New_offer', 'New Offer'),
+        ('Message', 'Message'),
+    ]
     sender = models.ForeignKey(User, related_name='sender', on_delete=models.CASCADE)
     receiver = models.ForeignKey(User, related_name='receiver', on_delete=models.CASCADE)
     subject = models.CharField(max_length=191)
@@ -14,3 +20,8 @@ class Message(models.Model):
     related = GenericForeignKey('related_content_type', 'related_object_id')
     sent_at = models.DateTimeField(auto_now_add=True)
     read_at = models.DateTimeField(blank=True, null=True)
+    type = models.CharField(
+        max_length=14,
+        choices=TYPES,
+        default='Message',
+    )

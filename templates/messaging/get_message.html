@@ -46,9 +46,14 @@
         <img alt="{{ message.related.image_url }}-image" class="img-thumbnail" src="{{ message.related.image_url }}">
 
     {% elif message.related.item.image_url%}
-        {% if not message.related.accepted %}
+
         <div class="d-grid d-md-block" style="margin-bottom: 10px">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#offer">Samþykkja tilboð</button>
+            {% if message.type == "New_offer" %}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#offer">Samþykkja tilboð</button>
+            {% elif message.type == "Offer_accepted" %}
+                <a href="{% url 'item:checkout' message.related.id %}" class="btn btn-primary">Ganga frá kaupum</a>
+            {% endif %}
+
         </div>
         <div class="modal fade" id="offer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-sm">
@@ -71,16 +76,8 @@
                 </div>
             </div>
         </div>
-        {% endif %}
+
         <img alt="{{ message.related.image_url }}-image" class="img-thumbnail" src="{{ message.related.item.image_url }}">
-
-    {% elif message.related.item.image_url %}
-
-    {% elif message.related.item.image_url %}
-
-    {% elif message.related.item.image_url %}
-
-    {% elif message.related.item.image_url %}
 
     {% endif %}
 

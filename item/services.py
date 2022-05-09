@@ -13,6 +13,7 @@ def offer_placed(offer):
                       subject='Nýtt tilboð í vöruna þína!',
                       body=f'Þú átt nýtt tilboð í vöru: {offer.item.name} að upphæð {offer.amount}',
                       related=offer,
+                      type='New_offer',
                       )
     message.save()
 
@@ -29,6 +30,7 @@ def offer_accepted(offer):
                       subject=f'🎉🎉🎉Tilboðið þitt í {offer.item.name} er samþykkt! 🎉🎉🎉',
                       body=f'',
                       related=offer,
+                      type='Offer_accepted',
                       )
     message.save()
 
@@ -38,6 +40,7 @@ def offer_rejected(offer):
                       receiver=offer.user,
                       subject=f'Tilboði þínu í {offer.item.name} hefur verið hafnað.',
                       related=offer,
+                      type='Offer_rejected',
                       )
     message.save()
 
