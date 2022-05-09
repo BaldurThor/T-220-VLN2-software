@@ -98,12 +98,6 @@ def get_item(request, id):
     return render(request, 'item/get_item.html', context)
 
 
-def get_category(request, category_id):
-    item = Item.objects.filter(categories=category_id, sold_at=None)
-    context = {'items': item}
-    return render(request, 'item/catalog.html', context)
-
-
 @login_required
 def create_item(request):
     if request.method == 'POST':
