@@ -2,10 +2,14 @@
 {% load bootstrapify_field %}
 {% load i18n %}
 {% block content %}
-<h3>Upplýsingar um vöru</h3>
+<div class="card w-75 mx-auto h-75">
+<div class="card-header text-center">
+    <h3>Upplýsingar um vöru</h3>
+</div>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% include 'form.html' %}
     <input type="submit" class="btn btn-primary" value="Create">
 </form>
+</div>
 {% endblock %}
