@@ -1,12 +1,7 @@
 import json
 import os
-from StringIO import StringIO
-
-import requests
-
 from django.conf import settings
 from django.core.files import File
-from django.core.files.images import ImageFile
 from django.core.management.base import BaseCommand
 from item.models import Item, Condition, Category
 from user.models import Country
@@ -35,7 +30,7 @@ class Command(BaseCommand):
                 if created:
                     with open(os.path.join(settings.BASE_DIR, image_path), 'rb') as f:
                         file = File(f)
-                        item.image.save(f'items/{os.path.basename(image_path)}', file)
+                        item.image.save(f'{os.path.basename(image_path)}', file)
                     categories = []
                     for category_name in category_names:
                         categories.append(Category.objects.get(name=category_name))
