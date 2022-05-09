@@ -34,20 +34,20 @@
                         </div>
                     </div>
             </div>
-            <div class="card-body">
+            <div class="card-body px-0 pt-0">
                 {% if offer %}
-                    <h5>Hæðsta boð: {{ offer.amount }}</h5>
+                    <h5 class="p-2 pb-1">Hæðsta boð: {{ offer.amount }} kr.</h5>
                 {% endif %}
                 <img src="{{ item.image_url }}" class="card-img-bottom pb-3" alt="{{ item.name }}-image">
-                <p class="card-text">{{ item.description }}</p>
+                <p class="card-text mx-3">{{ item.description }}</p>
                 {% if not item.sold_at and not item.is_deleted %}
                     <div class="row">
-                        <div class="col text-center">
+                        <div class="col text-center mx-3">
                             {% if user == item.seller %}
-                                <form method="POST">{% csrf_token %}<button type="submit" class="btn btn-primary">Eyða vöru</button></form>
+                                <form method="POST">{% csrf_token %}<button type="submit" class="btn btn-primary float-end">Eyða vöru</button></form>
                             {% else %}
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Offer">Bjóða í vöru</button>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Contact">Fyrirspurn</button>
+                                <button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#Offer">Bjóða í vöru</button>
+                                <button type="button" class="btn btn-primary mx-4" data-bs-toggle="modal" data-bs-target="#Contact">Fyrirspurn</button>
                             {% endif %}
                             </div>
                         </div>
