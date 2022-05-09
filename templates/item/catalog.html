@@ -1,46 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <!-- sidebar activation button -->
-
-    <button class="btn btn-primary mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#filters" aria-controls="offcanvasExample">
+    <button class="btn btn-primary mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#filters">
     Síur
     </button>
-    <!-- sidebar -->
-
     <div class="offcanvas offcanvas-start" tabindex="-1" id="filters" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasExampleLabel">Síur</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <form method="GET">
-            {% if request.GET.search %}
-                <input type="hidden" name="search" value="{{ request.GET.search }}">
-            {% endif %}
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">Vöruflokkar</button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    {% for category in categories %}
-                        <li class="text-light"><input class="form-check-input" name="categories" type="checkbox" value="{{ category.id }}" id="{{ category.name }}">
-                        <label class="form-check-label" for="{{ category.name }}">{{ category.name }}</label></li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <label for="conditions">Ástand</label>
-            <select class="form-select" name="condition" id="conditions">
-                <option value="">----------</option>
-                {% for condition in conditions %}
-                    <option value="{{ condition.id }}">{{ condition.name }}</option>
-                {% endfor %}
-            </select>
-            <button class="btn btn-primary mt-3" type="submit">Sýja</button>
-            </form>
+            {% include 'item/filter.html' %}
         </div>
     </div>
-
-    <!-- Items -->
-
     {% if not items %}
         <h3>Engar vörur fundust.</h3>
     {% endif %}
