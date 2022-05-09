@@ -128,7 +128,10 @@ def checkout_rate(request):
         form = CheckoutRateForm(request.POST)
         if form.is_valid():
             checkout_session['rate_information'] = form.cleaned_data
-            rating, created = Rating.objects.get_or_create(rater=request.user, rated=offer.item.seller)
+            try:
+                rating = Rating.objects.get(rater=request.user, rated=offer.item.seller)
+            except Rating.DoesNotExist:
+                rating = Rating(rater=request.user, rated=offer.item.seller)
             rating.rating = form.cleaned_data['rating']
             rating.save()
             checkout_session['rating_id'] = rating.id
