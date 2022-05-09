@@ -1,8 +1,10 @@
 import json
 import os
+import requests
 
 from django.conf import settings
 from django.core.files import File
+from django.core.files.images import ImageFile
 from django.core.management.base import BaseCommand
 from item.models import Item, Condition, Category
 from user.models import Country
@@ -30,11 +32,12 @@ class Command(BaseCommand):
                 item, created = Item.objects.get_or_create(**e)
                 if created:
                     if image_path[0] == '/':
-                        path = os.path.join(settings.BASE_DIR, image_path)
+                        with open(os.path.join(settings.BASE_DIR, image_path), 'rb') as f:
+                            file = File(f)
                     else:
-                        path = image_path
-                    with open(path, 'rb') as f:
-                        item.image.save('users/robot.jpg', File(f))
+                        r = requests.get(image_path)
+                        file = File(r.content)
+                    item.image.save(f'items/{os.path.basename(image_path)}', file)
                     categories = []
                     for category_name in category_names:
                         categories.append(Category.objects.get(name=category_name))
