@@ -1,3 +1,4 @@
+pip install -r requirements.txt
 python.exe .\manage.py migrate
 python.exe .\manage.py importcountries
 python.exe .\manage.py setupitems
