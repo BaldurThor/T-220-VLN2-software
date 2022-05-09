@@ -8,7 +8,6 @@ urlpatterns = [
     path('search', views.SearchView.as_view(), name='search'),
     path('<int:id>', views.get_item, name="get_item"),
     path('create', views.create_item, name="create_item"),
-    path('category/<int:category_id>', views.get_category, name='get_category'),
     path('submit_offer/<int:id>', views.submit_offer, name='submit_offer'),
     path('get_all_offers', views.get_all_offers, name='get_all_offers'),
     path('accept_offer/<int:offer_id>', views.accept_offer, name='accept_offer'),
