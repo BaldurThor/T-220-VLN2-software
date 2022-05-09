@@ -237,8 +237,8 @@ footer .footer-icon {
 }
 .item-card {
   .card-img-top {
-    height: 15rem;
-    object-fit: cover;
-    object-position: right top;
-  }
+      height: 300px;
+      object-fit: cover;
+      object-position: center;
+    }
 }
