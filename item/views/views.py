@@ -1,10 +1,11 @@
-from django.contrib.auth.models import User
+import operator
+from functools import reduce
+import re
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.utils.datastructures import MultiValueDictKeyError
-from django.utils.timezone import now
+from django.views.generic import ListView
 
 from item.services import delete_item
 from user.models import UserProfile, Rating, Country
@@ -12,75 +13,68 @@ from item import services
 from item.forms import ItemCreateForm
 from item.models import Item, Offer, Condition, Category, Sale
 from django.contrib.auth.decorators import login_required
-from messaging.models import Message
 
 
-def search(request):
-    conditions = Condition.objects.all()
-    categories = Category.objects.all()
-    search_string = request.GET.get('search')
+class CatalogView(ListView):
+    model = Item
+    paginate_by = 24
+    context_object_name = 'items'
+    template_name = 'item/catalog.html'
 
-    if len(search_string) < 3:
-        items = []
-    else:
-        search_list = search_string.lower().split()
+    def get_queryset(self):
+        queryset = Item.objects.filter(sold_at=None, is_deleted=False)
+        if condition_id := self.request.GET.get('condition'):
+            if condition_id.isnumeric():
+                queryset = queryset.filter(condition__pk=condition_id)
 
-        i_filter = {}
+        if categories := self.request.GET.getlist('categories'):
+            queryset = queryset.filter(categories__in=categories)
+        return queryset.distinct()
 
-        search_list, search_condition = con_cat_for(search_list, conditions)
-        if search_condition:
-            i_filter['condition'] = search_condition
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-        search_list, search_category = con_cat_for(search_list, categories)
-        if search_category:
-            i_filter['categories'] = search_category
-        i_filter['name__icontains'] = ' '.join(search_list)
-        items = Item.objects.filter(**i_filter).distinct()
-
-    context = {
-        'items': items,
-        'search_string': search_string,
-    }
-    return render(request, 'item/search.html', context)
+        context['conditions'] = Condition.objects.all()
+        context['categories'] = Category.objects.all()
+        return context
 
 
-def catalog(request):
-    conditions = Condition.objects.all()
-    categories = Category.objects.all()
-    i_filter = {'sold_at': None, 'is_deleted': False}
-    try:
-        try:
-            condition = int(request.GET['conditions'])
-            i_filter['condition'] = conditions.get(pk=condition)
-        except ValueError:
-            pass
-        try:
-            cat_lis = request.GET.getlist('cat')
-            if cat_lis:
-                i_filter['categories__in'] = request.GET.getlist('cat')
-        except MultiValueDictKeyError:
-            pass
-    except MultiValueDictKeyError:
-        pass
-    items = Item.objects.filter(**i_filter).distinct()
+class SearchView(CatalogView):
+    def _related_filter(self, queryset, search_string, model, related_name, fields=None):
+        if not fields:
+            fields = ['name']
+        search_words = search_string.split()
+        filters = []
+        for field in fields:
+            for word in search_words:
+                filters.append(Q(**{f'{field}__icontains': word}))
+        rows = model.objects.filter(reduce(operator.or_, filters))
+        if rows:
+            queryset = queryset.filter(**{f'{related_name}__pk__in': rows})
+        return queryset, rows
 
-    context = {'items': items, 'conditions': conditions, 'categories': categories}
-    return render(request, 'item/catalog.html', context)
+    def _strip_search_string(self, search_string, rows, fields=None):
+        if not fields:
+            fields = ['name']
+        for row in rows:
+            for field in fields:
+                for w in getattr(row, field).lower().split():
+                    search_string = search_string.replace(w, '')
+        search_string = re.sub(' +', ' ', search_string.strip())
+        return search_string
 
+    def get_queryset(self):
+        search_string = self.request.GET.get('search', '').lower()
+        queryset = super().get_queryset()
+        queryset, categories = self._related_filter(queryset, search_string, Category, 'categories')
+        queryset, conditions = self._related_filter(queryset, search_string, Condition, 'condition')
 
-def con_cat_for(lis1, lis2):
-    return_object = None
-    for item in lis2:
-        cur_item = item.name.lower().split()
-        length = len(cur_item)
-        for i in range(len(lis1) - (length - 1)):
-            if lis1[i:i + length] == cur_item:
-                return_object = item
-                for rem_item in cur_item:
-                    lis1.remove(rem_item)
-                break
-    return lis1, return_object
+        search_string = self._strip_search_string(search_string, categories)
+        search_string = self._strip_search_string(search_string, conditions)
 
+        if search_string:
+            queryset = queryset.filter(name__icontains=search_string)
+        return queryset
 
 def get_item(request, id):
     item = get_object_or_404(Item, pk=id)
@@ -156,5 +150,3 @@ def get_sale(request, sale_id):
         'sale': sale,
         'rating': rating,
     })
-
-

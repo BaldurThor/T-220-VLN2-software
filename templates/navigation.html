@@ -31,7 +31,7 @@
         <form class="d-flex flex-fill mx-5 search-container" method="GET" action="{% url 'item:search' %}">
             <div class="input-group search-group my-2 mx-5">
                 <span class="input-group-text"><i class="bi bi-search"></i></span>
-                <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" value="{{ request.GET.search }}">
             </div>
         </form>
         {% if not request.user.is_authenticated %}
