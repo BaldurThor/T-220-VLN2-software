@@ -4,7 +4,7 @@
     <div class="row row-cols-1 row-cols-md-auto g-4">
         {% if not own_offers %}
             <div class="col">
-                <div class="card text-center h-100" style="width: 18rem; min-height: 26rem; background-color: #454c56;">
+                <div class="card text-center" style="width: 18rem; min-height: 20rem; background-color: #454c56;">
                     <div class="card-body">
                         <h4 class="card-title" style="color: ghostwhite">Þú hefur ekki boðið í neinar vörur</h4>
                     </div>
@@ -36,7 +36,7 @@
     <div class="row row-cols-1 row-cols-md-auto g-4">
         {% if not other_offers %}
             <div class="col">
-                <div class="card text-center h-100" style="width: 18rem;  min-height: 26rem; background-color: #454c56;">
+                <div class="card text-center h-100" style="width: 18rem;  min-height: 20rem; background-color: #454c56;">
                     <div class="card-body">
                         <h4 class="card-title" style="color: ghostwhite">Þú hefur ekki fengið boð í neinar vörur</h4>
                     </div>
@@ -53,8 +53,8 @@
                         <p class="card-text">Kaupandi: {{ other_offer.user }}</p>
                         </div>
                     <div class="card-footer">
-                        <form action="accept_offer/{{ other_offer.id }}" method="POST">{% csrf_token %}<input class="btn btn-primary" type="submit" value="Samþykkja"></form>
-                        <form action="reject_offer/{{ other_offer.id }}" method="POST">{% csrf_token %}<input class="btn btn-primary" type="submit" value="Neita"></form>
+                        <form action="accept_offer/{{ other_offer.id }}" method="POST">{% csrf_token %}<input class="btn btn-primary float-start" type="submit" value="Samþykkja"></form>
+                        <form action="reject_offer/{{ other_offer.id }}" method="POST">{% csrf_token %}<input class="btn btn-primary float-end" type="submit" value="Neita"></form>
                         </div>
                     </div>
                 </div>
