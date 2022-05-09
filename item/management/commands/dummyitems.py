@@ -1,5 +1,7 @@
 import json
 import os
+from StringIO import StringIO
+
 import requests
 
 from django.conf import settings
@@ -36,7 +38,8 @@ class Command(BaseCommand):
                             file = File(f)
                     else:
                         r = requests.get(image_path)
-                        file = File(r.content)
+                        f = StringIO(r.content)
+                        file = File(f)
                     item.image.save(f'items/{os.path.basename(image_path)}', file)
                     categories = []
                     for category_name in category_names:
