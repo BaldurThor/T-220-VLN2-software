@@ -35,6 +35,17 @@
             </h2>
             <div id="filter-condition-accordion" class="accordion-collapse collapse">
                 <div class="accordion-body">
+            <div class="form-check">
+                <input
+                        class="form-check-input"
+                        id="filter-condition-0"
+                        name="condition"
+                        type="radio"
+                        value=""
+                        {% if not filter.condition %}checked{% endif %}
+                >
+                <label class="form-check-label" for="filter-condition-0">Allt ástand</label>
+            </div>
         {% for condition in conditions %}
             <div class="form-check">
                 <input

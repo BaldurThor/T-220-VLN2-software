@@ -39,10 +39,7 @@ class CatalogView(ListView):
         context['conditions'] = Condition.objects.all()
         context['categories'] = Category.objects.all()
 
-        context['filter'] = {
-            'condition': self.request.GET.get('condition', 0),
-            'categories': self.request.GET.getlist('categories'),
-        }
+        context['filter'] = filtering.get_context(self.request)
         return context
 
 

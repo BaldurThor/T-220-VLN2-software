@@ -4,6 +4,8 @@ import re
 
 from django.db.models import Q
 
+from item.models import Condition, Category
+
 
 def filter_queryset(queryset, search_string, model, related_name, fields=None):
     if not fields:
@@ -28,3 +30,18 @@ def strip_search_string(search_string, rows, fields=None):
                 search_string = search_string.replace(w, '')
     search_string = re.sub(' +', ' ', search_string.strip())
     return search_string
+
+
+def get_context(request):
+    context = {
+        'condition': request.GET.get('condition', 0),
+        'categories': request.GET.getlist('categories'),
+    }
+    try:
+        context['condition_obj'] = Condition.objects.get(pk=context.get('condition'))
+    except Condition.DoesNotExist:
+        pass
+
+    context['categories_obj'] = Category.objects.filter(pk__in=context.get('categories'))
+
+    return context

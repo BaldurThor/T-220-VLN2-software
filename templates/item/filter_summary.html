@@ -1,0 +1,9 @@
+{% if filter.categories_obj %}
+Vöruflokkar:
+{% for category in filter.categories_obj %}
+    {{ category.name }}{% if not forloop.last %}, {% else %}.{% endif %}
+{% endfor %}
+{% endif %}
+{% if filter.condition_obj %}
+    Ástand: {{ filter.condition_obj.name }}
+{% endif %}
