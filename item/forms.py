@@ -7,11 +7,21 @@ from item.models import Item, Category
 
 
 class ItemCreateForm(ModelForm):
+    image = forms.ImageField(label='Mynd af vöru', required=True)
 
     class Meta:
         model = Item
         exclude = ['id']
-        fields = ['name', 'description', 'condition', 'image', 'country', 'zip', 'published_at', 'categories']
+        fields = ['name', 'description', 'condition', 'image', 'country', 'zip', 'categories']
+        labels = {
+            'name': 'Nafn',
+            'description': 'Vöru lýsing',
+            'condition': 'Ástand',
+            'image ': 'Mynd af vöru',
+            'country': 'Land',
+            'zip': 'Pósthólf',
+            'categories': 'Vöruflokkar'
+        }
 
 
 class CheckoutContactForm(forms.Form):

@@ -72,11 +72,12 @@ ul.errorlist {
   position: absolute;
   top: 200px;
 }
-.profile-text {
-  width: 480px;
-}
-.card-img-top {
-  height: 300px;
+.profile-banner {
+  .card-img-top {
+    height: 300px;
+    object-fit: cover;
+    object-position: center top;
+  }
 }
 .card-second-body h3 {
   letter-spacing: 1px;
