@@ -7,7 +7,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.timezone import now
 
 from item.services import delete_item
-from user.models import UserProfile, Rating
+from user.models import UserProfile, Rating, Country
 from item import services
 from item.forms import ItemCreateForm
 from item.models import Item, Offer, Condition, Category, Sale
@@ -108,7 +108,12 @@ def create_item(request):
             item.categories.add(*values)
             return redirect('item:catalog')
     else:
-        form = ItemCreateForm()
+        item = Item()
+        try:
+            item.country = Country.objects.get(name='Iceland')
+        except Country.DoesNotExist:
+            pass
+        form = ItemCreateForm(instance=item)
     return render(request, 'item/create_item.html', {
         'form': form
     })
