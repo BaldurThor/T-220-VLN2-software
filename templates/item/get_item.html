@@ -19,7 +19,7 @@
                         <p class="card-subtitle mb-2 text-muted">{{ item.condition.name }}</p>
                         </div>
                     <div class="col text-end">
-                        <a class="btn btn-default" href="">
+                        <a class="btn btn-default" href="{% url 'user:profile' item.seller.id %}">
                             <img src="{{ seller.image_url }}" alt="..." class="img profile-img" style="width:56px">
                             {% for _ in ''|center:seller.get_empty_stars %}
                                 <img src="{% static 'images/hunger-bar-empty.png' %}" alt="..." class="img hunger-rating">
