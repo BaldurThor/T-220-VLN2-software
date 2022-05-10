@@ -1,22 +1,31 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.utils.timezone import now
 
 from item import services
+from item.forms import SubmitOfferForm
 from item.models import Offer, Item
 
 
 @login_required
-def submit_offer(request, id):
-    if request.method == 'POST' and request.POST.get('amount') != '':
-        offer = Offer()
-        offer.user = request.user
-        offer.item = Item.objects.get(pk=id)
-        offer.date = now()
-        offer.amount = int(request.POST.get('amount'))
-        offer.save()
-        services.offer_placed(offer)
-    return redirect('item:get_item', id)
+def submit_offer(request):
+    if request.method == 'POST':
+        form = SubmitOfferForm(request.POST)
+        if form.is_valid():
+            offer = form.save(commit=False)
+            offer.user = request.user
+            services.offer_placed(offer)
+            messages.add_message(request, messages.SUCCESS, 'Tilboð er móttekið.')
+        else:
+            messages.add_message(request, messages.ERROR, form.errors)
+        print(form.cleaned_data)
+        if item := form.cleaned_data.get('item'):
+            return redirect('item:get_item', item.id)
+        else:
+            return redirect('frontpage')
+    raise Http404()
 
 
 @login_required

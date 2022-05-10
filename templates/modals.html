@@ -1,0 +1,77 @@
+<div class="modal fade" id="confirm-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                    <h5 class="modal-title">Staðfesting</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="confirm-modal-form" method="GET" action="">
+                {% csrf_token %}
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hætta við</button>
+                    <button type="submit" class="btn btn-primary">Staðfesta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="offer-modal"  tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bjóða í vöru</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+             <form id="offer-modal-form" method="POST" action="{% url 'item:submit_offer' %}">
+                {% csrf_token %}
+                <input type="hidden" name="item" value="asdf">
+                <div class="modal-body">
+                    <p>Sláðu inn boð þitt í: <span id="offer-modal-item-name"></span></p>
+                    <label for="offer-modal-amount">Upphæð:</label>
+                    <div class="input-group my-2">
+                        <input id="offer-modal-amount" class="form-control" name="amount" type="number">
+                        <span class="input-group-text">kr.</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hætta við</button>
+                    <button type="submit" class="btn btn-primary mr-auto">Staðfesta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="message-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Senda skilaboð
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="message-modal-form" method="POST" action="{% url 'messaging:send' %}">
+                {% csrf_token %}
+                <input type="hidden" name="item_id" />
+                <div class="modal-body">
+                     <label for="message-modal-receiver" class="form-label">Viðtakandi</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">@</span>
+                        <input id="message-modal-receiver" type="text" class="form-control" name="receiver">
+                    </div>
+                    <label for="message-modal-subject" class="form-label">Efni</label>
+                    <div class="input-group mb-3">
+                        <input id="message-modal-subject" type="text" class="form-control" name="subject">
+                    </div>
+                    <label for="message-modal-body" class="form-label">Skilaboð</label>
+                    <div class="input-group mb-3">
+                        <textarea id="message-modal-body" name="body" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hætta við</button>
+                        <button type="submit" class="btn btn-primary mr-auto">Senda</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
