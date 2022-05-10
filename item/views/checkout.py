@@ -43,6 +43,22 @@ def __get_steps(request):
     return steps
 
 
+def __get_summary(request):
+    summary = {}
+    checkout_session = request.session.get('checkout', [])
+    try:
+        summary['contact'] = Contact.objects.get(pk=checkout_session.get('contact_id'))
+    except Contact.DoesNotExist:
+        pass
+    if payment_information := checkout_session.get('payment_information'):
+        summary['payment_information'] = payment_information
+    try:
+        summary['rating'] = Rating.objects.get(pk=checkout_session.get('rating_id'))
+    except Rating.DoesNotExist:
+        pass
+    return summary
+
+
 def checkout(request, offer_id):
     offer = Offer.objects.get(pk=offer_id, accepted=True, user=request.user)
     request.session['checkout'] = {
@@ -89,6 +105,7 @@ def checkout_contact(request):
         'offer': offer,
         'form': form,
         'contact_form': contact_form,
+        'summary': __get_summary(request),
         'checkout_steps': __get_steps(request),
     }
     return render(request, 'item/checkout/contact.html', context)
@@ -114,6 +131,7 @@ def checkout_payment(request):
     context = {
         'offer': offer,
         'form': form,
+        'summary': __get_summary(request),
         'checkout_steps': __get_steps(request),
     }
     return render(request, 'item/checkout/payment.html', context)
@@ -143,6 +161,7 @@ def checkout_rate(request):
     context = {
         'offer': offer,
         'form': form,
+        'summary': __get_summary(request),
         'checkout_steps': __get_steps(request)
     }
     return render(request, 'item/checkout/rate.html', context)
@@ -177,6 +196,7 @@ def checkout_verify(request):
     context = {
         'offer': offer,
         'checkout_steps': __get_steps(request),
+        'summary': __get_summary(request),
         'contact': contact,
         'payment_information': checkout_session.get('payment_information'),
         'submittable': submittable,
