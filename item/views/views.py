@@ -44,11 +44,12 @@ class SearchView(CatalogView):
         search_string = self.request.GET.get('search', '').lower()
         queryset = super().get_queryset()
 
-        queryset, categories = filtering.filter_search_queryset(queryset, search_string, Category, 'categories')
-        queryset, conditions = filtering.filter_search_queryset(queryset, search_string, Condition, 'condition')
+        if search_string:
+            queryset, categories = filtering.filter_search_queryset(queryset, search_string, Category, 'categories')
+            queryset, conditions = filtering.filter_search_queryset(queryset, search_string, Condition, 'condition')
 
-        search_string = filtering.strip_search_string(search_string, categories)
-        search_string = filtering.strip_search_string(search_string, conditions)
+            search_string = filtering.strip_search_string(search_string, categories)
+            search_string = filtering.strip_search_string(search_string, conditions)
 
         if search_string:
             queryset = queryset.filter(name__icontains=search_string)
