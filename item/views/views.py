@@ -82,8 +82,10 @@ def get_item(request, id):
 
 @login_required
 def create_item(request):
+    categories_choices = Category.objects.values_list('id', 'name')
+
     if request.method == 'POST':
-        form = ItemCreateForm(request.POST, request.FILES)
+        form = ItemCreateForm(request.POST, request.FILES, categories_choices=categories_choices)
         if form.is_valid():
             item = form.save(commit=False)
             item.seller = request.user
@@ -97,7 +99,10 @@ def create_item(request):
             item.country = Country.objects.get(name='Iceland')
         except Country.DoesNotExist:
             pass
-        form = ItemCreateForm(instance=item)
+        form = ItemCreateForm(
+            instance=item,
+            categories_choices=categories_choices
+        )
     return render(request, 'item/create_item.html', {
         'form': form
     })

@@ -8,7 +8,7 @@ from item.models import Item, Category
 
 class ItemCreateForm(ModelForm):
     image = forms.ImageField(label='Mynd af vöru', required=True)
-    categories = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=Category.objects.values_list('id', 'name'))
+    categories = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = Item
@@ -23,6 +23,12 @@ class ItemCreateForm(ModelForm):
             'zip': 'Pósthólf',
             'categories': 'Vöruflokkar'
         }
+
+    def __init__(self, *args, **kwargs):
+        categories_choices = kwargs.pop('categories_choices', None)
+        super().__init__(*args, **kwargs)
+        if categories_choices:
+            self.fields['categories'].choices = categories_choices
 
 
 class CheckoutContactForm(forms.Form):
