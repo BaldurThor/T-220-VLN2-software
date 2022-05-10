@@ -59,8 +59,12 @@ def get_item(request, id):
     if request.method == 'POST':
         delete_item(item, request.user)
     else:
-        item.views += 1
-        item.save()
+        view_session = request.session.get('viewed_items', [])
+        if item.id not in view_session:
+            item.views += 1
+            item.save()
+            view_session.append(item.id)
+            request.session['viewed_items'] = view_session
     seller = UserProfile.objects.get(user=item.seller)
     context = {'item': item, 'seller': seller}
     similar_items = services.get_similar(item)
