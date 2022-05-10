@@ -1,7 +1,71 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>{{ message.subject }}</h2>
-    <p>{{ message.body }}</p>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-8">
+                            <h4>{{ message.subject }}</h4>
+                        </div>
+                        <div class="col-12 col-lg-4 text-end text-nowrap">
+                            {% with message.sender as user %}
+                            {% include 'user/user_in_heading.html' %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {{ message.body|linebreaksbr }}
+                </div>
+            </div>
+        </div>
+        {% if message.related %}
+            <div class="col">
+                {% if message.type|slice:'5' == 'Offer' %}
+                    {% with message.related as offer %}
+                    {% include 'item/offer_item_card.html' %}
+                    {% endwith %}
+                {% endif %}
+                {% if message.type == 'Offer_accepted' %}
+                    <a href="{% url 'item:checkout' message.related.id %}" class="btn btn-primary">Ganga frá kaupum</a>
+                {% elif message.type == 'Offer_rejected' %}
+                    <button class="btn btn-primary" type="button">Bjóða aftur</button>
+                {% elif message.type == 'Offer_new' %}
+                    {% if message.related.rejected %}
+                        <div class="alert alert-info">Þessu tilboði hefur verið hafnað.</div>
+                    {% elif message.related.accepted %}
+                        <div class="alert alert-success">Þetta tilboð hefur verið samþykkt</div>
+                    {% else %}
+                    <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#confirm-modal"
+                            data-confirm-method="POST"
+                            data-confirm-action="{% url 'item:accept_offer' message.related.id %}"
+                            data-confirm-text="Staðfesta tilboð í {{ message.related.item.name }} fyrir upphæð {{ message.related.amount }}"
+                    >
+                        Samþykkja tilboð
+                    </button>
+                    <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#confirm-modal"
+                            data-confirm-method="POST"
+                            data-confirm-action="{% url 'item:reject_offer' message.related.id %}"
+                            data-confirm-text="Hafna tilboði í {{ message.related.item.name }} fyrir upphæð {{ message.related.amount }}"
+                    >
+                        Hafna tilboði
+                    </button>
+                    {% endif %}
+                {% elif message.type == 'Sale_completed' %}
+                    Sala kláruð
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
 
     {% if message.related.image_url %}
 
@@ -48,7 +112,7 @@
     {% elif message.related.item.image_url%}
 
         <div class="d-grid d-md-block" style="margin-bottom: 10px">
-            {% if message.type == "New_offer" and not message.related.rejected and not message.related.accepted %}
+            {% if message.type == "Offer_new" and not message.related.rejected and not message.related.accepted %}
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#offer">Samþykkja tilboð</button>
             {% elif message.type == "Offer_accepted" %}
                 <a href="{% url 'item:checkout' message.related.id %}" class="btn btn-primary">Ganga frá kaupum</a>

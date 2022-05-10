@@ -8,7 +8,7 @@ class Message(models.Model):
     TYPES = [
         ('Offer_accepted', 'Offer Accepted'),
         ('Offer_rejected', 'Offer Rejected'),
-        ('New_offer', 'New Offer'),
+        ('Offer_new', 'New Offer'),
         ('Sale_completed', 'Sale Completed'),
         ('Message', 'Message'),
     ]

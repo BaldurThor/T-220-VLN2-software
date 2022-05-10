@@ -13,7 +13,7 @@ def offer_placed(offer):
                       subject='Nýtt tilboð í vöruna þína!',
                       body=f'Þú átt nýtt tilboð í vöru: {offer.item.name} að upphæð {offer.amount}',
                       related=offer,
-                      type='New_offer',
+                      type='Offer_new',
                       )
     message.save()
 

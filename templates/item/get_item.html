@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load rating %}
 {% block content %}
     {% if item.sold_at %}
         <div class="alert alert-primary" role="alert">
@@ -14,16 +13,15 @@
     <div class="get_item">
         <div class="card mb-3 w-75 mx-auto">
             <div class="card-header">
-                <div class="row">
+                <div class="row align-items-center">
                     <div class="col text-nowrap">
                         <h3 class="card-title">{{ item.name }}</h3>
                         <p class="card-subtitle mb-2 text-muted">{{ item.condition.name }}</p>
                         </div>
                     <div class="col text-end text-nowrap">
-                        <a class="btn btn-default" href="{% url 'user:profile' item.seller.id %}">
-                            <img src="{{ seller.image_url }}" alt="..." class="img profile-img" style="width:56px">
-                            {% rating_tag seller.avg_rating %}
-                            </a>
+                        {% with item.seller as user %}
+                        {% include 'user/user_in_heading.html' %}
+                        {% endwith %}
                         </div>
                     </div>
             </div>

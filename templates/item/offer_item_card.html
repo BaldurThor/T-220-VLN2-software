@@ -1,0 +1,12 @@
+<div class="item-card card mb-3">
+    <img src="{{ offer.item.image_url }}" class="card-img-top" alt="{{ offer.item.name }}-image">
+    <div class="card-body">
+        <p class="card-text text-muted float-end">Seljandi: {{ offer.item.seller | truncatechars:30 }}</p>
+        <h5 class="card-title">{{ offer.item.name }}</h5>
+        <p class="card-text ">{{ offer.item.description}}</p>
+    <div class="d-flex justify-content-between">
+        <p class="card-text text-muted">Ástand: {{ offer.item.condition.name }}</p>
+        <h5>{{ offer.amount }} kr.</h5>
+    </div>
+    </div>
+</div>

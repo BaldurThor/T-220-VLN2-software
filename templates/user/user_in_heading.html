@@ -1,0 +1,5 @@
+{% load rating %}
+<a class="text-decoration-none" href="{% url 'user:profile' user.id %}">
+    <img src="{{ user.user_profile.image_url }}" alt="..." class="img profile-img" style="width:56px">
+    {% rating_tag user.user_profile.avg_rating %}
+</a>

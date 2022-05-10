@@ -17,6 +17,25 @@
         {% endblock %}
     </div>
     {% include 'footer.html' %}
+
+    <div class="modal fade" id="confirm-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                        <h5 class="modal-title">Staðfesting</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="confirm-modal-form" method="GET" action="">
+                    {% csrf_token %}
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hætta við</button>
+                        <button type="submit" class="btn btn-primary">Staðfesta</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <script src="{% static 'main.js' %}"></script>
 </body>
 </html>

@@ -5,6 +5,12 @@
             <h5 class="card-title">{{ item.name }}</h5>
             <p class="card-text ">{{ item.description | truncatechars:30 }}</p>
             <p class="card-text text-muted">Ástand: {{ item.condition.name }}</p>
+            <p class="card-text text-muted">
+                Vöruflokkar:
+                {% for category in item.categories.all %}
+                    {{ category.name }}
+                {% endfor %}
+            </p>
         </div>
         <div class="card-footer">
             <a href="/items/{{ item.id }}" class="btn btn-primary">Nánari upplýsingar</a>
