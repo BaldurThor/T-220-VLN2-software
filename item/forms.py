@@ -1,9 +1,10 @@
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 from django.forms import ModelForm, ModelChoiceField, ModelMultipleChoiceField
 from django import forms
 from django.utils.timezone import now
 
-from item.models import Item, Category
+from item.models import Item, Category, Offer
 
 
 class ItemCreateForm(ModelForm):
@@ -56,3 +57,11 @@ class CheckoutPaymentForm(forms.Form):
 
 class CheckoutRateForm(forms.Form):
     rating = forms.IntegerField(min_value=0, max_value=10)
+
+
+class SubmitOfferForm(forms.ModelForm):
+    amount = forms.IntegerField(validators=[MinValueValidator(1)])
+
+    class Meta:
+        model = Offer
+        fields = ['item', 'amount']
