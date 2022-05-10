@@ -25,12 +25,7 @@ class CatalogView(ListView):
 
     def get_queryset(self):
         queryset = Item.objects.filter(sold_at=None, is_deleted=False)
-        if condition_id := self.request.GET.get('condition'):
-            if condition_id.isnumeric():
-                queryset = queryset.filter(condition__pk=condition_id)
-
-        if categories := self.request.GET.getlist('categories'):
-            queryset = queryset.filter(categories__in=categories)
+        queryset = filtering.apply_filter(self.request, queryset)
         return queryset.distinct()
 
     def get_context_data(self, **kwargs):
@@ -48,8 +43,8 @@ class SearchView(CatalogView):
         search_string = self.request.GET.get('search', '').lower()
         queryset = super().get_queryset()
 
-        queryset, categories = filtering.filter_queryset(queryset, search_string, Category, 'categories')
-        queryset, conditions = filtering.filter_queryset(queryset, search_string, Condition, 'condition')
+        queryset, categories = filtering.filter_search_queryset(queryset, search_string, Category, 'categories')
+        queryset, conditions = filtering.filter_search_queryset(queryset, search_string, Condition, 'condition')
 
         search_string = filtering.strip_search_string(search_string, categories)
         search_string = filtering.strip_search_string(search_string, conditions)
