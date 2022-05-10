@@ -6,6 +6,7 @@ from django.contrib import messages
 
 from item.forms import CheckoutContactForm, CheckoutPaymentForm, CheckoutRateForm
 from item.models import Offer, Sale
+from item.services import sale_completed
 from user.forms import ContactForm
 from user.models import Contact, Country, Rating
 
@@ -191,6 +192,7 @@ def checkout_verify(request):
             setattr(sale, field, value)
         sale.sold_at = now()
         sale.save()
+        sale_completed(sale)
         request.session.pop('checkout')
         request.session['checkout_thanks'] = True
         messages.add_message(request, messages.SUCCESS, 'Kaupin eru frágengin! Skoðaðu pósthólfið þitt fyrir nánari upplýsingar.')
