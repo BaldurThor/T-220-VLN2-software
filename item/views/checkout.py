@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse, NoReverseMatch
 from django.utils.timezone import now
+from django.contrib import messages
 
 from item.forms import CheckoutContactForm, CheckoutPaymentForm, CheckoutRateForm
 from item.models import Offer, Sale
@@ -192,7 +193,8 @@ def checkout_verify(request):
         sale.save()
         request.session.pop('checkout')
         request.session['checkout_thanks'] = True
-        return redirect('item:checkout_thanks')
+        messages.add_message(request, messages.INFO, 'Kaupin eru frágengin! biiizctch')
+        return redirect('frontpage')
     context = {
         'offer': offer,
         'checkout_steps': __get_steps(request),

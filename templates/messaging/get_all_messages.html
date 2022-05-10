@@ -8,7 +8,7 @@
         </tr>
     </thead>
     <tbody>
-    {% for message in messages %}
+    {% for message in messages_qs %}
         <tr class="{% if not message.read_at %}table-dark{% else %}table-primary{% endif %}">
             <td>
                 <img src="{{ message.sender.user_profile.image_url }}" alt="profile pic" class="img profile-img" style="width:32px;height:32px;">
