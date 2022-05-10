@@ -9,6 +9,7 @@ class Message(models.Model):
         ('Offer_accepted', 'Offer Accepted'),
         ('Offer_rejected', 'Offer Rejected'),
         ('New_offer', 'New Offer'),
+        ('Sale_completed', 'Sale Completed'),
         ('Message', 'Message'),
     ]
     sender = models.ForeignKey(User, related_name='sender', on_delete=models.CASCADE)
