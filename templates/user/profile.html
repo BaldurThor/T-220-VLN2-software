@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load rating %}
 {% block content %}
 <div class="card bg-dark text-light mx-auto h-100 w-75" style="width: auto;">
 <div class="card-header profile-banner m-0 p-0">
@@ -9,9 +10,7 @@
         <img class="img rounded-pill me-3 profile-img-lg float-start" src="{{ user_profile.image_url }}" alt="">
         <div class="card-second-body ps-2">
             <h3 class="card-title"><strong>{{ user_profile.user.get_full_name }}</strong></h3>
-            {% with user_profile as user_profile %}
-            {% include 'user/user_rating_hunger_games.html' %}
-            {% endwith %}
+            {% rating_tag user_profile.avg_rating %}
             <p class="card-text profile-text pb-5 pt-2">{{ user_profile.bio }}</p>
         </div>
         {% if request.user == user_profile.user %}
