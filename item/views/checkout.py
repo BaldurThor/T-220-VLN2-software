@@ -193,7 +193,7 @@ def checkout_verify(request):
         sale.save()
         request.session.pop('checkout')
         request.session['checkout_thanks'] = True
-        messages.add_message(request, messages.INFO, 'Kaupin eru frágengin! biiizctch')
+        messages.add_message(request, messages.SUCCESS, 'Kaupin eru frágengin! Skoðaðu pósthólfið þitt fyrir nánari upplýsingar.')
         return redirect('frontpage')
     context = {
         'offer': offer,

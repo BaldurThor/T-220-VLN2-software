@@ -1,17 +1,16 @@
 {% extends 'item/checkout/base.html' %}
 
 {% block checkout_content %}
-    <h3>Asdf</h3>
-    {{ offer.item }}
-    {{ offer }}
-    {{ contact }}
+    <p>Farðu yfir upplýsingarnar hægra megin,<br>ýttu á ganga frá ef allt er rétt.</p>
 {% endblock %}
 
 {% block checkout_cardfooter %}
     {% if submittable %}
-    <form method="post" action="{% url 'item:checkout_verify' %}">
-        {% csrf_token %}
-        <input type="submit" class="btn btn-primary" value="Ganga frá!">
-    </form>
+    <div>
+        <form method="post" action="{% url 'item:checkout_verify' %}">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="Ganga frá!">
+        </form>
+    </div>
     {% endif %}
 {% endblock %}
