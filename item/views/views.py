@@ -2,6 +2,7 @@ import operator
 from functools import reduce
 import re
 
+from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
@@ -92,6 +93,8 @@ def create_item(request):
             item.save()
             values = request.POST.getlist('categories')
             item.categories.add(*values)
+
+            messages.add_message(request, messages.SUCCESS, 'Varan hefur verið stofnuð.')
             return redirect('item:catalog')
     else:
         item = Item()
