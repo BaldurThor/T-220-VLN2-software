@@ -24,7 +24,12 @@ def send_message(request):
             message.save()
             return redirect('messaging:get_all_messages')
     else:
-        form = MessageForm()
+        receiver = request.GET.get('receiver', '')
+        subject = request.GET.get('subject', '')
+        form = MessageForm(initial={
+            'receiver': receiver,
+            'subject': subject,
+        })
     ctx = {
         'form': form
     }
