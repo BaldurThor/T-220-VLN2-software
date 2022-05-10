@@ -8,6 +8,7 @@ from item.models import Item, Category
 
 class ItemCreateForm(ModelForm):
     image = forms.ImageField(label='Mynd af vöru', required=True)
+    categories = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=Category.objects.values_list('id', 'name'))
 
     class Meta:
         model = Item
