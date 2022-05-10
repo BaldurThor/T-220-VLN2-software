@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+from django.db.models import Avg
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from messaging.models import Message
 
 
@@ -39,6 +43,13 @@ class UserProfile(models.Model):
     def get_unread_messages(self):
         return Message.objects.filter(read_at=None, receiver=self.user).count()
 
+    def calculate_avg_rating(self):
+        aggr = Rating.objects.filter(rated=self.user).aggregate(avg_rating=Avg('rating'))
+        if aggr['avg_rating']:
+            self.avg_rating = aggr['avg_rating']
+        else:
+            self.avg_rating = 5
+
 
 class Country(models.Model):
     class Meta:
@@ -57,6 +68,13 @@ class Rating(models.Model):
     def get_rating(self):
         return self.rating / 2
 
+
+@receiver(post_save, sender=Rating)
+def rating_saved(sender, instance, **kwargs):
+    instance.rated.user_profile.calculate_avg_rating()
+    instance.rated.user_profile.save()
+
+
 class Contact(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
@@ -68,3 +86,4 @@ class Contact(models.Model):
 
     def __str__(self):
         return f'{self.street_name} {self.house_number}, {self.zip} {self.city}. {self.country.name}'
+
