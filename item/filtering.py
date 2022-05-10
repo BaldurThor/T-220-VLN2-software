@@ -7,7 +7,7 @@ from django.db.models import Q
 from item.models import Condition, Category
 
 
-def filter_queryset(queryset, search_string, model, related_name, fields=None):
+def filter_search_queryset(queryset, search_string, model, related_name, fields=None):
     if not fields:
         fields = ['name']
     search_words = search_string.split()
@@ -32,15 +32,28 @@ def strip_search_string(search_string, rows, fields=None):
     return search_string
 
 
+def apply_filter(request, queryset):
+    if condition_id := request.GET.get('condition', False):
+        if condition_id.isnumeric():
+            queryset = queryset.filter(condition__pk=condition_id)
+
+    if categories := request.GET.getlist('categories'):
+        queryset = queryset.filter(categories__in=categories)
+    return queryset
+
+
 def get_context(request):
     context = {
-        'condition': request.GET.get('condition', 0),
+        'condition': request.GET.get('condition', ''),
         'categories': request.GET.getlist('categories'),
+        'condition_obj': None,
+        'categories_obj': None,
     }
-    try:
-        context['condition_obj'] = Condition.objects.get(pk=context.get('condition'))
-    except Condition.DoesNotExist:
-        pass
+    if context['condition'].isnumeric():
+        try:
+            context['condition_obj'] = Condition.objects.get(pk=context['condition'])
+        except Condition.DoesNotExist:
+            context['condition_obj'] = None
 
     context['categories_obj'] = Category.objects.filter(pk__in=context.get('categories'))
 
