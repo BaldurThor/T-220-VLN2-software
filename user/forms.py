@@ -57,8 +57,6 @@ class UpdateProfileForm(forms.ModelForm):
             if image.size > 10*1024*1024:
                 raise forms.ValidationError('Mynd of stór! (> 10mb )')
             return image
-        else:
-            raise forms.ValidationError('Gat ekki lesið file')
 
     def clean_image(self):
         return self.clean_imagefield('image')
