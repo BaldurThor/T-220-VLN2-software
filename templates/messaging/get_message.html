@@ -48,7 +48,7 @@
     {% elif message.related.item.image_url%}
 
         <div class="d-grid d-md-block" style="margin-bottom: 10px">
-            {% if message.type == "New_offer" %}
+            {% if message.type == "New_offer" and not message.related.rejected and not message.related.accepted %}
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#offer">Samþykkja tilboð</button>
             {% elif message.type == "Offer_accepted" %}
                 <a href="{% url 'item:checkout' message.related.id %}" class="btn btn-primary">Ganga frá kaupum</a>
