@@ -1,5 +1,6 @@
 {% load static %}
 {% load rating %}
+{% with current_user_profile as user_profile %}
 <div class="profile-container">
     <div class="dropdown dropdown-accordion me-auto">
         <a href="{% url 'messaging:get_all_messages' %}" class="btn btn-default px-2 py-0 position-relative">
@@ -50,3 +51,4 @@
         </ul>
     </div>
 </div>
+{% endwith %}

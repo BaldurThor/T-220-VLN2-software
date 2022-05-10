@@ -9,5 +9,5 @@ def user_profile(request):
         except UserProfile.DoesNotExist:
             pass
     return {
-        'user_profile': user_profile
+        'current_user_profile': user_profile
     }
