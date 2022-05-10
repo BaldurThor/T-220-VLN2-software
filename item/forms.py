@@ -20,7 +20,7 @@ class ItemCreateForm(ModelForm):
             'condition': 'Ástand',
             'image ': 'Mynd af vöru',
             'country': 'Land',
-            'zip': 'Pósthólf',
+            'zip': 'Póstnúmer',
             'categories': 'Vöruflokkar'
         }
 
