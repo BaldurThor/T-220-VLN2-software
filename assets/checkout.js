@@ -14,9 +14,10 @@ document.addEventListener("DOMContentLoaded", function() {
             contactChanged()
     }
     let checkoutRating = document.getElementById('checkout-rating')
+    let the_rating = 5
     if (checkoutRating) {
         const changeHunger = function(rating) {
-            document.getElementById('id_rating').value = rating
+            the_rating = rating
             const hungerContainers = checkoutRating.querySelectorAll('.hunger-container')
             const hungerImages = checkoutRating.querySelectorAll('img.hunger-rating')
             for (let i=0; i < hungerImages.length; i++) {
@@ -48,6 +49,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 changeHunger(rating)
             })
         }
-        changeHunger(5)
+        checkoutRating.addEventListener('click', function() {
+            document.getElementById('id_rating').value = the_rating
+        })
+        checkoutRating.addEventListener('mouseleave', function() {
+            changeHunger(document.getElementById('id_rating').value)
+        })
+        changeHunger(the_rating)
     }
 });
