@@ -10,6 +10,7 @@ class Message(models.Model):
         ('Offer_rejected', 'Offer Rejected'),
         ('Offer_new', 'New Offer'),
         ('Sale_completed', 'Sale Completed'),
+        ('Item_inquiry', 'Item inquiry'),
         ('Message', 'Message'),
     ]
     sender = models.ForeignKey(User, related_name='sender', on_delete=models.CASCADE)

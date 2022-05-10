@@ -21,6 +21,7 @@ def send_message(request):
             if request.POST.get('item_id'):
                 item = Item.objects.get(pk=request.POST.get('item_id'))
                 message.related = item
+                message.type = 'Item_inquiry'
             message.save()
             return redirect('messaging:get_all_messages')
     else:

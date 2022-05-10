@@ -61,7 +61,13 @@
                     </button>
                     {% endif %}
                 {% elif message.type == 'Sale_completed' %}
-                    Sala kláruð
+                    {% with message.related as sale %}
+                    {% include 'item/sale_card.html' %}
+                    {% endwith %}
+                {% elif message.type == 'Item_inquiry' %}
+                    {% with message.related as item %}
+                    {% include 'item/item_card.html' %}
+                    {% endwith %}
                 {% endif %}
             </div>
         {% endif %}

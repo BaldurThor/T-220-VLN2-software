@@ -22,7 +22,9 @@
     {% endif %}
     <div class="row g-4">
         {% for item in items %}
-            {% include 'item/item_card.html' %}
+            <div class="col col-12 col-md-6 col-lg-3">
+                {% include 'item/item_card.html' %}
+            </div>
         {% endfor %}
     </div>
     {% include 'item/pagination.html' %}

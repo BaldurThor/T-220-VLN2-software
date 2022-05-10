@@ -1,7 +1,7 @@
 <div class="item-card card mb-3">
     <img src="{{ offer.item.image_url }}" class="card-img-top" alt="{{ offer.item.name }}-image">
     <div class="card-body">
-        <p class="card-text text-muted float-end">Seljandi: {{ offer.item.seller | truncatechars:30 }}</p>
+        <p class="card-text text-muted float-end">Seljandi: {{ offer.item.seller.get_full_name | truncatechars:30 }}</p>
         <h5 class="card-title">{{ offer.item.name }}</h5>
         <p class="card-text ">{{ offer.item.description}}</p>
     <div class="d-flex justify-content-between">
