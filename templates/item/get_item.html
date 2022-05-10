@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load rating %}
 {% block content %}
     {% if item.sold_at %}
         <div class="alert alert-primary" role="alert">
@@ -14,22 +15,14 @@
         <div class="card mb-3 w-75 mx-auto">
             <div class="card-header">
                 <div class="row">
-                    <div class="col">
+                    <div class="col text-nowrap">
                         <h3 class="card-title">{{ item.name }}</h3>
                         <p class="card-subtitle mb-2 text-muted">{{ item.condition.name }}</p>
                         </div>
-                    <div class="col text-end">
+                    <div class="col text-end text-nowrap">
                         <a class="btn btn-default" href="{% url 'user:profile' item.seller.id %}">
                             <img src="{{ seller.image_url }}" alt="..." class="img profile-img" style="width:56px">
-                            {% for _ in ''|center:seller.get_empty_stars %}
-                                <img src="{% static 'images/hunger-bar-empty.png' %}" alt="..." class="img hunger-rating">
-                            {% endfor %}
-                            {% if seller.get_half_stars %}
-                                <img src="{% static 'images/hunger-bar-half.png' %}" alt="..." class="img hunger-rating">
-                            {% endif %}
-                            {% for _ in ''|center:seller.get_full_stars %}
-                                <img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img hunger-rating">
-                            {% endfor %}
+                            {% rating_tag seller.avg_rating %}
                             </a>
                         </div>
                     </div>

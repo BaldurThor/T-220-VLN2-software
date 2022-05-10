@@ -1,44 +1,61 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load rating %}
 {% block content %}
 <h4>Upplýsingar um sölu nr. {{ sale.id }}: {{ sale.item.name }}</h4>
-    <div class="card w-50 bg-dark text-light">
+    <div class="card w-100 bg-dark text-light">
         <div class="card-header">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active bg-dark text-light nav-btn-sale" id="{{ sale.item.name }}-tab" data-bs-toggle="tab" data-bs-target="#{{ sale.item.name }}" type="button" role="tab" aria-controls="{{ sale.item.name }}" aria-selected="true">Vara</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link bg-dark text-light nav-btn-sale" id="{{ sale.buyer }}-tab" data-bs-toggle="tab" data-bs-target="#{{ sale.buyer }}" type="button" role="tab" aria-controls="{{ sale.buyer }}" aria-selected="false">Kaupandi</button>
+                    <button class="nav-link active bg-dark text-light nav-btn-sale" id="item-tab" data-bs-toggle="tab" data-bs-target="#item" type="button" role="tab" aria-controls="item" aria-selected="true">Vara</button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link bg-dark text-light nav-btn-sale" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Tengiliðs upplýsingar</button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link bg-dark text-light nav-btn-sale" id="buyer-tab" data-bs-toggle="tab" data-bs-target="#buyer" type="button" role="tab" aria-controls="buyer" aria-selected="false">Kaupandi</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link bg-dark text-light nav-btn-sale" id="seller-tab" data-bs-toggle="tab" data-bs-target="#seller" type="button" role="tab" aria-controls="seller" aria-selected="false">Seljandi</button>
+                </li>
             </ul>
         </div>
         <div class="tab-content" id="myTabContent">
-            <div class="card-body tab-pane fade show active" id="{{ sale.item.name }}" role="tabpanel" aria-labelledby="{{ sale.item.name }}-tab">
+            <div class="card-body tab-pane fade show active" id="item" role="tabpanel" aria-labelledby="item-tab">
                 <h4>Nafn vöru: {{ sale.item.name }}</h4>
                 <p>Vörulýsing: {{ sale.item.description }}</p>
                 <p>Ástand vöru: {{ sale.item.condition.name }}</p>
                 <p>Seld á: {{ sale.amount }}kr.</p>
+                {% if rating %}
+                    <p>Einkun gefinn:</p>
+                    {% rating_tag rating.rating %}
+                {% endif %}
+                <br><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#change_rating">Breyta einkunn</button>
                 <img alt="{{ sale.item.image_url }}-img" src="{{ sale.item.image_url }}" class="card-img h-50">
-            </div>
-            <div class="card-body tab-pane fade show" id="{{ sale.buyer }}" role="tabpanel" aria-labelledby="{{ sale.buyer }}">
-                <h4>{{ sale.buyer.get_full_name }}</h4>
-                <p>Bio: {{ sale.buyer.user_profile.bio }}</p>
-                <p>Avg. rating: {{ sale.buyer.user_profile.get_rating }}</p>
-                {% with sale.buyer.user_profile as user_profile %}
-                {% include 'user/user_rating_hunger_games.html' %}
-                {% endwith %}
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#change_rating">Breyta einkunn</button>
-                <img class="card-img h-50" src="{{ sale.buyer.user_profile.image_url }}" alt="{{ sale.buyer.user_profile.image_url }}-img">
             </div>
             <div class="card-body tab-pane fade show" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                 <h4>{{ sale.full_name }}</h4>
                 <p>Heimilisfang: {{ sale.street_name }} {{ sale.house_number }}</p>
                 <p>Borg: {{ sale.city }} póstnúmer: {{ sale.zip }}</p>
                 <p>Land: {{ sale.country }}</p>
+            </div>
+            <div class="card-body tab-pane fade show" id="buyer" role="tabpanel" aria-labelledby="buyer-tab">
+                <h4>{{ sale.buyer.get_full_name }}</h4>
+                <p>Bio: {{ sale.buyer.user_profile.bio }}</p>
+                <p>Avg. rating:</p>
+                {% rating_tag sale.buyer.user_profile.avg_rating %}
+                <div>
+                    <img class="h-50" src="{{ sale.buyer.user_profile.image_url }}" alt="{{ sale.buyer.user_profile.image_url }}-img">
+                </div>
+            </div>
+            <div class="card-body tab-pane fade show" id="seller" role="tabpanel" aria-labelledby="seller-tab">
+                <h4>{{ sale.seller.get_full_name }}</h4>
+                <p>Bio: {{ sale.seller.user_profile.bio }}</p>
+                <p>Avg. rating:</p>
+                {% rating_tag sale.seller.user_profile.avg_rating %}
+                <div>
+                    <img class="h-50" src="{{ sale.seller.user_profile.image_url }}" alt="{{ sale.seller.user_profile.image_url }}-img">
+                </div>
             </div>
         </div>
     </div>

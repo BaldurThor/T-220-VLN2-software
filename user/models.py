@@ -28,18 +28,6 @@ class UserProfile(models.Model):
         else:
             return '/static/images/banner.jpg'
 
-    def get_rating(self):
-        return self.avg_rating / 2
-
-    def get_full_stars(self):
-        return self.avg_rating // 2
-
-    def get_half_stars(self):
-        return self.avg_rating % 2
-
-    def get_empty_stars(self):
-        return (10 - self.avg_rating) // 2
-
     def get_unread_messages(self):
         return Message.objects.filter(read_at=None, receiver=self.user).count()
 

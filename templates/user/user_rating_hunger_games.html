@@ -1,14 +1,12 @@
 
 {% load static %}
 
-    {% if user_profile %}
-    {% for _ in ''|center:user_profile.get_empty_stars %}
+    {% for _ in ''|center:empty %}
         <img src="{% static 'images/hunger-bar-empty.png' %}" alt="..." class="img hunger-rating">
     {% endfor %}
-    {% if user_profile.get_half_stars %}
+    {% if half %}
         <img src="{% static 'images/hunger-bar-half.png' %}" alt="..." class="img hunger-rating">
     {% endif %}
-    {% for _ in ''|center:user_profile.get_full_stars %}
+    {% for _ in ''|center:full %}
         <img src="{% static 'images/hunger-bar-full.png' %}" alt="..." class="img hunger-rating">
     {% endfor %}
-    {% endif %}
