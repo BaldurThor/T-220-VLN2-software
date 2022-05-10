@@ -70,6 +70,14 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = models.Contact
         fields = ['full_name', 'country', 'street_name', 'house_number', 'city', 'zip']
+        labels = {
+            'full_name': 'Fullt nafn',
+            'country': 'Land',
+            'street_name': 'Heimilisfang',
+            'house_number': 'Húsnúmer',
+            'city': 'Borg',
+            'zip': 'Pósthólf'
+        }
 
 
 class ChangePasswordForm(forms.Form):

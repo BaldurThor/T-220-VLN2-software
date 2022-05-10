@@ -11,14 +11,73 @@
                 <div class="card-body">
                     {% block checkout_content %}{% endblock %}
                 </div>
-                <div class="card-footer">
+                <div class="card-footer text-center">
                     {% block checkout_cardfooter %}{% endblock %}
                 </div>
             </div>
             {% block checkout_postcard %}{% endblock %}
         </div>
         <div class="col">
-            <h4>Hérna kemur shit, ég lofa</h4>
+            <div class="item-card card mb-3">
+                <img src="{{ offer.item.image_url }}" class="card-img-top" alt="{{ offer.item.name }}-image">
+                <div class="card-body">
+                    <p class="card-text text-muted float-end">Seljandi: {{ offer.item.seller | truncatechars:30 }}</p>
+                    <h5 class="card-title">{{ offer.item.name }}</h5>
+                    <p class="card-text ">{{ offer.item.description}}</p>
+                <div class="d-flex justify-content-between">
+                    <p class="card-text text-muted">Ástand: {{ offer.item.condition.name }}</p>
+                    <h5>{{ offer.amount }} kr.</h5>
+                </div>
+                </div>
+            </div>
+            {% if summary.contact %}
+            <ul class="list-group col mb-3">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-3 col-12 text-muted">
+                            Tengiliður
+                        </div>
+                        <div class="col-md-9 col-12">
+                            {{ summary.contact.full_name }}
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-3 col-12 text-muted text-nowrap">
+                            Senda til
+                        </div>
+                        <div class="col-md-9 col-12">
+                            {{ summary.contact }}
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            {% endif %}
+        {% if summary.payment_information %}
+            <ul class="list-group col">
+            <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-3 col-12 text-muted">
+                            Nafn á korti
+                        </div>
+                        <div class="col-md-9 col-12">
+                            {{ summary.payment_information.card_name }}
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-3 col-12 text-muted">
+                            Kort
+                        </div>
+                        <div class="col-md-9 col-12">
+                            **** **** **** {{ summary.payment_information.card_number | slice:'-4:' }}
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
