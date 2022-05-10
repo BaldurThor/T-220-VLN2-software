@@ -44,6 +44,16 @@ def offer_rejected(offer):
                       )
     message.save()
 
+def sale_completed(sale):
+    message = Message(sender=User.objects.get(pk=1),
+                      receiver=sale.buyer,
+                      subject=f'Takk fyrir kaupinn á {sale.item.name}',
+                      body=f'Kaupinn þín á {sale.item.name} eru kláruð,\nog {sale.amount} kr. hafa verið gjaldfærð á kortið {sale.card_name},\n{sale.card_number[-4:]}',
+                      related=sale,
+                      type='Sale_completed',
+                      )
+    message.save()
+
 
 def delete_item(item, user):
     if item.seller == user:
