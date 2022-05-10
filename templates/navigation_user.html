@@ -23,8 +23,11 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
         <li><div class="dropdown-item">
-            <a href="{% url 'user:profile' %}"><img src="{% if user_profile %}{{ user_profile.image_url }}{% else %}{% static 'images/generic-profile.png' %}{% endif %}" alt="Generic profile pic" class="img profile-img"></a>
-            {% rating_tag user_profile.avg_rating %}
+            <a href="{% url 'user:profile' %}">
+                <img src="{% if user_profile %}{{ user_profile.image_url }}{% else %}{% static 'images/generic-profile.png' %}{% endif %}" alt="Generic profile pic" class="img profile-img">
+                {% rating_tag user_profile.avg_rating %}
+            </a>
+
 
         </div></li>
             <li><a class="dropdown-item" href="{% url 'user:profile' %}"><i class="bi bi-person-lines-fill pe-2"></i>Skoða aðgang</a></li>
