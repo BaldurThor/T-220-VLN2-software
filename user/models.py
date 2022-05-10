@@ -54,6 +54,8 @@ class Rating(models.Model):
     rated = models.ForeignKey(User, related_name='rated', on_delete=models.CASCADE)
     rating = models.IntegerField()
 
+    def get_rating(self):
+        return self.rating / 2
 
 class Contact(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
