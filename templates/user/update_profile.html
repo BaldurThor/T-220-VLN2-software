@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-<form id="update-profile-form" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="row d-flex justify-content-center align-items-center">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-4">
-            {% include 'form.html' %}
-                <div id="cropper"></div>
-            <input id="submit-update-form" type="submit" class="btn btn-primary" value="Uppfæra">
+    <div class="card mx-auto" style="width: 60%">
+        <div class="card-body">
+            <form id="update-profile-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="">
+                    <div class="">
+                        {% include 'form.html' %}
+                            <div id="cropper"></div>
+                        <input id="submit-update-form" type="submit" class="btn btn-primary" value="Uppfæra">
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-</form>
 {% endblock %}
