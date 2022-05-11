@@ -16,6 +16,7 @@ def submit_offer(request):
         if form.is_valid():
             offer = form.save(commit=False)
             offer.user = request.user
+            offer.save()
             services.offer_placed(offer)
             messages.add_message(request, messages.SUCCESS, 'Tilboð er móttekið.')
         else:
