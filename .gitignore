@@ -116,3 +116,5 @@ GitHub.sublime-settings
 node_modules/
 
 ass.bat
+
+local_settings.py
