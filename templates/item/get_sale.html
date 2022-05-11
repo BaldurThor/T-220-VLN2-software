@@ -40,22 +40,22 @@
                 <p>Land: {{ sale.country }}</p>
             </div>
             <div class="card-body tab-pane fade show" id="buyer" role="tabpanel" aria-labelledby="buyer-tab">
+                <div>
+                    <img class="float-start me-3" style="height: 150px" src="{{ sale.buyer.user_profile.image_url }}" alt="{{ sale.buyer.user_profile.name }}-img">
+                </div>
                 <h4>{{ sale.buyer.get_full_name }}</h4>
                 <p>Bio: {{ sale.buyer.user_profile.bio }}</p>
                 <p>Avg. rating:</p>
                 {% rating_tag sale.buyer.user_profile.avg_rating %}
-                <div>
-                    <img class="h-50" src="{{ sale.buyer.user_profile.image_url }}" alt="{{ sale.buyer.user_profile.image_url }}-img">
-                </div>
             </div>
             <div class="card-body tab-pane fade show" id="seller" role="tabpanel" aria-labelledby="seller-tab">
+                <div>
+                    <img class="float-start me-3" style="height: 150px" src="{{ sale.seller.user_profile.image_url }}" alt="{{ sale.seller.user_profile.name }}-img">
+                </div>
                 <h4>{{ sale.seller.get_full_name }}</h4>
                 <p>Bio: {{ sale.seller.user_profile.bio }}</p>
                 <p>Avg. rating:</p>
                 {% rating_tag sale.seller.user_profile.avg_rating %}
-                <div>
-                    <img class="h-50" src="{{ sale.seller.user_profile.image_url }}" alt="{{ sale.seller.user_profile.image_url }}-img">
-                </div>
             </div>
         </div>
     </div>
