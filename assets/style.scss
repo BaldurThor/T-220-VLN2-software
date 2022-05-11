@@ -1,3 +1,7 @@
+body {
+  background-color: #ebeaee;
+}
+
 @media(min-width:769px) {
   #the-container {
     min-height:800px;
@@ -254,4 +258,19 @@ footer .footer-icon {
 }
 #checkout-rating {
   display:inline-block;
+}
+#the-container > .card {
+  @extend .shadow-sm;
+  @extend .bg-info;
+  @extend .text-light;
+  .card-footer,
+  .card-header {
+    background-color: #2e323b;
+  }
+  .form-control {
+    background-color: #e7e3e3;
+    color: #393a41;
+    border: none;
+  }
+
 }
