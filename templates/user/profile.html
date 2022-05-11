@@ -11,7 +11,11 @@
         <div class="card-second-body ps-2">
             <h3 class="card-title"><strong>{{ user_profile.user.get_full_name }}</strong></h3>
             {% rating_tag user_profile.avg_rating %}
+            {% if user_profile.bio %}
             <p class="card-text profile-text pb-5 pt-2">{{ user_profile.bio }}</p>
+            {% else %}
+            <p class="card-text profile-text pb-5 pt-2">Engar upplýsingar</p>
+            {% endif %}
         </div>
         {% if request.user == user_profile.user %}
             <div class="btn-group float-end">
