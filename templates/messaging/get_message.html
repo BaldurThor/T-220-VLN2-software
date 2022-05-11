@@ -30,7 +30,17 @@
                 {% if message.type == 'Offer_accepted' %}
                     <a href="{% url 'item:checkout' message.related.id %}" class="btn btn-primary">Ganga frá kaupum</a>
                 {% elif message.type == 'Offer_rejected' %}
-                    <button class="btn btn-primary" type="button">Bjóða aftur</button>
+                    {% if not message.related.item.sold_at %}
+                        <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#offer-modal"
+                                data-item-id="{{ message.related.item.id }}"
+                                data-item-name="{{ message.related.item.name }}"
+                        >Bjóða aftur</button>
+                    {% endif %}
+                    <a href="{% url 'item:get_item' message.related.item.id %}" class="btn btn-primary">Skoða vöru</a>
                 {% elif message.type == 'Offer_new' %}
                     {% if message.related.rejected %}
                         <div class="alert alert-info">Þessu tilboði hefur verið hafnað.</div>
