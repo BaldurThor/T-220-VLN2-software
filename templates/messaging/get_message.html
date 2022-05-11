@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
+{% load rating %}
 {% block content %}
     <div class="row">
         <div class="col">
-            <div class="card">
+            <div class="card" id="mastercard">
                 <div class="card-header">
                     <div class="row align-items-center">
                         <div class="col-12 col-lg-8">
-                            <h4>{{ message.subject }}</h4>
+                            <h5>{{ message.subject }}</h5>
                         </div>
                         <div class="col-12 col-lg-4 text-end text-nowrap">
-                            {% with message.sender as user %}
-                            {% include 'user/user_in_heading.html' %}
-                            {% endwith %}
+                        {% with message.sender as user %}
+                        <a class="text-decoration-none" href="{% url 'user:profile' user.id %}">
+                            <img src="{{ user.user_profile.image_url }}" alt="..." class="img profile-img" style="width:56px">
+                            {% rating_tag user.user_profile.avg_rating %}
+                        </a>
+                        {% endwith %}
                         </div>
                     </div>
                 </div>
@@ -21,7 +25,7 @@
             </div>
         </div>
         {% if message.related %}
-            <div class="col">
+            <div class="col-4">
                 {% if message.type|slice:'5' == 'Offer' %}
                     {% with message.related as offer %}
                     {% include 'item/offer_item_card.html' %}
