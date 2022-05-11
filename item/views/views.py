@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
+from django.db.models.functions import Lower
 
 from user.models import UserProfile, Rating, Country
 from item import services
@@ -23,10 +24,25 @@ class CatalogView(ListView):
     paginate_by = 24
     context_object_name = 'items'
     template_name = 'item/catalog.html'
+    ORDERABLE = {
+        "name": "Stafrófsröð",
+        "-name": "Öfug stafrófsröð",
+        "-views": "Mest Skoðað",
+        "views": "Minnst Skoðað",
+        "highest_offer": "Hæsta boð"
+
+    }
 
     def get_queryset(self):
         queryset = Item.objects.filter(sold_at=None, is_deleted=False)
         queryset = filtering.apply_filter(self.request, queryset)
+        order_by = self.request.GET.get('order_by')
+        if order_by and order_by in self.ORDERABLE:
+            if order_by == 'name':
+                order_by = Lower(order_by)
+            elif order_by == '-name':
+                order_by = Lower('name').desc()
+            queryset = queryset.order_by(order_by)
         return queryset.distinct()
 
     def get_context_data(self, **kwargs):
@@ -34,8 +50,10 @@ class CatalogView(ListView):
 
         context['conditions'] = Condition.objects.all()
         context['categories'] = Category.objects.all()
+        context['orderable'] = self.ORDERABLE
 
         context['filter'] = filtering.get_context(self.request)
+        context['order_by'] = self.request.GET.get('order_by')
         return context
 
 
