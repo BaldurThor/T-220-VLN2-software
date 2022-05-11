@@ -1,17 +1,15 @@
-{% extends 'base.html' %}
-{% load bootstrapify_field %}
-{% load i18n %}
-{% block content %}
-<div class="card w-75 mx-auto h-75">
-<div class="card-header text-center">
-    <h3>Upplýsingar um vöru</h3>
-</div>
-<div class="card-body">
-    <form method="post" enctype="multipart/form-data">
+{% extends 'base_card.html' %}
+{% block preheader %}
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {% include 'form.html' %}
-        <input type="submit" class="btn btn-primary" value="Stofna">
+{% endblock %}
+{% block postheader %}
     </form>
-</div>
-</div>
+{% endblock %}
+{% block card_header %}Upplýsingar um vöru{% endblock %}
+{% block card_body %}
+    {% include 'form.html' %}
+{% endblock %}
+{% block card_footer %}
+    <input type="submit" class="btn btn-primary" value="Stofna">
 {% endblock %}

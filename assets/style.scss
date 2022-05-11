@@ -120,11 +120,11 @@ ul.errorlist {
     background-image: none !important;
   }
   .accordion-button:hover {
-    background-color: #454c56 !important;
+    background-color: #3e4145 !important;
     text-decoration: none !important;
   }
   .accordion-body {
-    background-color: #262E3A !important;
+    background-color: $dark !important;
     border: none !important;
   }
   .accordion-body a {
@@ -133,7 +133,7 @@ ul.errorlist {
     font-size: 115%;
   }
   .accordion-body:hover {
-    background-color: #454c56 !important;
+    background-color: #3e4145 !important;
   }
 }
 
@@ -184,7 +184,7 @@ ul.errorlist {
   content: none;
 }
 .dropdown-menu {
-  background-color: #262E3A;
+  background-color: $dark;
 }
 
 .catalog-image-views:hover{
@@ -259,7 +259,11 @@ footer .footer-icon {
 #checkout-rating {
   display:inline-block;
 }
-#the-container > .card {
+.btn {
+  color: #eff0f1 !important;
+}
+#the-container > .card,
+#mastercard {
   @extend .shadow-sm;
   @extend .bg-info;
   @extend .text-light;
@@ -272,5 +276,4 @@ footer .footer-icon {
     color: #393a41;
     border: none;
   }
-
 }

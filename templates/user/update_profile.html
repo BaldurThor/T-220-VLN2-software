@@ -1,17 +1,17 @@
-{% extends 'base.html' %}
-{% block content %}
-    <div class="card mx-auto" style="width: 60%">
-        <div class="card-body">
-            <form id="update-profile-form" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="">
-                    <div class="">
-                        {% include 'form.html' %}
-                            <div id="cropper"></div>
-                        <input id="submit-update-form" type="submit" class="btn btn-primary" value="Uppfæra">
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+{% extends 'base_card.html' %}
+{% block preheader %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+{% endblock %}
+{% block postheader %}
+    </form>
+{% endblock %}
+{% block card_header %}Breyta Upplýsingum{% endblock %}
+{% block card_body %}
+    {% include 'form.html' %}
+    <div id="cropper"></div>
+{% endblock %}
+{% block card_footer %}
+    <input type="submit" class="btn btn-primary" value="Uppfæra">
+    <button onclick="history.back()" type="button" class="btn btn-primary float-end">Til baka</button>
 {% endblock %}
