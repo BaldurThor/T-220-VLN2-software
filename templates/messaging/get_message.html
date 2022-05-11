@@ -9,7 +9,7 @@
                         <div class="col-12 col-lg-8">
                             <h5>{{ message.subject }}</h5>
                         </div>
-                        <div class="col-12 col-lg-4 text-end text-nowrap">
+                        <div class="col-12 col-xl-4 text-end text-nowrap">
                         {% with message.sender as user %}
                         <a class="text-decoration-none" href="{% url 'user:profile' user.id %}">
                             <img src="{{ user.user_profile.image_url }}" alt="..." class="img profile-img" style="width:56px">
