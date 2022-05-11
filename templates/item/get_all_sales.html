@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <h4 class="card-title">{{ own_sale.item.name }}</h4>
                         <p class="card-text">Upphæð: {{ own_sale.amount }}kr.</p>
-                        <p class="card-text">Seljandi: {{ own_sale.item.seller }}</p>
+                        <p class="card-text">Kaupandi: {{ own_sale.buyer }}</p>
                         </div>
                     <div class="card-footer">
                         <a class="btn btn-primary" href="{% url "item:get_sale" own_sale.id %}">Skoða nánar</a>
@@ -46,7 +46,6 @@
                     <div class="card-body">
                         <h4 class="card-title">{{ other_sale.item.name }}</h4>
                         <p class="card-text">Upphæð: {{ other_sale.amount }}</p>
-                        <p class="card-text">Kaupandi: {{ other_sale.user }}</p>
                         </div>
                     <div class="card-footer">
                        <a class="btn btn-primary" href="{% url "item:get_sale" other_sale.id %}">Skoða nánar</a>
