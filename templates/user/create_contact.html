@@ -1,15 +1,3 @@
-{% extends 'base_card.html' %}
-{% block preheader %}
-    <form method="POST">
-        {% csrf_token %}
-{% endblock %}
-{% block postheader %}
-    </form>
-{% endblock %}
-{% block card_header %}Stofna heimilisfang{% endblock %}
-{% block card_body %}
-    {% include 'form.html' %}
-{% endblock %}
-{% block card_footer %}
-    <input type="submit" class="btn btn-primary" value="Vista">
-{% endblock %}
+{% extends 'base_form.html' %}
+{% block form_header %}Stofna heimilisfang{% endblock %}
+{% block form_submit %}Vista{% endblock %}
