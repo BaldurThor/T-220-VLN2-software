@@ -10,7 +10,7 @@
     </div>
     <div class="offcanvas offcanvas-start" tabindex="-1" id="filters" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Síur</h5>
+            <h3 class="offcanvas-title" id="offcanvasExampleLabel">Sía og raða</h3>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
@@ -22,7 +22,7 @@
     {% endif %}
     <div class="row g-4">
         {% for item in items %}
-            <div class="col col-12 col-md-6 col-lg-3">
+            <div class="col col-12 col-md-6 col-lg-4 col-xl-3">
                 {% include 'item/item_card.html' %}
             </div>
         {% endfor %}
