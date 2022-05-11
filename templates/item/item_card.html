@@ -1,5 +1,5 @@
 <div class="item-card card text-center h-100">
-    <a href="{% url 'item:get_item' item.id %}"><img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.name }}-image"></a>
+    <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.name }}-image"></a>
     <div class="card-body">
         <h5 class="card-title">{{ item.name }}</h5>
         <p class="card-text ">{{ item.description | truncatechars:30 }}</p>
@@ -12,6 +12,6 @@
         </p>
     </div>
     <div class="card-footer">
-        <a href="{% url 'item:get_item' item.id %}" class="btn btn-primary">Nánari upplýsingar</a>
+        <a  href="{% url 'item:get_item' item.id %}" class="btn btn-primary stretched-link">Nánari upplýsingar</a>
     </div>
 </div>
