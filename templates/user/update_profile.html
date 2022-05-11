@@ -9,7 +9,14 @@
 {% block card_header %}Breyta Upplýsingum{% endblock %}
 {% block card_body %}
     {% include 'form.html' %}
-    <div id="cropper"></div>
+    <div
+            id="cropper"
+            data-viewport-width="420"
+            data-viewport-height="420"
+            data-viewport-type="circle"
+            data-boundary-width="512"
+            data-boundary-height="512"
+    ></div>
 {% endblock %}
 {% block card_footer %}
     <input id="submit-update-form" type="submit" class="btn btn-primary" value="Uppfæra">

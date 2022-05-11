@@ -24,7 +24,9 @@
                     </div>
                 </div>
         </div>
-        <img src="{{ item.image_url }}" class="card-img-bottom mb-3" alt="{{ item.name }}-image">
+        {% if item.banner %}
+            <img src="{{ item.banner.url }}" class="card-img-bottom mb-3" alt="{{ item.name }}-image">
+        {% endif %}
         <div class="card-body px-0 pt-0">
             {% if offer %}
                 <h5 class="p-2 pb-1">Hæðsta boð: {{ offer.amount }} kr.</h5>

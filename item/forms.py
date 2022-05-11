@@ -4,22 +4,20 @@ from django.forms import ModelForm, ModelChoiceField, ModelMultipleChoiceField
 from django import forms
 from django.utils.timezone import now
 
-from item.models import Item, Category, Offer
+from item.models import Item, Category, Offer, ItemImage
 
 
 class ItemCreateForm(ModelForm):
-    image = forms.ImageField(label='Mynd af vöru', required=True)
     categories = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = Item
         exclude = ['id']
-        fields = ['name', 'description', 'condition', 'image', 'country', 'zip', 'categories']
+        fields = ['name', 'description', 'condition', 'image', 'banner', 'country', 'zip', 'categories']
         labels = {
             'name': 'Nafn',
-            'description': 'Vöru lýsing',
+            'description': 'Vörulýsing',
             'condition': 'Ástand',
-            'image ': 'Mynd af vöru',
             'country': 'Land',
             'zip': 'Póstnúmer',
             'categories': 'Vöruflokkar'
@@ -30,6 +28,16 @@ class ItemCreateForm(ModelForm):
         super().__init__(*args, **kwargs)
         if categories_choices:
             self.fields['categories'].choices = categories_choices
+
+
+class ItemImageUploadForm(forms.ModelForm):
+    class Meta:
+        model = ItemImage
+        fields = ['image', 'alt', ]
+        labels = {
+            'alt': 'Lýsing á mynd',
+            'image': 'Mynd'
+        }
 
 
 class CheckoutContactForm(forms.Form):

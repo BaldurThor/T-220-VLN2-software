@@ -5,5 +5,6 @@ from .models import *
 admin.site.register(Category)
 admin.site.register(Condition)
 admin.site.register(Item)
+admin.site.register(ItemImage)
 admin.site.register(Offer)
 admin.site.register(Sale)

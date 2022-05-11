@@ -37,13 +37,20 @@ class Item(models.Model):
     accepted_offer = models.ForeignKey('Offer', null=True, blank=True, on_delete=models.CASCADE, related_name='accepted_offer')
     categories = models.ManyToManyField(Category)
     is_deleted = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='items')
+    image = models.ImageField(upload_to='items', null=True, blank=True)
+    banner = models.ImageField(upload_to='items', null=True, blank=True)
 
     def image_url(self):
         if self.image:
             return self.image.url
         else:
             return ""
+
+
+class ItemImage(models.Model):
+    item = models.ForeignKey(Item, related_name='images', on_delete=models.CASCADE, blank=True, null=True)
+    alt = models.CharField(max_length=191)
+    image = models.ImageField(upload_to='items')
 
 
 class Offer(models.Model):

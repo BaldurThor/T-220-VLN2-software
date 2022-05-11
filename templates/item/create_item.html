@@ -1,15 +1,107 @@
-{% extends 'base_card.html' %}
-{% block preheader %}
+{% extends 'base.html' %}
+{% load bootstrapify_field %}
+{% block content %}
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-{% endblock %}
-{% block postheader %}
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div id="mastercard" class="card mb-3">
+                    {% block preheader %}{% endblock %}
+                    <div class="card-header">
+                        Upplýsingar um vöru
+                    </div>
+                    <div class="card-body">
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <div class="icon">
+                                <i class="bi bi-exclamation-triangle"></i>
+                            </div>
+                            <div>
+                                {{ form.non_field_errors }}
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% with form.name as field %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                {% include 'form_field.html' %}
+                            </div>
+                        {% endwith %}
+                        {% with form.description as field %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                {% include 'form_field.html' %}
+                            </div>
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        {% with form.condition as field %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                {% include 'form_field.html' %}
+                            </div>
+                        {% endwith %}
+                        {% with form.categories as field %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">Vöruflokkar</label>
+                                {% include 'form_field.html' %}
+                            </div>
+                        {% endwith %}
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        {% with form.country as field %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                {% include 'form_field.html' %}
+                            </div>
+                        {% endwith %}
+                        {% with form.zip as field %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                {% include 'form_field.html' %}
+                            </div>
+                        {% endwith %}
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-header hide-on-cropping">Bæta við mynd</div>
+                    <div class="card-body">
+                        <div class="hide-on-cropping">
+                            <input type="file" id="create-item-image">
+                        </div>
+                        <div class="show-on-cropping">
+
+                            <select class="form-control mb-3" id="croppie-select">
+                                <option value="id_image">Mynd á spjaldi</option>
+                                <option value="id_banner">Mynd á banner</option>
+                                <option value="id_images">Almenn mynd</option>
+                            </select>
+                            <div
+                                    id="cropper"
+                                    data-viewport-width="300"
+                                    data-viewport-height="300"
+                                    data-viewport-type="square"
+                                    data-boundary-width="100%"
+                                    data-boundary-height="400"
+                            ></div>
+                            <img src="" alt="" id="image-preview" class="img-fluid mb-3 d-none">
+                            <button type="button" class="btn btn-primary" id="add-image-button">Bæta við mynd</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-none">
+        <input type="file" id="id_image" name="image">
+        <input type="file" id="id_banner" name="banner">
+        <input type="file" id="id_images" name="images" multiple>
+        </div>
+        <input type="submit" class="btn btn-primary btn-lg" value="Stofna vöru">
     </form>
-{% endblock %}
-{% block card_header %}Upplýsingar um vöru{% endblock %}
-{% block card_body %}
-    {% include 'form.html' %}
-{% endblock %}
-{% block card_footer %}
-    <input type="submit" class="btn btn-primary" value="Stofna">
 {% endblock %}
