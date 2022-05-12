@@ -1,5 +1,11 @@
 <div class="item-card card text-center h-100">
-    <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.name }}-image"></a>
+    {% if item.image %}
+        <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}-image">
+    {% elif item.images.all %}
+        {% with item.images.all|first as image %}
+        <img src="{{ image.image.url }}" class="card-img-top" alt="{{ item.name }}-image">
+        {% endwith %}
+    {% endif %}
     <div class="card-body">
         <h5 class="card-title">{{ item.name }}</h5>
         <p class="card-text ">{{ item.description | truncatechars:30 }}</p>
