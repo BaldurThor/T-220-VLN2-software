@@ -5,6 +5,8 @@
         {% with item.images.all|first as image %}
         <img src="{{ image.image.url }}" class="card-img-top" alt="{{ item.name }}-image">
         {% endwith %}
+    {% elif item.banner %}
+        <img src="{{ item.banner.url }}" class="card-img-top" alt="{{ item.name }}-image">
     {% endif %}
     <div class="card-body">
         <h5 class="card-title">{{ item.name }}</h5>
