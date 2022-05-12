@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% block content %}
     <h2>Vörur sem þú hefur boðið í</h2>
     <div class="row row-cols-1 row-cols-md-auto g-4">
@@ -53,8 +54,28 @@
                         <p class="card-text">Kaupandi: {{ other_offer.user }}</p>
                         </div>
                     <div class="card-footer">
-                        <form action="accept_offer/{{ other_offer.id }}" method="POST">{% csrf_token %}<input class="btn btn-primary float-start" type="submit" value="Samþykkja"></form>
-                        <form action="reject_offer/{{ other_offer.id }}" method="POST">{% csrf_token %}<input class="btn btn-primary float-end" type="submit" value="Neita"></form>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#confirm-modal"
+                            data-confirm-method="POST"
+                            data-confirm-action="{% url 'item:accept_offer' other_offer.id %}"
+                            data-confirm-text="Staðfesta tilboð í {{ other_offer.item.name }} fyrir upphæð: {{ other_offer.amount | intcomma }} kr."
+                        >
+                        Samþykkja tilboð
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-secondary mt-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#confirm-modal"
+                            data-confirm-method="POST"
+                            data-confirm-action="{% url 'item:reject_offer' other_offer.id %}"
+                            data-confirm-text="Hafna tilboði í {{ other_offer.item.name }} fyrir upphæð: {{ other_offer.amount | intcomma }} kr."
+                        >
+                        Hafna tilboði
+                        </button>
                         </div>
                     </div>
                 </div>

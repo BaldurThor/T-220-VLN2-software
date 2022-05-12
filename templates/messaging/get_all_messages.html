@@ -1,15 +1,18 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base_card.html' %}
+{% block card_header %}
+    Pósthólf
+{% endblock %}
+{% block card_body %}
 <table class="table inbox">
     <thead>
-        <tr>
+        <tr class="text-light">
             <th>Sendandi</th>
             <th>Fyrirsögn</th>
         </tr>
     </thead>
     <tbody>
     {% for message in messages_qs %}
-        <tr class="{% if not message.read_at %}table-dark{% else %}table-primary{% endif %} position-relative">
+        <tr class="{% if not message.read_at %}table-warning{% else %}table-primary{% endif %} position-relative">
             <td>
                 <img src="{{ message.sender.user_profile.image_url }}" alt="profile pic" class="img profile-img" style="width:32px;height:32px;">
                 {{ message.sender.get_full_name }}

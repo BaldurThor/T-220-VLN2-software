@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 {% block content %}
     {% if item.sold_at %}
         <div class="alert alert-primary" role="alert">
@@ -31,7 +32,7 @@
         {% endif %}
         <div class="card-body px-0 pt-0">
             {% if offer %}
-                <h5 class="p-2 pb-1">Hæðsta boð: {{ offer.amount }} kr.</h5>
+                <h5 class="p-2 pb-1">Hæsta boð: {{ offer.amount | intcomma }} kr.</h5>
             {% endif %}
             <p class="card-text mx-3">{{ item.description|linebreaksbr }}
             <button class="btn btn-primary py-1 px-2 float-end" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
