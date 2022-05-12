@@ -31,7 +31,7 @@
             {% if offer %}
                 <h5 class="p-2 pb-1">Hæðsta boð: {{ offer.amount }} kr.</h5>
             {% endif %}
-            <p class="card-text mx-3">{{ item.description }}</p>
+            <p class="card-text mx-3">{{ item.description|linebreaksbr }}</p>
             {% if not item.sold_at and not item.is_deleted %}
                 <div class="row">
                     <div class="col text-center mx-3">
