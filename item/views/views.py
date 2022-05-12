@@ -74,29 +74,6 @@ class SearchView(CatalogView):
         return queryset
 
 
-def get_item(request, id):
-    item = get_object_or_404(Item, pk=id)
-    view_session = request.session.get('viewed_items', [])
-    if item.id not in view_session:
-        item.views += 1
-        item.save()
-        view_session.append(item.id)
-        request.session['viewed_items'] = view_session
-    seller = UserProfile.objects.get(user=item.seller)
-    context = {'item': item, 'seller': seller}
-    similar_items = services.get_similar(item)
-    if similar_items:
-        context['similar_items'] = similar_items
-    try:
-        offer = Offer.objects.order_by('-amount').filter(item=item, rejected=False)[0]
-        context['offer'] = offer
-    except ObjectDoesNotExist:
-        pass
-    except IndexError:
-        pass
-    return render(request, 'item/get_item.html', context)
-
-
 @login_required
 def delete_item(request, item_id):
     item = Item.objects.get(pk=item_id, seller=request.user)

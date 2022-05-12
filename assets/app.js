@@ -14,7 +14,8 @@ function readFile(input) {
 }
 function writeFile(output, croppie) {
     croppie.result({
-        type: 'blob'
+        type: 'blob',
+        size: 'original',
     }).then(function(img) {
         let file = new File([img], "img.jpg",{type:"image/jpeg", lastModified:new Date().getTime()});
         let container = new DataTransfer();
@@ -146,17 +147,12 @@ document.addEventListener("DOMContentLoaded", function() {
             let elName = document.getElementById('croppie-select').value
             let el = document.getElementById(elName)
             if (elName == 'id_images') {
-                const reader = new FileReader();
-
-                reader.onload = function (e) {
-                    resolve(e.target.result)
-                }
-                reader.readAsBinaryString(createItemImage.files[0]);
-                reader.onload = function(img) {
-                    let file = new File([img], "img.jpg",{type:"image/jpeg", lastModified:new Date().getTime()});
-                    imagesContainer.items.add(file);
-                    el.files = imagesContainer.files;
-                }
+                const xhr = new XMLHttpRequest()
+                const formData = new FormData()
+                formData.append('image', createItemImage.files[0])
+                xhr.open('POST', document.getElementById('image-upload-url').getAttribute('data-image-upload-url'))
+                formData.append('csrfmiddlewaretoken', document.querySelector('input[name=csrfmiddlewaretoken]').value)
+                xhr.send(formData)
             }
             else {
                 writeFile(el, croppie, true)

@@ -100,7 +100,7 @@
         <div class="d-none">
         <input type="file" id="id_image" name="image">
         <input type="file" id="id_banner" name="banner">
-        <input type="file" id="id_images" name="images" multiple>
+        <div data-image-upload-url="{% url 'item:upload_item_image' %}" id="image-upload-url"></div>
         </div>
         <input type="submit" class="btn btn-primary btn-lg" value="Stofna vöru">
     </form>

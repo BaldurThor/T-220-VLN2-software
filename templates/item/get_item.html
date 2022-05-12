@@ -77,6 +77,10 @@
                         {% endif %}
         </div>
     </div>
+    {% for image in item.images.all %}
+        <img src="{{ image.image.url }}" alt="{{ image.alt }}" class="img-fluid">
+
+    {% endfor %}
     {% if similar_items %}
         <h3>Sambærilegir hlutir</h3>
         <div class="row">

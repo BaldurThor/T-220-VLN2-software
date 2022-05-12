@@ -33,9 +33,8 @@ class ItemCreateForm(ModelForm):
 class ItemImageUploadForm(forms.ModelForm):
     class Meta:
         model = ItemImage
-        fields = ['image', 'alt', ]
+        fields = ['image', ]
         labels = {
-            'alt': 'Lýsing á mynd',
             'image': 'Mynd'
         }
 
