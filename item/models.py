@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.datetime_safe import date
 
+import item.models
 from user.models import Country
 
 
@@ -34,6 +37,8 @@ class Item(models.Model):
     condition = models.ForeignKey(Condition, on_delete=models.DO_NOTHING)
     country = models.ForeignKey(Country, on_delete=models.DO_NOTHING)
     seller = models.ForeignKey(User, related_name='item_seller', on_delete=models.DO_NOTHING)
+    highest_offer = models.ForeignKey('Offer', null=True, blank=True, on_delete=models.CASCADE,
+                                       related_name='highest_offer')
     accepted_offer = models.ForeignKey('Offer', null=True, blank=True, on_delete=models.CASCADE, related_name='accepted_offer')
     categories = models.ManyToManyField(Category)
     is_deleted = models.BooleanField(default=False)
@@ -45,6 +50,16 @@ class Item(models.Model):
             return self.image.url
         else:
             return ""
+
+    def calc_highest_offer(self):
+        highest_offer = None
+        for offer in self.offer_set.filter(rejected=False):
+            if not highest_offer:
+                highest_offer = offer
+            else:
+                if highest_offer.amount < offer.amount:
+                    highest_offer = offer
+        self.highest_offer = highest_offer
 
 
 class ItemImage(models.Model):
@@ -95,3 +110,9 @@ class Sale(models.Model):
         self.buyer = offer.user
         self.seller = offer.item.seller
         self.offer = offer
+
+
+@receiver(post_save, sender=Offer)
+def get_highest_offer(sender, instance, **kwargs):
+    instance.item.calc_highest_offer()
+    instance.item.save()
