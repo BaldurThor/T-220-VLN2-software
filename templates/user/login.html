@@ -1,15 +1,44 @@
 {% extends 'base.html' %}
+{% load i18n %}
+{% load bootstrapify_field %}
 {% block content %}
 <div class="row">
     <div class="col col-8 col-md-5 mx-auto">
         <div id="mastercard" class="card">
             <form method="post">
+                {% csrf_token %}
                 <div class="card-header">Skrá inn</div>
                 <div class="card-body">
-                {% csrf_token %}
-                {% include 'form.html' %}
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <div class="icon">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+                        <div>
+                            {{ form.non_field_errors }}
+                        </div>
+                    </div>
+                    {% endif %}
+                {% with form.username as field %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">Notandanafn</label>
+                    {{ field|bootstrapify_field }}
+                    <div class="invalid-feedback">
+                        {{ field.errors }}
+                    </div>
                 </div>
-                <div class="card-footer">
+                {% endwith %}
+                {% with form.password as field %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">Lykilorð</label>
+                    {{ field|bootstrapify_field }}
+                    <div class="invalid-feedback">
+                        {{ field.errors }}
+                    </div>
+                </div>
+                {% endwith %}
+                </div>
+                <div class="card-footer text-center">
                     <input type="submit" class="btn btn-primary" value="Skrá inn">
                 </div>
             </form>
