@@ -77,6 +77,9 @@
                         {% endif %}
         </div>
     </div>
+    {% if item.image %}
+        <img src="{{ item.image.url }}" alt="{{ image.alt }}" class="img-fluid">
+    {% endif %}
     {% for image in item.images.all %}
         <img src="{{ image.image.url }}" alt="{{ image.alt }}" class="img-fluid">
 
