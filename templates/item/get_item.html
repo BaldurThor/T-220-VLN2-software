@@ -26,6 +26,8 @@
         </div>
         {% if item.banner %}
             <img src="{{ item.banner.url }}" class="card-img-bottom mb-3" alt="{{ item.name }}-image">
+        {% elif item.image %}
+            <img src="{{ item.image.url }}" class="card-img-bottom mb-3" alt="{{ item.name }}-image" style="max-height: 800px; object-fit: cover; object-position: center;">
         {% endif %}
         <div class="card-body px-0 pt-0">
             {% if offer %}
