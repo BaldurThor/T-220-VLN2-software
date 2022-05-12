@@ -4,13 +4,13 @@
     <div class="col col-8 col-md-6 mx-auto">
         <div id="mastercard" class="card">
             <form method="post">
-                <div class="card-header">Skrá mig</div>
+                <div class="card-header"><h4 class="text-center">Nýskrá</h4></div>
                 <div class="card-body">
                 {% csrf_token %}
                 {% include 'form.html' %}
                 </div>
-                <div class="card-footer">
-                    <input type="submit" class="btn btn-primary" value="Skrá inn">
+                <div class="card-footer text-center">
+                    <input type="submit" class="btn btn-primary" value="Skrá mig">
                 </div>
             </form>
         </div>
