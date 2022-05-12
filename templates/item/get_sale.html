@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 {% load rating %}
 {% block content %}
 <h4>Upplýsingar um sölu nr. {{ sale.id }}: {{ sale.item.name }}</h4>
@@ -25,7 +26,7 @@
                 <h4>Nafn vöru: {{ sale.item.name }}</h4>
                 <p>Vörulýsing: {{ sale.item.description }}</p>
                 <p>Ástand vöru: {{ sale.item.condition.name }}</p>
-                <p>Seld á: {{ sale.amount }}kr.</p>
+                <p>Seld á: {{ sale.amount | intcomma }} kr.</p>
                 {% if rating %}
                     <p>Einkun gefinn:</p>
                     {% rating_tag rating.rating %}
