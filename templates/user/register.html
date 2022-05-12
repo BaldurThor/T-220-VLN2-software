@@ -1,12 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-4">
-            {% include 'form.html' %}
-            <input type="submit" class="btn btn-primary" value="Skrá mig">
+<div class="row">
+    <div class="col col-8 col-md-6 mx-auto">
+        <div id="mastercard" class="card">
+            <form method="post">
+                <div class="card-header">Skrá mig</div>
+                <div class="card-body">
+                {% csrf_token %}
+                {% include 'form.html' %}
+                </div>
+                <div class="card-footer">
+                    <input type="submit" class="btn btn-primary" value="Skrá inn">
+                </div>
+            </form>
         </div>
     </div>
-</form>
+</div>
 {% endblock %}

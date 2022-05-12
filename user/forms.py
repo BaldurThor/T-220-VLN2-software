@@ -14,11 +14,11 @@ def validate_username(username):
 
 
 class RegistrationForm(forms.Form):
-    username = forms.CharField(validators=[validate_username])
-    email = forms.EmailField()
-    fullname = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput())
-    password_confirm = forms.CharField(widget=forms.PasswordInput())
+    username = forms.CharField(validators=[validate_username], label='Notendanafn')
+    email = forms.EmailField(label='Netfang')
+    fullname = forms.CharField(label='Fullt nafn')
+    password = forms.CharField(widget=forms.PasswordInput(), label='Lykilorð')
+    password_confirm = forms.CharField(widget=forms.PasswordInput(), label='Lykilorð aftur')
 
     def clean(self):
         super().clean()
