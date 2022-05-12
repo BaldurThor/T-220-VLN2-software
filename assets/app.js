@@ -162,6 +162,12 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('croppie-select').value = 'id_image'
             hideCroppie()
         })
+        document.getElementById('remove-image-button').addEventListener('click', function() {
+            createItemImage.value = ''
+            document.getElementById('image-preview').src = ''
+            document.getElementById('croppie-select').value = 'id_image'
+            hideCroppie()
+        })
     }
 
     const UpdateProfileForm = document.getElementById('update-profile-form')
