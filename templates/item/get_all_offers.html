@@ -56,18 +56,7 @@
                     <div class="card-footer">
                         <button
                             type="button"
-                            class="btn btn-primary"
-                            data-bs-toggle="modal"
-                            data-bs-target="#confirm-modal"
-                            data-confirm-method="POST"
-                            data-confirm-action="{% url 'item:accept_offer' other_offer.id %}"
-                            data-confirm-text="Staðfesta tilboð í {{ other_offer.item.name }} fyrir upphæð: {{ other_offer.amount | intcomma }} kr."
-                        >
-                        Samþykkja tilboð
-                        </button>
-                        <button
-                            type="button"
-                            class="btn btn-secondary mt-2"
+                            class="btn btn-secondary"
                             data-bs-toggle="modal"
                             data-bs-target="#confirm-modal"
                             data-confirm-method="POST"
@@ -75,6 +64,17 @@
                             data-confirm-text="Hafna tilboði í {{ other_offer.item.name }} fyrir upphæð: {{ other_offer.amount | intcomma }} kr."
                         >
                         Hafna tilboði
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-primary mt-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#confirm-modal"
+                            data-confirm-method="POST"
+                            data-confirm-action="{% url 'item:accept_offer' other_offer.id %}"
+                            data-confirm-text="Staðfesta tilboð í {{ other_offer.item.name }} fyrir upphæð: {{ other_offer.amount | intcomma }} kr."
+                        >
+                        Samþykkja tilboð
                         </button>
                         </div>
                     </div>

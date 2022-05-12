@@ -3,7 +3,7 @@
     Pósthólf
 {% endblock %}
 {% block card_body %}
-<table class="table inbox">
+<table class="table inbox text-light">
     <thead>
         <tr class="text-light">
             <th>Sendandi</th>
@@ -12,7 +12,7 @@
     </thead>
     <tbody>
     {% for message in messages_qs %}
-        <tr class="{% if not message.read_at %}table-warning{% else %}table-primary{% endif %} position-relative">
+        <tr class="{% if not message.read_at %} table-primary {% else %}  {% endif %} position-relative">
             <td>
                 <img src="{{ message.sender.user_profile.image_url }}" alt="profile pic" class="img profile-img" style="width:32px;height:32px;">
                 {{ message.sender.get_full_name }}

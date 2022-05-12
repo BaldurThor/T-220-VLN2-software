@@ -29,7 +29,7 @@ class RegistrationForm(forms.Form):
     email = forms.EmailField(label='Netfang')
     fullname = forms.CharField(label='Fullt nafn')
     password = forms.CharField(widget=forms.PasswordInput(), label='Lykilorð')
-    password_confirm = forms.CharField(widget=forms.PasswordInput(), label='Lykilorð aftur')
+    password_confirm = forms.CharField(widget=forms.PasswordInput(), label='Staðfesta lykilorð')
 
     def clean(self):
         super().clean()
@@ -84,7 +84,7 @@ class ContactForm(forms.ModelForm):
 class ChangePasswordForm(forms.Form):
     old_password = forms.CharField(widget=forms.PasswordInput())
     password = forms.CharField(widget=forms.PasswordInput())
-    password_confirm = forms.CharField(widget=forms.PasswordInput())
+    password_confirm = forms.CharField(widget=forms.PasswordInput(), label='Staðfesta lykilorð')
 
     def __init__(self, user=None, *args, **kwargs):
         super().__init__(*args, **kwargs)

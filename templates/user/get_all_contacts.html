@@ -1,10 +1,9 @@
-{% extends 'base.html' %}
-{% block content %}
-    <a href="{% url 'user:create_contact' %}" class="btn btn-primary">Nýtt heimilisfang</a>
-    <a href="{% url 'user:profile' %}" type="button" class="btn btn-primary">Til baka</a>
-<table class="table">
+{% extends 'base_card.html' %}
+{% block card_header %}Heimilisföngin þín{% endblock %}
+{% block card_body %}
+    <table class="table">
     <thead>
-        <tr>
+        <tr class="text-light">
             <th>Nafn</th>
             <th>Heimilisfang</th>
             <th>&nbsp;</th>
@@ -12,12 +11,16 @@
     </thead>
     <tbody>
         {% for contact in contacts %}
-            <tr>
+            <tr class="text-light">
                 <td>{{ contact.full_name }}</td>
                 <td>{{ contact }}</td>
-                <td><a href="{% url 'user:update_contact' contact.id %}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil text-dark"></i></a></td>
+                <td><a href="{% url 'user:update_contact' contact.id %}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil text-light"></i></a></td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
+{% endblock %}
+{% block card_footer %}
+    <a href="{% url 'user:create_contact' %}" class="btn btn-primary">Nýtt heimilisfang</a>
+    <a href="{% url 'user:profile' %}" type="button" class="btn btn-primary">Til baka</a>
 {% endblock %}
