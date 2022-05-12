@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 
@@ -8,7 +9,7 @@ import random
 
 
 def offer_placed(offer):
-    message = Message(sender=User.objects.get(pk=1),
+    message = Message(sender=User.objects.get(username=settings.FIRESALE_BOT_USERNAME),
                       receiver=offer.item.seller,
                       subject='Nýtt tilboð í vöruna þína!',
                       body=f'Þú átt nýtt tilboð í vöru: {offer.item.name} að upphæð {offer.amount}',
@@ -25,7 +26,7 @@ def offer_accepted(offer):
         other_offer.save()
         offer_rejected(other_offer)
 
-    message = Message(sender=User.objects.get(pk=1),
+    message = Message(sender=User.objects.get(username=settings.FIRESALE_BOT_USERNAME),
                       receiver=offer.user,
                       subject=f'🎉🎉🎉Tilboðið þitt í {offer.item.name} er samþykkt! 🎉🎉🎉',
                       body=f'',
@@ -36,7 +37,7 @@ def offer_accepted(offer):
 
 
 def offer_rejected(offer):
-    message = Message(sender=User.objects.get(pk=1),
+    message = Message(sender=User.objects.get(username=settings.FIRESALE_BOT_USERNAME),
                       receiver=offer.user,
                       subject=f'Tilboði þínu í {offer.item.name} hefur verið hafnað.',
                       related=offer,
@@ -44,8 +45,9 @@ def offer_rejected(offer):
                       )
     message.save()
 
+
 def sale_completed(sale):
-    message = Message(sender=User.objects.get(pk=1),
+    message = Message(sender=User.objects.get(username=settings.FIRESALE_BOT_USERNAME),
                       receiver=sale.buyer,
                       subject=f'Takk fyrir kaupinn á {sale.item.name}',
                       body=f'Kaupinn þín á {sale.item.name} eru kláruð,\nog {sale.amount} kr. hafa verið gjaldfærð á kortið {sale.card_name},\n{sale.card_number[-4:]}',

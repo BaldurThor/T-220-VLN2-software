@@ -144,6 +144,8 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
+FIRESALE_BOT_USERNAME = 'thjarkurinn'
+
 try:
     from local_settings import *
 except ImportError:
