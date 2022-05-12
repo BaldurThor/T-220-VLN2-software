@@ -14,7 +14,7 @@
 <div class="mb-3">
     <label for="{{ field.id_for_label }}" class="form-label">{% translate field.label %}</label>
     {{ field|bootstrapify_field }}
-    <div id="validationServer03Feedback" class="invalid-feedback">
+    <div class="invalid-feedback">
         {{ field.errors }}
     </div>
 </div>
