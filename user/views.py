@@ -60,11 +60,15 @@ def update_profile(request):
         form = UpdateProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
             form.save()
+            user_profile.user.first_name = form.cleaned_data['first_name']
+            user_profile.user.last_name = form.cleaned_data['last_name']
+            user_profile.user.save()
             return redirect('user:profile')
     else:
-        form = UpdateProfileForm(instance=user_profile)
+        form = UpdateProfileForm(instance=user_profile, initial={'fullname': user_profile.user.get_full_name()})
     context = {
-        'form': form
+        'form': form,
+        'user_profile': user_profile,
     }
     return render(request, 'user/update_profile.html', context)
 

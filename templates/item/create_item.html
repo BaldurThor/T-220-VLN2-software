@@ -5,7 +5,7 @@
         {% csrf_token %}
         <div class="row">
             <div class="col-12 col-lg-8">
-                <div id="mastercard" class="card mb-3">
+                <div id="mastercard" class="card">
                     {% block preheader %}{% endblock %}
                     <div class="card-header">
                         Upplýsingar um vöru
@@ -35,25 +35,25 @@
                         {% endwith %}
                     </div>
                 </div>
-                <div class="card mb-3">
+                <div class="card notmastercard">
                     <div class="card-header">Mynd á spjaldi</div>
                     <div class="card-body">
                         <img src="" alt="" id="id_image_preview" class="img-fluid">
                     </div>
                 </div>
-                <div class="card mb-3">
+                <div class="card notmastercard">
                     <div class="card-header">Mynd á banner</div>
                     <div class="card-body">
                         <img src="" alt="" id="id_banner_preview" class="img-fluid">
                     </div>
                 </div>
-                <div class="card mb-3">
+                <div class="card notmastercard">
                     <div class="card-header">Almennar myndir</div>
                     <div class="card-body" id="id_images_preview"></div>
                 </div>
             </div>
             <div class="col">
-                <div class="card mb-3">
+                <div class="card notmastercard">
                     <div class="card-body">
                         {% with form.condition as field %}
                             <div class="mb-3">
@@ -69,7 +69,7 @@
                         {% endwith %}
                     </div>
                 </div>
-                <div class="card mb-3">
+                <div class="card notmastercard">
                     <div class="card-body">
                         {% with form.country as field %}
                             <div class="mb-3">
@@ -85,7 +85,7 @@
                         {% endwith %}
                     </div>
                 </div>
-                <div class="card mb-3">
+                <div class="card notmastercard">
                     <div class="card-header hide-on-cropping">Bæta við mynd</div>
                     <div class="card-body">
                         <div class="hide-on-cropping">
@@ -94,8 +94,8 @@
                         <div class="show-on-cropping">
 
                             <select class="form-control mb-3" id="croppie-select">
-                                <option value="id_image">Mynd á spjaldi</option>
-                                <option value="id_banner">Mynd á banner</option>
+                                <option value="id_image" data-viewport-width="300" data-viewport-height="300">Mynd á spjaldi</option>
+                                <option value="id_banner" data-viewport-width="300" data-viewport-height="100">Mynd á banner</option>
                                 <option value="id_images">Almenn mynd</option>
                             </select>
                             <div

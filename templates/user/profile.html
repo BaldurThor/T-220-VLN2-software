@@ -1,33 +1,39 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load rating %}
+
 {% block content %}
-<div class="card bg-dark text-light mx-auto h-100 w-75" style="width: auto;">
-<div class="card-header profile-banner m-0 p-0">
-    <img class="card-img-top" src="{{ user_profile.banner_url }}" alt="banner-img">
-</div>
-    <div class="card-body pt-2">
-        <img class="img rounded-pill me-3 profile-img-lg float-start" src="{{ user_profile.image_url }}" alt="">
-        <div class="card-second-body ps-2">
-            <h3 class="card-title"><strong>{{ user_profile.user.get_full_name }}</strong></h3>
-            {% rating_tag user_profile.avg_rating %}
-            {% if user_profile.bio %}
-            <p class="card-text profile-text pb-5 pt-2">{{ user_profile.bio }}</p>
-            {% else %}
-            <p class="card-text profile-text pb-5 pt-2">Engar upplýsingar</p>
-            {% endif %}
+<div class="row">
+    <div class="col-12 col-lg-9 mx-auto">
+        <div class="card bg-dark text-light h-100">
+            <div class="card-header profile-banner m-0 p-0">
+                <img class="card-img-top" src="{{ user_profile.banner_url }}" alt="banner-img">
+            </div>
+            <div class="card-body pt-2">
+                <img class="img rounded-pill me-3 profile-img-lg float-start" src="{{ user_profile.image_url }}" alt="">
+                <div class="card-second-body ps-2">
+                    <h3 class="card-title"><strong>{{ user_profile.user.get_full_name }}</strong></h3>
+                    {% rating_tag user_profile.avg_rating %}
+                    {% if user_profile.bio|linebreaksbr %}
+                        <p class="card-text profile-text pb-5 pt-2">{{ user_profile.bio }}</p>
+                    {% else %}
+                        <p class="card-text profile-text pb-5 pt-2">Engar upplýsingar</p>
+                    {% endif %}
+                </div>
+                {% if request.user == user_profile.user %}
+                    <div class="btn-group float-end">
+                    <a href="{% url 'user:update_profile' %}" class="btn btn-primary">Uppfæra upplýsingar</a>
+                    <a href="{% url 'user:get_all_contacts' %}" class="btn btn-secondary">Heimilisföng</a>
+                    <a href="{% url 'user:change_password' %}" class="btn btn-primary">Breyta lykilorði</a>
+                    </div>
+                {% else %}
+                    <div class="btn-group float-end">
+                        <a href="{% url 'messaging:send' %}?receiver={{ user_profile.user.username }}" class="btn btn-primary">Senda skilaboð</a>
+                    </div>
+                {% endif %}
+            </div>
         </div>
-        {% if request.user == user_profile.user %}
-            <div class="btn-group float-end">
-            <a href="{% url 'user:update_profile' %}" class="btn btn-primary">Uppfæra upplýsingar</a>
-            <a href="{% url 'user:get_all_contacts' %}" class="btn btn-secondary">Heimilisföng</a>
-            <a href="{% url 'user:change_password' %}" class="btn btn-primary">Breyta lykilorði</a>
-            </div>
-        {% else %}
-            <div class="btn-group float-end">
-                <a href="{% url 'messaging:send' %}?receiver={{ user_profile.user.username }}" class="btn btn-primary">Senda skilaboð</a>
-            </div>
-        {% endif %}
     </div>
 </div>
+
 {% endblock %}

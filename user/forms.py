@@ -13,6 +13,17 @@ def validate_username(username):
         raise forms.ValidationError('Notandanafn er nú þegar til.')
 
 
+def split_name(fullname):
+    i = fullname.rfind(' ')
+    if i:
+        last_name = fullname[i+1:]
+        first_name = fullname[:i].strip()
+    else:
+        last_name = ''
+        first_name = fullname
+    return first_name, last_name
+
+
 class RegistrationForm(forms.Form):
     username = forms.CharField(validators=[validate_username], label='Notendanafn')
     email = forms.EmailField(label='Netfang')
@@ -26,30 +37,20 @@ class RegistrationForm(forms.Form):
             raise forms.ValidationError('Lykilorðin stemma ekki')
         self.cleaned_data.pop('password_confirm')
         password_validation.validate_password(self.cleaned_data['password'])
-
-        fullname = self.cleaned_data['fullname'].strip()
-        self.cleaned_data.pop('fullname')
-        i = fullname.rfind(' ')
-        if i:
-            self.cleaned_data['last_name'] = fullname[i:]
-            self.cleaned_data['first_name'] = fullname[:i].strip()
-        else:
-            self.cleaned_data['last_name'] = ''
-            self.cleaned_data['first_name'] = fullname
-
-class MyClearableFileInput(ClearableFileInput):
-    initial_text = 'núverandi'
-    input_text = 'Breyta'
-    clear_checkbox_label = 'Eyða mynd'
+        self.cleaned_data['first_name'], self.cleaned_data['last_name'] = split_name(self.cleaned_data.pop('fullname'))
 
 
 class UpdateProfileForm(forms.ModelForm):
-    image = forms.ImageField(label='Mynd', required=False, widget=MyClearableFileInput)
-    banner = forms.ImageField(label='Forsíðu mynd', required=False, widget=MyClearableFileInput)
+    fullname = forms.CharField(label='Fullt nafn', required=False)
+    image = forms.ImageField(label='Mynd', required=False)
+    banner = forms.ImageField(label='Forsíðu mynd', required=False)
 
     class Meta:
         model = models.UserProfile
         fields = ['bio', 'image', 'banner']
+
+    def clean(self):
+        self.cleaned_data['first_name'], self.cleaned_data['last_name'] = split_name(self.cleaned_data.pop('fullname'))
 
     def clean_imagefield(self, field_name):
         image = self.cleaned_data.get(field_name, False)

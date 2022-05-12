@@ -1,5 +1,19 @@
 import Croppie from 'croppie'
 
+const croppieOptions = {
+    viewport: {
+        width: 420,
+        height: 69,
+        type: 'square'
+    },
+    boundary: {
+        width: '100%',
+        height: 400,
+    },
+    showZoomer: false,
+    mouseWheelZoom: 'ctrl'
+}
+
 function readFile(input) {
     return new Promise(function(resolve, reject) {
         if (input.files && input.files[0]) {
@@ -29,19 +43,7 @@ function initializeCroppie(cropper, options) {
         croppie.destroy()
     }
     if (!options) {
-        options = {
-            viewport: {
-                width: cropper.getAttribute('data-viewport-width'),
-                height: cropper.getAttribute('data-viewport-height'),
-                type: cropper.getAttribute('data-viewport-type')
-            },
-            boundary: {
-                width: cropper.getAttribute('data-boundary-width'),
-                height: cropper.getAttribute('data-boundary-height')
-            },
-            showZoomer: false,
-            mouseWheelZoom: 'ctrl'
-        }
+        options = croppieOptions
     }
     croppie = new Croppie(document.getElementById('cropper'), options);
 }
@@ -49,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.querySelector('.dropdown-accordion').addEventListener('click', function(event) {
         event.stopPropagation();
     });
+
 
     const cropper = document.getElementById('cropper')
     if (cropper) {
@@ -85,53 +88,36 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         initCroppingClasses()
         let file_url;
-        document.getElementById('croppie-select').addEventListener('change', function() {
+        function croppieSelectChange() {
             if (file_url) {
-                const options = {
-                    viewport: {
-                        width: 420,
-                        height: 69,
-                        type: 'square'
-                    },
-                    boundary: {
-                        width: '100%',
-                        height: 400,
-                    },
-                    showZoomer: false,
-                    mouseWheelZoom: 'ctrl'
-                }
-                if (this.value == 'id_image') {
-                    options['viewport']['width'] = 300
-                    options['viewport']['height'] = 300
-
-                    initializeCroppie(cropper, options)
-                    croppie.bind({
-                        url: file_url
-                    })
-                }
-                else if (this.value == 'id_banner') {
-                    options['viewport']['width'] = 300
-                    options['viewport']['height'] = 100
-
-                    initializeCroppie(cropper, options)
-                    croppie.bind({
-                        url: file_url
-                    })
-                }
                 const imagePreview = document.getElementById('image-preview')
-                if (this.value == 'id_images') {
+                const croppieSelect = document.getElementById('croppie-select')
+                if (croppieSelect.value == 'id_images') {
                     if (croppie) {
                         croppie.destroy()
                         croppie = undefined
                     }
-                    imagePreview.classList.replace('d-none', 'd-block')
-                    imagePreview.src = file_url
+                    if (imagePreview) {
+                        imagePreview.classList.replace('d-none', 'd-block')
+                        imagePreview.src = file_url
+                    }
                 }
                 else {
-                    imagePreview.classList.replace('d-block', 'd-none')
+                    if (imagePreview) {
+                        imagePreview.classList.replace('d-block', 'd-none')
+                    }
+                    let selectedOption = croppieSelect.selectedOptions[0]
+                    croppieOptions['viewport']['width'] = selectedOption.dataset.viewportWidth
+                    croppieOptions['viewport']['height'] = selectedOption.dataset.viewportHeight
+                    croppieOptions['viewport']['type'] = selectedOption.dataset.viewportType
+                    initializeCroppie(cropper, croppieOptions)
+                    croppie.bind({
+                        url: file_url
+                    })
                 }
             }
-        })
+        }
+        document.getElementById('croppie-select').addEventListener('change', croppieSelectChange)
         createItemImage.addEventListener('change', function() {
             readFile(this).then(function(url) {
                 file_url = url
@@ -139,6 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 croppie.bind({
                     url: url
                 })
+                croppieSelectChange()
             })
             showCroppie()
         })
@@ -185,8 +172,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const UpdateProfileForm = document.getElementById('update-profile-form')
     if (UpdateProfileForm) {
+        function updateBio() {
+            document.getElementById('update-profile-placeholder-bio').innerText = document.getElementById('id_bio').value
+        }
+        document.getElementById('id_bio').addEventListener('input', updateBio)
+        updateBio()
         let imgUploaded = false;
-        cropper.style.display = 'none';
         document.getElementById('id_image').addEventListener('change', function() {
             readFile(this).then(function(url) {
                 croppie.bind({
