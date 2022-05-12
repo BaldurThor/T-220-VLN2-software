@@ -33,13 +33,30 @@
             {% if offer %}
                 <h5 class="p-2 pb-1">Hæðsta boð: {{ offer.amount }} kr.</h5>
             {% endif %}
-            <p class="card-text mx-3">{{ item.description|linebreaksbr }}</p>
+            <p class="card-text mx-3">{{ item.description|linebreaksbr }}
+            <button class="btn btn-primary py-1 px-2 float-end" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+                <i class="bi bi-image-fill" style="font-size: 1.25rem"></i>
+              </button></p>
             {% if not item.sold_at and not item.is_deleted %}
                 <div class="row">
                     <div class="col text-center mx-3">
                         </div>
                     </div>
             {% endif %}
+    <div>
+      <div class="collapse text-center" id="collapseWidthExample">
+            {% if item.image %}
+                <div>
+                <img src="{{ item.image.url }}" alt="{{ image.alt }}" class="img-fluid">
+                </div>
+            {% endif %}
+            {% for image in item.images.all %}
+                <div>
+                <img src="{{ image.image.url }}" alt="{{ image.alt }}" class="img-fluid">
+                </div>
+            {% endfor %}
+      </div>
+    </div>
         </div>
         <div class="card-footer text-center">
 
@@ -77,13 +94,6 @@
                         {% endif %}
         </div>
     </div>
-    {% if item.image %}
-        <img src="{{ item.image.url }}" alt="{{ image.alt }}" class="img-fluid">
-    {% endif %}
-    {% for image in item.images.all %}
-        <img src="{{ image.image.url }}" alt="{{ image.alt }}" class="img-fluid">
-
-    {% endfor %}
     {% if similar_items %}
         <h3>Sambærilegir hlutir</h3>
         <div class="row">

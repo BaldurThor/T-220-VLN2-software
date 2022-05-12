@@ -30,7 +30,6 @@ class CatalogView(ListView):
         "-views": "Mest Skoðað",
         "views": "Minnst Skoðað",
         "highest_offer": "Hæsta boð"
-
     }
 
     def get_queryset(self):
@@ -42,6 +41,8 @@ class CatalogView(ListView):
                 order_by = Lower(order_by)
             elif order_by == '-name':
                 order_by = Lower('name').desc()
+            elif order_by == 'highest_offer':
+                order_by = '-highest_offer__amount'
             queryset = queryset.order_by(order_by)
         return queryset.distinct()
 
