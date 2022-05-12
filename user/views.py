@@ -1,6 +1,7 @@
 from pprint import pprint
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from item.models import Item
 from user.forms import RegistrationForm, UpdateProfileForm, ContactForm, ChangePasswordForm
@@ -10,8 +11,13 @@ from user.models import UserProfile, Contact, Country
 
 def frontpage(request):
     most_viewed_items = Item.objects.order_by('-views').filter(is_deleted=False, accepted_offer=None)[0:4]
+
+    num_items = 3
+    items = Item.objects.order_by('?').exclude(Q(banner='') | Q(banner__isnull=True)).filter(is_deleted=False, sold_at=None)
+    if items.count() >= num_items:
+        items = items[0:num_items]
     context = {
-        'items': Item.objects.order_by('?').filter(is_deleted=False, accepted_offer=None)[0:3],
+        'items': items,
         'most_viewed_items': most_viewed_items,
     }
     return render(request, 'user/frontpage.html', context)
