@@ -153,9 +153,22 @@ document.addEventListener("DOMContentLoaded", function() {
                 xhr.open('POST', document.getElementById('image-upload-url').getAttribute('data-image-upload-url'))
                 formData.append('csrfmiddlewaretoken', document.querySelector('input[name=csrfmiddlewaretoken]').value)
                 xhr.send(formData)
+                readFile(createItemImage).then(function(url) {
+                    let previewDiv = document.getElementById('id_images_preview')
+                    let img = document.createElement('img')
+                    img.src = url
+                    img.classList.add('img-fluid')
+                    previewDiv.appendChild(img)
+                })
             }
             else {
                 writeFile(el, croppie, true)
+                let previewImg = document.getElementById(elName + '_preview')
+                if (previewImg) {
+                    croppie.result({type: 'base64', size: 'original'}).then(function(url) {
+                        previewImg.src = url
+                    })
+                }
             }
             createItemImage.value = ''
             document.getElementById('image-preview').src = ''
