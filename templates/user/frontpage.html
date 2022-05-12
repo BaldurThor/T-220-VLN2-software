@@ -30,15 +30,21 @@
 <div class="most-views row">
     {% for item in most_viewed_items %}
         <div class="col {% if forloop.last %} d-lg-none d-xxl-block{% endif %}">
-         <a href="/items/{{ item.id }}" class="card mx-auto my-5 p-0 catalog-image-views img-{{ item.id }}">
-            <img class="card-img" src="{{ item.image_url }}" alt="{{ item.name }}-image">
-            <div class="card-img-overlay d-flex flex-column">
-                <div class="mt-auto text-center" style="color: white;">
-                    <h5 class="card-title m-0">{{ item.name }}</h5>
-                    <p class="card-text m-0">Skoðað: {{ item.views }} sinnum</p>
+            <a href="/items/{{ item.id }}" class="card mx-auto my-5 p-0 catalog-image-views img-{{ item.id }}">
+                {% if item.image %}
+                    <img class="card-img" src="{{ item.image_url }}" alt="{{ item.name }}-image">
+                {% elif item.images.all %}
+                    {% with item.images.all|first as image %}
+                    <img class="card-img" src="{{ image.image.url }}" alt="{{ item.name }}-image">
+                    {% endwith %}
+                {% endif %}
+                <div class="card-img-overlay d-flex flex-column">
+                    <div class="mt-auto text-center" style="color: white;">
+                        <h5 class="card-title m-0">{{ item.name }}</h5>
+                        <p class="card-text m-0">Skoðað: {{ item.views }} sinnum</p>
+                    </div>
                 </div>
-            </div>
-        </a>
+            </a>
         </div>
     {% endfor %}
 </div>
