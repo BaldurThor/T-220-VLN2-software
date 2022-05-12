@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% load rating %}
 {% block content %}
     <div class="row">
@@ -58,7 +59,7 @@
                             data-bs-target="#confirm-modal"
                             data-confirm-method="POST"
                             data-confirm-action="{% url 'item:accept_offer' message.related.id %}"
-                            data-confirm-text="Staðfesta tilboð í {{ message.related.item.name }} fyrir upphæð {{ message.related.amount }}"
+                            data-confirm-text="Staðfesta tilboð í {{ message.related.item.name }} fyrir upphæð: {{ message.related.amount | intcomma }} kr."
                     >
                         Samþykkja tilboð
                     </button>
@@ -69,7 +70,7 @@
                             data-bs-target="#confirm-modal"
                             data-confirm-method="POST"
                             data-confirm-action="{% url 'item:reject_offer' message.related.id %}"
-                            data-confirm-text="Hafna tilboði í {{ message.related.item.name }} fyrir upphæð {{ message.related.amount }}"
+                            data-confirm-text="Hafna tilboði í {{ message.related.item.name }} fyrir upphæð: {{ message.related.amount | intcomma }} kr."
                     >
                         Hafna tilboði
                     </button>
