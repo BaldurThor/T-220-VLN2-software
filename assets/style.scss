@@ -263,10 +263,11 @@ footer .footer-icon {
   color: #eff0f1 !important;
 }
 #the-container > .card,
-#mastercard {
+#mastercard, .notmastercard {
   @extend .shadow-sm;
   @extend .bg-info;
   @extend .text-light;
+  margin-bottom:1rem;
   .card-footer,
   .card-header {
     background-color: #2e323b;

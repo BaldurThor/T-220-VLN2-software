@@ -1,3 +1,4 @@
+{% load humanize %}
 <div class="item-card card mb-3">
     <img src="{{ sale.item.image_url }}" class="card-img-top" alt="{{ sale.item.name }}-image">
     <div class="card-body">
@@ -6,7 +7,7 @@
         <p class="card-text ">{{ sale.item.description}}</p>
     <div class="d-flex justify-content-between">
         <p class="card-text text-muted">Ástand: {{ sale.item.condition.name }}</p>
-        <h5>{{ sale.amount }} kr.</h5>
+        <h5>{{ sale.amount | intcomma }} kr.</h5>
     </div>
     </div>
 </div>
