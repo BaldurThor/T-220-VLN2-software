@@ -28,8 +28,8 @@ def offer_accepted(offer):
 
     message = Message(sender=User.objects.get(username=settings.FIRESALE_BOT_USERNAME),
                       receiver=offer.user,
-                      subject=f'🎉🎉🎉Tilboðið þitt í {offer.item.name} er samþykkt! 🎉🎉🎉',
-                      body=f'',
+                      subject=f'🎉🎉🎉Tilboðið þitt í {offer.item.name} er samþykkt!🎉🎉🎉',
+                      body=f'Tilboðið þitt í {offer.item.name} hefur verið samþykkt. upplýsingarnar eru hægra megin,\nendilega farðu yfir að allt sé rétt.\nÝttu á ganga frá kaupum til að klára kaupin.',
                       related=offer,
                       type='Offer_accepted',
                       )
