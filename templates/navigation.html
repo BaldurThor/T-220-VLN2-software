@@ -1,49 +1,52 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'frontpage' %}">
-        <img alt="Fire-sale-logo" src="{% static 'images/FiredSaleLogo.png' %}" style="background-color: transparent">
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 mb-0 h5">
-        <li class="nav-item">
-          <a class="nav-link active px-4" aria-current="page" href="{% url 'frontpage' %}">Heim</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle px-4" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Vörur
-          </a>
-          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{% url 'item:catalog' %}">Allar vörur</a></li>
-  <li><hr class="dropdown-divider"></li>
-              {% for category in categories %}
-                <li><a class="dropdown-item" href="{% url 'item:catalog' %}?categories={{ category.id }}">{{ category.name }}</a></li>
-              {% endfor %}
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link px-4" href="{% url 'item:create_item' %}">Selja</a>
-        </li>
-      </ul>
-        <form class="d-flex flex-lg-fill mx-5 search-container" method="GET" action="{% url 'item:search' %}">
-            <div class="input-group search-group my-2 mx-5">
-                <span class="input-group-text"><i class="bi bi-search"></i></span>
-                <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" value="{{ request.GET.search }}" required>
-            </div>
-        </form>
-        {% if not request.user.is_authenticated %}
-        <div class="d-flex flex-fill justify-content-end">
-            <div class="btn-group text-nowrap">
-                <a href="{% url 'user:login' %}" class="btn btn-primary">Skrá inn</a>
-                <a href="{% url 'user:register' %}" class="btn btn-primary">Nýskrá</a>
-            </div>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'frontpage' %}">
+            <img alt="Fire-sale-logo" src="{% static 'images/FiredSaleLogo.png' %}" style="background-color: transparent">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 mb-0 h5">
+                <li class="nav-item">
+                    {% url 'frontpage' as url %}
+                    <a class="nav-link px-4{% if request.path == url %} active{% endif %}" aria-current="page" href="{{ url }}">Heim</a>
+                </li>
+                <li class="nav-item dropdown">
+                    {% url 'item:catalog' as url %}
+                    <a class="nav-link dropdown-toggle px-4{% if request.path == url %} active{% endif %}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Vörur
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'item:catalog' %}">Allar vörur</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        {% for category in categories %}
+                            <li><a class="dropdown-item" href="{% url 'item:catalog' %}?categories={{ category.id }}">{{ category.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    {% url 'item:create_item' as url %}
+                    <a class="nav-link px-4{% if request.path == url %} active{% endif %}" href="{{ url }}">Selja</a>
+                </li>
+            </ul>
+            <form class="d-flex flex-lg-fill mx-5 search-container" method="GET" action="{% url 'item:search' %}">
+                <div class="input-group search-group my-2 mx-5">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" value="{{ request.GET.search }}" required>
+                </div>
+            </form>
+            {% if not request.user.is_authenticated %}
+                <div class="d-flex flex-fill justify-content-end">
+                    <div class="btn-group text-nowrap">
+                        <a href="{% url 'user:login' %}" class="btn btn-primary">Skrá inn</a>
+                        <a href="{% url 'user:register' %}" class="btn btn-primary">Nýskrá</a>
+                    </div>
+                </div>
+            {% else %}
+                {% include 'navigation_user.html' %}
+            {% endif %}
         </div>
-        {% else %}
-            {% include 'navigation_user.html' %}
-        {% endif %}
     </div>
-  </div>
 </nav>
