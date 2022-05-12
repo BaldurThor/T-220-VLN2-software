@@ -47,12 +47,12 @@
       <div class="collapse text-center" id="collapseWidthExample">
             {% if item.image %}
                 <div>
-                <img src="{{ item.image.url }}" alt="{{ image.alt }}" class="img-fluid">
+                <img src="{{ item.image.url }}" alt="{{ image.alt }}" class="img-fluid my-3">
                 </div>
             {% endif %}
             {% for image in item.images.all %}
                 <div>
-                <img src="{{ image.image.url }}" alt="{{ image.alt }}" class="img-fluid">
+                <img src="{{ image.image.url }}" alt="{{ image.alt }}" class="img-fluid my-3">
                 </div>
             {% endfor %}
       </div>
