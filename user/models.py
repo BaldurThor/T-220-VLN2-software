@@ -1,18 +1,28 @@
+import uuid
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Avg
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils.timezone import now
 
 from messaging.models import Message
+
+
+def upload_to_filename(instance, filename):
+    ext = filename.split('.')[-1]
+    uuid_str = str(uuid.uuid4())[:8]
+    timestamp = now().strftime('%Y-%m-%d')
+    return f'{timestamp}-{uuid_str}.{ext}'
 
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile')
     avg_rating = models.IntegerField(default=5)
     bio = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='users', blank=True)
-    banner = models.ImageField(upload_to='users/banners', blank=True)
+    image = models.ImageField(upload_to=upload_to_filename, blank=True)
+    banner = models.ImageField(upload_to=upload_to_filename, blank=True)
 
     def image_url(self):
         if self.image:

@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.datetime_safe import date
 
-from user.models import Country
+from user.models import Country, upload_to_filename
 
 
 class Condition(models.Model):
@@ -37,12 +37,13 @@ class Item(models.Model):
     country = models.ForeignKey(Country, on_delete=models.DO_NOTHING)
     seller = models.ForeignKey(User, related_name='item_seller', on_delete=models.DO_NOTHING)
     highest_offer = models.ForeignKey('Offer', null=True, blank=True, on_delete=models.CASCADE,
-                                       related_name='highest_offer')
-    accepted_offer = models.ForeignKey('Offer', null=True, blank=True, on_delete=models.CASCADE, related_name='accepted_offer')
+                                      related_name='highest_offer')
+    accepted_offer = models.ForeignKey('Offer', null=True, blank=True, on_delete=models.CASCADE,
+                                       related_name='accepted_offer')
     categories = models.ManyToManyField(Category)
     is_deleted = models.BooleanField(default=False)
-    image = models.ImageField(upload_to='items', null=True, blank=True)
-    banner = models.ImageField(upload_to='items', null=True, blank=True)
+    image = models.ImageField(upload_to=upload_to_filename, null=True, blank=True)
+    banner = models.ImageField(upload_to=upload_to_filename, null=True, blank=True)
 
     def image_url(self):
         if self.image:
@@ -64,7 +65,7 @@ class Item(models.Model):
 class ItemImage(models.Model):
     item = models.ForeignKey(Item, related_name='images', on_delete=models.CASCADE, blank=True, null=True)
     alt = models.CharField(max_length=191)
-    image = models.ImageField(upload_to='items')
+    image = models.ImageField(upload_to=upload_to_filename)
 
 
 class Offer(models.Model):
