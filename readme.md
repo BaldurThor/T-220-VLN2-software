@@ -28,6 +28,21 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
+## Innskráningarupplýsingar
+Ofurnotandinn er eftirfarandi:
+```
+username: thjarkurinn
+password: admin
+```
+Aðrir notendur hafa notandanafnið Fyrsta nafn og upphafstafur í eftirnafni með engu bili  
+Lykilorðið á þeim öllum er "generic"
+
+Dæmi:
+```
+username: ChristineW  
+password: generic  
+```
+
 ## Viðbótarkröfur
 - Hlaða upp myndum í Google Cloud Storage og klippa þær til
 - Breyta upplýsingum um notendur ásamt lykilorði
