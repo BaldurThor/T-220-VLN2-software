@@ -18,7 +18,7 @@
                     <img src="{{ own_offer.item.image_url }}" class="card-img-top mh-100" alt="{{ own_offer.item.name }}-image" style=" height: 15rem; object-fit: cover; object-position: right top;">
                     <div class="card-body">
                         <h4 class="card-title">{{ own_offer.item.name }}</h4>
-                        <p class="card-text">Upphæð: {{ own_offer.amount }}</p>
+                        <p class="card-text">Upphæð: {{ own_offer.amount|intcomma }} kr.</p>
                         <p class="card-text">Seljandi: {{ own_offer.item.seller }}</p>
                         </div>
                     <div class="card-footer">
@@ -50,7 +50,7 @@
                     <img src="{{ other_offer.item.image_url }}" class="card-img-top mh-100" alt="{{ other_offer.item.name }}-image" style=" height: 15rem; object-fit: cover; object-position: right top;">
                     <div class="card-body">
                         <h4 class="card-title">{{ other_offer.item.name }}</h4>
-                        <p class="card-text">Upphæð: {{ other_offer.amount }}</p>
+                        <p class="card-text">Upphæð: {{ other_offer.amount|intcomma }} kr.</p>
                         <p class="card-text">Kaupandi: {{ other_offer.user }}</p>
                         </div>
                     <div class="card-footer">

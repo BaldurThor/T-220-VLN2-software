@@ -10,7 +10,7 @@ def offer_placed(offer):
     message = Message(sender=User.objects.get(username=settings.FIRESALE_BOT_USERNAME),
                       receiver=offer.item.seller,
                       subject='Nýtt tilboð í vöruna þína!',
-                      body=f'Þú átt nýtt tilboð í vöru: {offer.item.name} að upphæð {intcomma(offer.amount)}',
+                      body=f'Þú átt nýtt tilboð í vöru: {offer.item.name} að upphæð {intcomma(offer.amount)} kr.',
                       related=offer,
                       type='Offer_new',
                       )
