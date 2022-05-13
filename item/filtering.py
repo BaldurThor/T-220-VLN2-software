@@ -38,7 +38,8 @@ def apply_filter(request, queryset):
             queryset = queryset.filter(condition__pk=condition_id)
 
     if categories := request.GET.getlist('categories'):
-        queryset = queryset.filter(categories__in=categories)
+        for category in categories:
+            queryset = queryset.filter(categories__pk=int(category))
     return queryset
 
 
