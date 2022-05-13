@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.urls import reverse, NoReverseMatch
+from django.urls import reverse
 from django.utils.timezone import now
 from django.contrib import messages
 
@@ -10,16 +10,24 @@ from item.services import sale_completed
 from user.forms import ContactForm
 from user.models import Contact, Country, Rating
 
+ITEM_CHECKOUT_CONTACT_URL = 'item:checkout_contact'
+ITEM_CHECKOUT_PAYMENT_URL = 'item:checkout_payment'
+ITEM_CHECKOUT_RATE_URL = 'item:checkout_rate'
+ITEM_CHECKOUT_VERIFY_URL = 'item:checkout_verify'
+
+RETURN_ALERT_STRING = 'Vinsamlegast hefjið vörukaup aftur.'
+RETURN_URL = 'item:get_all_offers'
+SUCCESS_URL = 'frontpage'
+
 CHECKOUT_STEPS = {
-    'item:checkout_contact': 'Heimilisfang',
-    'item:checkout_payment': 'Greiðsluvalmöguleikar',
-    'item:checkout_rate': 'Seljanda einkunn',
-    'item:checkout_verify': 'Staðfesting',
+    ITEM_CHECKOUT_CONTACT_URL: 'Heimilisfang',
+    ITEM_CHECKOUT_PAYMENT_URL: 'Greiðsluvalmöguleikar',
+    ITEM_CHECKOUT_RATE_URL: 'Seljanda einkunn',
+    ITEM_CHECKOUT_VERIFY_URL: 'Staðfesting',
 }
 
 
 def __get_steps(request):
-    print(request.session.get('checkout'))
     steps = []
     for step_url, step_name in CHECKOUT_STEPS.items():
         step = {
@@ -31,11 +39,9 @@ def __get_steps(request):
         }
         if request.path == step['path']:
             step['active'] = True
-        if step['url'] == 'item:checkout_verify':
+        if step['url'] == ITEM_CHECKOUT_VERIFY_URL:
             checkout_session = request.session.get('checkout', False)
-            if not checkout_session:
-                step['available'] = False
-            elif (
+            if not checkout_session or (
                 not checkout_session.get('offer_id')
                 or not checkout_session.get('contact_id')
                 or not checkout_session.get('payment_information')
@@ -61,33 +67,30 @@ def __get_summary(request):
     return summary
 
 
+@login_required
 def checkout(request, offer_id):
     offer = Offer.objects.get(pk=offer_id, accepted=True, user=request.user)
     request.session['checkout'] = {
-        'offer_id': offer.id
+        'offer_id': offer.id,
     }
     return redirect('item:checkout_contact')
 
 
+@login_required
 def checkout_contact(request):
     checkout_session = request.session.get('checkout', False)
     if not checkout_session:
-        return redirect('item:get_all_offers')
+        messages.info(request, RETURN_ALERT_STRING)
+        return redirect(RETURN_URL)
     offer = Offer.objects.get(pk=checkout_session['offer_id'], accepted=True, user=request.user)
     contacts = Contact.objects.filter(user=request.user)
     if request.method == 'POST':
         form = CheckoutContactForm(request.POST, contact_queryset=contacts)
+        contact_form = ContactForm(request.POST)
         if form.is_valid():
-            if not form.cleaned_data['contact']:
-                contact_form = ContactForm(request.POST)
-                if contact_form.is_valid():
-                    contact = contact_form.save(commit=False)
-                    contact.user = request.user
-                    contact.save()
-                    checkout_session['contact_id'] = contact.id
-            else:
-                checkout_session['contact_id'] = form.cleaned_data['contact'].id
-            request.session['checkout'] = checkout_session
+            request.session['checkout'] = form.save(contact_form=contact_form,
+                                                    checkout_session=checkout_session,
+                                                    user=request.user)
             return redirect('item:checkout_payment')
     else:
         contact_id = checkout_session.get('contact_id')
@@ -113,10 +116,12 @@ def checkout_contact(request):
     return render(request, 'item/checkout/contact.html', context)
 
 
+@login_required
 def checkout_payment(request):
     checkout_session = request.session.get('checkout', False)
     if not checkout_session:
-        return redirect('item:get_all_offers')
+        messages.info(request, RETURN_ALERT_STRING)
+        return redirect(RETURN_URL)
     offer = Offer.objects.get(pk=checkout_session['offer_id'], accepted=True, user=request.user)
     if request.method == 'POST':
         form = CheckoutPaymentForm(request.POST)
@@ -139,10 +144,12 @@ def checkout_payment(request):
     return render(request, 'item/checkout/payment.html', context)
 
 
+@login_required
 def checkout_rate(request):
     checkout_session = request.session.get('checkout', False)
     if not checkout_session:
-        return redirect('item:get_all_offers')
+        messages.info(request, RETURN_ALERT_STRING)
+        return redirect(RETURN_URL)
     offer = Offer.objects.get(pk=checkout_session['offer_id'], accepted=True, user=request.user)
     if request.method == 'POST':
         form = CheckoutRateForm(request.POST)
@@ -169,11 +176,13 @@ def checkout_rate(request):
     return render(request, 'item/checkout/rate.html', context)
 
 
+@login_required
 def checkout_verify(request):
     checkout_session = request.session.get('checkout', False)
     submittable = True
     if not checkout_session:
-        return redirect('item:get_all_offers')
+        messages.info(request, RETURN_ALERT_STRING)
+        return redirect(RETURN_URL)
     offer = Offer.objects.get(pk=checkout_session.get('offer_id'), accepted=True, user=request.user)
     try:
         contact = Contact.objects.get(pk=checkout_session.get('contact_id'))
@@ -194,7 +203,6 @@ def checkout_verify(request):
         sale.save()
         sale_completed(sale)
         request.session.pop('checkout')
-        request.session['checkout_thanks'] = True
         messages.add_message(request, messages.SUCCESS, 'Kaupin eru frágengin! Skoðaðu pósthólfið þitt fyrir nánari upplýsingar.')
         return redirect('frontpage')
     context = {
@@ -206,10 +214,3 @@ def checkout_verify(request):
         'submittable': submittable,
     }
     return render(request, 'item/checkout/verify.html', context)
-
-
-def checkout_thanks(request):
-    if not request.session.get('checkout_thanks', False):
-        return redirect('item:get_all_offers')
-    request.session.pop('checkout_thanks')
-    return render(request, 'item/checkout/thanks.html')

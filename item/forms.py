@@ -1,10 +1,10 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
-from django.forms import ModelForm, ModelChoiceField, ModelMultipleChoiceField
+from django.forms import ModelForm
 from django import forms
 from django.utils.timezone import now
 
-from item.models import Item, Category, Offer, ItemImage
+from item.models import Item, Offer, ItemImage
 
 
 class ItemCreateForm(ModelForm):
@@ -29,6 +29,14 @@ class ItemCreateForm(ModelForm):
         if categories_choices:
             self.fields['categories'].choices = categories_choices
 
+    def save(self, commit=True, user=None, categories=None):
+        item = super().save(commit=False)
+        if user:
+            item.seller = user
+        if commit:
+            item.save()
+            if categories:
+                item.categories.add(*categories)
 
 class ItemImageUploadForm(forms.ModelForm):
     class Meta:
@@ -46,6 +54,17 @@ class CheckoutContactForm(forms.Form):
         contact_queryset = kwargs.pop('contact_queryset', None)
         super().__init__(*args, **kwargs)
         self.fields['contact'].queryset = contact_queryset
+
+    def save(self, contact_form=None, checkout_session=None, user=None):
+        if not checkout_session:
+            checkout_session = {}
+        if not self.cleaned_data['contact']:
+            if contact_form and contact_form.is_valid():
+                contact = contact_form.save(user=user)
+                checkout_session['contact_id'] = contact.id
+        else:
+            checkout_session['contact_id'] = self.cleaned_data['contact'].id
+        return checkout_session
 
 
 class CheckoutPaymentForm(forms.Form):

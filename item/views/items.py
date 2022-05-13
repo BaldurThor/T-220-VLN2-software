@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.shortcuts import redirect, render, get_object_or_404
 
 from item import services
@@ -16,22 +16,13 @@ def create_item(request):
     if request.method == 'POST':
         form = ItemCreateForm(request.POST, request.FILES, categories_choices=categories_choices)
         if form.is_valid():
-            item = form.save(commit=False)
-            item.seller = request.user
-            item.save()
-            values = request.POST.getlist('categories')
-            item.categories.add(*values)
+            item = form.save(user=request.user, categories=request.POST.getlist('categories'))
             if item_image_ids := request.session.get('item_images', []):
-                print(item_image_ids)
                 item_images = ItemImage.objects.filter(pk__in=item_image_ids)
                 for item_image in item_images:
                     item_image.item = item
                     item_image.save()
                 request.session['item_images'] = []
-            if images := request.FILES.getlist('images'):
-                for image in images:
-                    item_image = ItemImage(item=item, image=image)
-                    item_image.save()
 
             messages.add_message(request, messages.SUCCESS, 'Varan hefur verið stofnuð.')
             return redirect('item:catalog')
@@ -68,8 +59,8 @@ def upload_item_image(request, item_id=None):
     return JsonResponse({})
 
 
-def get_item(request, id):
-    item = get_object_or_404(Item, pk=id)
+def get_item(request, item_id):
+    item = get_object_or_404(Item, pk=item_id)
     view_session = request.session.get('viewed_items', [])
     if item.id not in view_session:
         item.views += 1
@@ -89,3 +80,17 @@ def get_item(request, id):
     except IndexError:
         pass
     return render(request, 'item/get_item.html', context)
+
+
+@login_required
+def delete_item(request, item_id):
+    item = Item.objects.get(pk=item_id, seller=request.user)
+    if request.method == 'POST':
+        item.is_deleted = True
+        item.save()
+        for offer in Offer.objects.filter(item=item, rejected=False):
+            offer.rejected = True
+            offer.save()
+            services.offer_rejected(offer)
+        return redirect('item:get_item', item.id)
+    raise Http404()

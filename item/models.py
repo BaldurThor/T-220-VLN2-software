@@ -4,7 +4,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.datetime_safe import date
 
-import item.models
 from user.models import Country
 
 

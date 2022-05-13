@@ -59,7 +59,7 @@ def sale_completed(sale):
 
 def get_similar(o_item):
     return_list = []
-    for i in range(3):
+    for _ in range(3):
         category = o_item.categories.order_by('?')[0]
         pk_exclude = [o.id for o in [o_item] + return_list]
         try:

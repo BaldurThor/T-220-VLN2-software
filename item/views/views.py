@@ -1,21 +1,11 @@
-import operator
-from functools import reduce
-import re
-
-from django.contrib import messages
-from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from django.http import Http404
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView
 from django.db.models.functions import Lower
-
-from user.models import UserProfile, Rating, Country
-from item import services
-from item.forms import ItemCreateForm
-from item.models import Item, Offer, Condition, Category, Sale
+from django.shortcuts import render
+from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 
+from user.models import Rating
+from item.models import Item, Condition, Category, Sale
 from item import filtering
 
 
@@ -73,20 +63,6 @@ class SearchView(CatalogView):
         if search_string:
             queryset = queryset.filter(name__icontains=search_string)
         return queryset
-
-
-@login_required
-def delete_item(request, item_id):
-    item = Item.objects.get(pk=item_id, seller=request.user)
-    if request.method == 'POST':
-        item.is_deleted = True
-        item.save()
-        for offer in Offer.objects.filter(item=item, rejected=False):
-            offer.rejected = True
-            offer.save()
-            services.offer_rejected(offer)
-        return redirect('item:get_item', item.id)
-    raise Http404()
 
 
 @login_required

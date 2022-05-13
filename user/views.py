@@ -1,4 +1,3 @@
-from pprint import pprint
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -6,7 +5,6 @@ from django.shortcuts import render, redirect
 from item.models import Item
 from user.forms import RegistrationForm, UpdateProfileForm, ContactForm, ChangePasswordForm
 from user.models import UserProfile, Contact, Country
-# Create your views here.
 
 
 def frontpage(request):

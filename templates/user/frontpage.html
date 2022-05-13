@@ -8,7 +8,7 @@
     </div>
   <div class="carousel-inner rounded">
       {% for item in items %}
-            <a href="/items/{{ item.id }}" class="carousel-item{% if forloop.first %} active{% endif %}">
+            <a href="{% url 'item:get_item' item.id %}" class="carousel-item{% if forloop.first %} active{% endif %}">
               <img src="{{ item.banner.url }}" class="catalog-image d-block w-100" alt="{{ item.name }}">
              <div class="carousel-caption d-none d-md-block rounded w-50 p-3 mx-auto">
                <h5>{{ item.name }}</h5>
@@ -30,7 +30,7 @@
 <div class="most-views row">
     {% for item in most_viewed_items %}
         <div class="col {% if forloop.last %} d-lg-none d-xxl-block{% endif %}">
-            <a href="/items/{{ item.id }}" class="card mx-auto my-5 p-0 catalog-image-views img-{{ item.id }}">
+            <a href="{% url 'item:get_item' item.id %}" class="card mx-auto my-5 p-0 catalog-image-views img-{{ item.id }}">
                 {% if item.image %}
                     <img class="card-img" src="{{ item.image_url }}" alt="{{ item.name }}-image">
                 {% elif item.images.all %}

@@ -66,7 +66,6 @@ class UpdateProfileForm(forms.ModelForm):
         return self.clean_imagefield('banner')
 
 
-
 class ContactForm(forms.ModelForm):
     class Meta:
         model = models.Contact
@@ -80,6 +79,13 @@ class ContactForm(forms.ModelForm):
             'zip': 'Pósthólf'
         }
 
+    def save(self, commit=True, user=None):
+        contact = super().save(commit=False)
+        if user:
+            contact.user = user
+        if commit:
+            contact.save()
+        return contact
 
 class ChangePasswordForm(forms.Form):
     old_password = forms.CharField(widget=forms.PasswordInput())

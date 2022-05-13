@@ -25,7 +25,7 @@
             </div>
              <form id="offer-modal-form" method="POST" action="{% url 'item:submit_offer' %}">
                 {% csrf_token %}
-                <input type="hidden" name="item" value="asdf">
+                <input type="hidden" name="item" value="">
                 <div class="modal-body">
                     <p>Sláðu inn boð þitt í: <span id="offer-modal-item-name"></span></p>
                     <label for="offer-modal-amount">Upphæð:</label>

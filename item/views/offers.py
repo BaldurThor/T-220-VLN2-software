@@ -6,7 +6,7 @@ from django.utils.timezone import now
 
 from item import services
 from item.forms import SubmitOfferForm
-from item.models import Offer, Item
+from item.models import Offer
 
 
 @login_required

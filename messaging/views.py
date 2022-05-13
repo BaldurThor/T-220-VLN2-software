@@ -38,7 +38,6 @@ def send_message(request):
 
 
 def get_all_messages(request):
-#    notify(request.user, 'Þú ert að skoða inboxið þitt', '')
     messages = Message.objects.filter(receiver=request.user).order_by('-sent_at')
     return render(request, 'messaging/get_all_messages.html', {"messages_qs": messages})
 
@@ -51,4 +50,3 @@ def get_message(request, message_id):
         message.save()
     ctx['message'] = message
     return render(request, 'messaging/get_message.html', ctx)
-    pass
